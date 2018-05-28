@@ -3170,3 +3170,8 @@ h1.t-button {
 }
 
 /**** Additions ****/
+div.spec
+{
+    margin-top: 20px;
+    padding-top: 20px;
+}
