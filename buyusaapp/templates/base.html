@@ -11,7 +11,8 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>        
         <script src="{% static 'js/bootstrap.min.js' %}" ></script>
-
+        {% block header_ext %}
+        {% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -23,7 +24,7 @@
                     <form class="navbar-form navbar-left" role="search" method="GET" action="/search/">
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="text" name="title" class="form-control" placeholder="Find Products">
+                                <input type="text" name="title" class="form-control" placeholder="Find Products" value="{{ title|default_if_none:'' }}">
                                 <span class="input-group-btn">
                                     <button class="btn btn-success">Find</button>
                                 </span>
@@ -47,12 +48,19 @@
                                     <li><a href="{% url 'my_purchases' %}">My Purchases</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{% url 'profile' user.username %}">My Profile</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="{% url 'donate' %}">Donate</a></li>                              
                                     <li><a href="{% url 'auth:logout' %}?next={{request.path}}">Logout</a></li>
+                                    {% if user.is_superuser %}
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="{% url 'importdata' %}">Import Data</a></li>
+                                    {% endif %}
                                 </ul>
                             </li>
                         {% else %}
                             <li>
-                                <a href="{% url 'social:begin' 'facebook' %}?next={{request.path}}">Login With Facebook</a>
+                                <!--a href="{% url 'social:begin' 'facebook' %}?next={{request.path}}">Login With Facebook</a-->
+                                <a href="{% url 'login'%}">Login</a>
                             </li>>
                         {% endif %}
 
@@ -62,11 +70,11 @@
             <div id="category">
                 <div class="container">
                    <ul class="nav navbar-nav">
-                       <li><a href="/category/category-1">Category 1</a></li>
-                       <li><a href="/category/category-2">Category 2</a></li>
-                       <li><a href="/category/category-3">Category 3</a></li>
-                       <li><a href="/category/category-4">Category 4</a></li>
-                       <li><a href="/category/category-5">Category 5</a></li>
+                       <li><a href="/category/category-1/">Category 1</a></li>
+                       <li><a href="/category/category-2/">Category 2</a></li>
+                       <li><a href="/category/category-3/">Category 3</a></li>
+                       <li><a href="/category/category-4/">Category 4</a></li>
+                       <li><a href="/category/category-5/">Category 5</a></li>
                    </ul>
                 </div>
             </div>
