@@ -2,42 +2,87 @@
 {% load staticfiles %}
 
 {% block page %}
-<ul>
-    <li>{{ gig.title }}</li>
-    <li>{{ gig.category }}</li>
-    <li>{{ gig.description }}</li>
-    <li>{{ gig.BrandLogo }}</li>
-    <li>{{ gig.BrandLink }}</li>
-    <li>{{ gig.BrandSearch }}</li>
-    <li>{{ gig.BrandWhereToBuy }}</li>
-    <li>{{ gig.price }}</li>
-    <li>{{ gig.photo }}</li>
-    <li>{{ gig.BrandPicture2 }}</li>
-    <li>{{ gig.BrandPicture3 }}</li>
-    <li>{{ gig.BrandPicture4 }}</li>
-    <li>{{ gig.BrandPicture5 }}</li>
-    <li>{{ gig.status }}</li>
-    <li>{{ gig.user }}</li>
-    <li>{{ gig.create_time }}</li>
-</ul>
     <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-body">
+                    <img src="{{ MEDIA_URL }}{{ gig.BrandLogo }}" class="img-responsive center-block" width="45%" style="float:right; padding: 0px 0px 20px 20px;">
                     <h3>{{ gig.title }}</h3>
                     <hr />
-                    <img src="/media/{{ gig.photo }}" class="img-responsive center-block">
+                    <p>Website: <a href="{{ gig.BrandLink }}" target="_blank">{{ gig.BrandLink }}</a></p>
+                    <p>Customer Service: {{ gig.BrandCustomerServicePhone }}</p>
+                    <p>Buy This At: {{ gig.BrandWhereToBuy }}</p>
                 </div>
             </div>
             <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>About This Gig</h4>
-                    </div>
-                    <div class="panel-body">
-                        <p>{{ gig.description }}</p>
+                <div class="panel-body">
+                    <p>{{ gig.description | safe }}</p>
+                    <hr>
+                    <div style="position: relative;">
+                    
+    <div class="mySlides">
+      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture1 }}" style="width:100%" alt="{{ gig.BrandCaption1 | default_if_none:'' }}">
+    </div>
+
+    <div class="mySlides">
+      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture2 }}" style="width:100%" alt="{{ gig.BrandCaption2 | default_if_none:'' }}">
+    </div>
+
+    <div class="mySlides">
+      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture3 }}" style="width:100%" alt="{{ gig.BrandCaption3 | default_if_none:'' }}">
+    </div>
+
+    <div class="mySlides">
+      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture4 }}" style="width:100%" alt="{{ gig.BrandCaption4 | default_if_none:'' }}">
+    </div>
+
+    <div class="mySlides">
+      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture5 }}" style="width:100%" alt="{{ gig.BrandCaption5 | default_if_none:'' }}">
+    </div>
+
+    <div class="mySlides">
+      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture6 }}" style="width:100%" alt="{{ gig.BrandCaption6 | default_if_none:'' }}">
+    </div>
+
+
+    <!-- Next/previous controls -->
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+    <!-- Caption text -->
+    <div class="caption-container">
+      <p id="caption" style="margin:0"></p>
+    </div>
+
+    <!-- Thumbnail image controls -->
+
+    <div class="column">
+      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture1 }}" style="width: 100%;" onclick="currentSlide(1)" alt="{{ gig.BrandCaption1 | default_if_none:'' }}">
+    </div>
+    <div class="column">
+      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture2 }}" style="width: 100%;" onclick="currentSlide(2)" alt="{{ gig.BrandCaption2 | default_if_none:'' }}">
+    </div>
+    <div class="column">
+      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture3 }}" style="width: 100%;" onclick="currentSlide(3)" alt="{{ gig.BrandCaption3 | default_if_none:'' }}">
+    </div>
+    <div class="column">
+      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture4 }}" style="width: 100%;" onclick="currentSlide(4)" alt="{{ gig.BrandCaption4 | default_if_none:'' }}">
+    </div>
+    <div class="column">
+      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture5 }}" style="width: 100%;" onclick="currentSlide(5)" alt="{{ gig.BrandCaption5 | default_if_none:'' }}">
+    </div>
+    <div class="column">
+      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture6 }}" style="width: 100%;" onclick="currentSlide(6)" alt="{{ gig.BrandCaption6 | default_if_none:'' }}">
+    </div>
+
+
+                    
                     </div>
                 </div>
-                <div class="panel panel-default">
+            </div>
+            <!-- *** BEGIN - Hide Review functionality - TCG - 1/26/18 *** -->
+            <!--
+            <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>Review</h4>
                     </div>
@@ -71,7 +116,9 @@
                             </li>
                         {% endfor %}
                     </ul>
-                </div>
+            </div>
+            -->
+            <!-- *** END - Hide Review functionality - TCG - 1/26/18 *** -->
         </div>
         <div class="col-md-4">
             <div class="panel panel-default">
@@ -115,4 +162,41 @@
                 </div>
         </div>
     </div>
+    
+    
+
+<script>
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  captionText.innerHTML = dots[slideIndex-1].alt;
+}
+</script>
+
 {% endblock %}

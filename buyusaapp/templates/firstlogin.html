@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}First Login Please Reset Your Password{% endblock %}
+
+{% block page %}
+<div style="width:100%;">
+<div style="margin:auto;width:600px;">
+        <form class="form-vertical" method="post" onsubmit="document.getElementById('resetpass').disabled=true;">
+        {% csrf_token %}
+        <div class="mg-notification {% if not alertmsg %}rs-hidden{% endif %}" style="color:red;">
+            {{alertmsg}}
+        </div>
+          {% if profile %}
+          <fieldset>
+            <div class="rs-control-group">
+                <label class="rs-control-label">This is your first login,please reset your password first.</label>
+                <div class="rs-controls">
+                    Your username is: {{profile.user.username}}
+                </div>
+                <div class="rs-controls">
+                    Your Email is: {{profile.user.email}}
+                </div>
+                <label class="rs-control-label">Input password</label>
+                <div class="rs-controls">
+                    <input type="password" name="password" id="password" value="{{password}}"  class="rs-input-large">
+                </div>
+                <label class="rs-control-label">Input confirmed password</label>
+                <div class="rs-controls">
+                    <input type="password" name="confirm_password" id="confirm_password"  value="{{confirm_password}}" class="rs-input-large" >
+                </div>
+            </div>
+            <p><button type="submit" class="rs-btn rs-btn-primary" id="resetpass">Reset</button></p>
+        </fieldset>
+        {% endif %}
+    </form>
+</div>
+</div>
+
+
+{% endblock %}

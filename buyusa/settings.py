@@ -15,6 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+SITE_URL='http://stormy-beach-97292.herokuapp.com'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -25,7 +26,7 @@ SECRET_KEY = '$z-h&j3-_@uiz1++g1m3$f6znq+#f7lc!k+pej#5@9$nz7h=o_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['64.15.183.5','127.0.0.1','stormy-beach-97292.herokuapp.com']
 
 
 # Application definition
@@ -38,16 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'buyusaapp',
+    'social_django',
+    'ckeditor',
+    # 'ckeditor_uploader',
     'social.apps.django_app.default',
+    # 'django_truncate',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -60,6 +64,7 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': True,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -127,6 +132,9 @@ STATIC_URL = '/static/'
 # To serve static files on Heroku
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+CKEDITOR_BASEPATH = STATIC_URL + "ckeditor/ckeditor"
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
 AUTHENTICATION_BACKENDS = {
     'social.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend'
@@ -152,7 +160,7 @@ SOCIAL_AUTH_PIPELINE = (
 # Replace database setting to use postgresql on Heroku
 import dj_database_url
 db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
+#DATABASES['default'].update(db_from_env)
 
 # Setup upload directory for Gig model
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

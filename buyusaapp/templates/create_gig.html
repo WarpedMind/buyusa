@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load formfilter %}
+
+{% block header_ext %}
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+{% endblock %}
 
 {% block page %}
     {% if error %}
@@ -17,48 +23,149 @@
                 {% csrf_token %}
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">GIG TITLE</label>
-                    <div class="col-sm-10">
-                        <textarea rows="3" class="form-control" name="title"></textarea>
+                    <label class="col-sm-2 control-label">BRAND/PRODUCT NAME</label>
+                    <div class="col-sm-4">
+                        <textarea rows="1" class="form-control" name="title">{{ gig_form.title.value|default_if_none:'' }}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">CATEGORY</label>
-                    <div class="col-sm-10">
-                        <select name="category" class="form-control">
-                            <option value="C1">Category 1</option>
-                            <option value="C2">Category 2</option>
-                            <option value="C3">Category 3</option>
-                            <option value="C4">Category 4</option>
-                            <option value="C5">Category 5</option>
-                        </select>
+                    <div class="col-sm-4">
+                        {{ gig_form.category|add_class:"form-control" }}
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">DESCRIPTION</label>
-                    <div class="col-sm-10">
-                        <textarea rows="5" class="form-control" name="description"></textarea>
-                    </div>
-                </div>
+                <!-- > *** BEGIN - Removed for BuyUSA - TCG - 1/28/18 *** -->
+                <!-- 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">PRICE ($)</label>
                     <div class="col-sm-10">
                         <input type="number" class="form-control" value="6" name="price">
                     </div>
                 </div>
+                -->
+                <!-- *** END - Removed for BuyUSA - TCG - 1/28/18 *** -->
+
+                <!-- *** Added new fields - TCG - 1/28/18 ***
+                    BrandName >>> title
+                    BrandLogo
+                    BrandLink
+                    BrandDescription (1000 characters - basic html - no JS) >>> description
+                    BrandSearch (1000 characters - no html)
+                    BrandWhereToBuy (200 characters - no html)
+                    BrandPicture1 >>> photo
+                    BrandPicture2
+                    BrandPicture3
+                    BrandPicture4
+                    BrandPicture5
+                    BrandCategory >>> category
+                    BrandCustomerServicePhone
+                -->
+
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">PHOTO</label>
-                    <div class="col-sm-10">
-                        <input type="file" class="form-control" name="photo">
+                    <label class="col-sm-2 control-label">LOGO</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandLogo|add_class:'form-control' }}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">STATUS</label>
-                    <div class="col-sm-10">
-                        <select name="status" class="form-control">
-                            <option value="1">Active</option>
-                            <option value="2">Disabled</option>
-                        </select>
+                        <label class="col-sm-2 control-label">WEBSITE</label>
+                        <div class="col-sm-4">
+                            <textarea rows="1" class="form-control" name="BrandLink">{{ gig_form.BrandLink.value|default_if_none:'' }}</textarea>
+                        </div>
+                    </div>
+                <div class="form-group">
+                        <label class="col-sm-2 control-label">CUSTOMER SERVICE PHONE</label>
+                        <div class="col-sm-4">
+                            <textarea rows="1" class="form-control" name="BrandCustomerServicePhone">{{ gig_form.BrandCustomerServicePhone.value|default_if_none:'' }}</textarea>
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">DESCRIPTION</label>
+                    <div class="col-sm-8">
+                        <span style="text-decoration: italic; font-size: .7em;">Describe your brand, products, and any selling points. This is your chance to influence the visitor to consider your products.</span>
+                        <!--textarea rows="5" class="form-control" name="description"></textarea-->
+                        {{ gig_form.description }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">SEARCH KEYWORDS</label>
+                    <div class="col-sm-8">
+                        <span style="text-decoration: italic; font-size: .7em;">Add any keywords you would like people to type in to find you. Keywords can include your products, types of products, etc.</span>
+                        <textarea rows="5" class="form-control" name="BrandSearch">{{ gig_form.BrandSearch.value|default_if_none:'' }}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">WHERE SOLD</label>
+                    <div class="col-sm-4">
+                        <span style="text-decoration: italic; font-size: .7em;">List a brick-and-mortar store or website here that sells this particular brand.</span>
+                        <textarea rows="5" class="form-control" name="BrandWhereToBuy">{{ gig_form.BrandWhereToBuy.value|default_if_none:'' }}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">PHOTO 1</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandPicture1|add_class:'form-control' }}
+                    </div>
+                    <label class="col-sm-2 control-label">PHOTO 2</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandPicture2|add_class:'form-control' }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">BrandCaption1</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandCaption1|add_class:'form-control' }}
+                    </div>
+                    <label class="col-sm-2 control-label">BrandCaption2</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandCaption2|add_class:'form-control' }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">PHOTO 3</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandPicture3|add_class:'form-control' }}
+                    </div>
+                    <label class="col-sm-2 control-label">PHOTO 4</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandPicture4|add_class:'form-control' }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">BrandCaption3</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandCaption3|add_class:'form-control' }}
+                    </div>
+                    <label class="col-sm-2 control-label">BrandCaption4</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandCaption4|add_class:'form-control' }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">PHOTO 5</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandPicture5|add_class:'form-control' }}
+                    </div>
+                    <label class="col-sm-2 control-label">PHOTO 6</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandPicture6|add_class:'form-control' }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">BrandCaption5</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandCaption5|add_class:'form-control' }}
+                    </div>
+                    <label class="col-sm-2 control-label">BrandCaption6</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.BrandCaption6|add_class:'form-control' }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Publish</label>
+                    <div class="col-sm-4">
+                        {{ gig_form.Publish|add_class:'form-control' }}
+
                     </div>
                 </div>
                 

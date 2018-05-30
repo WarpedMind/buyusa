@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from buyusaapp import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
@@ -13,4 +14,13 @@ urlpatterns = [
     url(r'^my_purchases/$', views.my_purchases, name='my_purchases'),
     url(r'^category/(?P<link>[\w|-]+)/$', views.category, name='category'),
     url(r'^search/$', views.search, name='search'),
+    
+    url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
+    url(r'^signup/$', views.signup, name='signup'),
+    url(r'^resetpassword/$', views.resetpassword, name='resetpassword'),
+    url(r'^donate/$', views.donate, name='donate'),
+    
+    url(r'^importdata/$', views.importdata, name='importdata'),
+    url(r'^firstlogin/(?P<token>[\w|-]+)/$', views.firstlogin, name='firstlogin'),
+    
 ]
