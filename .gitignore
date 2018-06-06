@@ -1,5 +1,6 @@
 ### One_Of_Many ###
 .vs/
+.vscode/
 *.csproj
 *.suo
 *.user
@@ -129,3 +130,4 @@ ENV/
 
 # mypy
 .mypy_cache/
+.vscode/launch.json

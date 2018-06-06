@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+
+{% block includes %}
+    {% include 'search_box.html' %}
+    {% include 'main_nav.html' %}
+{% endblock %}
+
+
 {% block page %}
  <div class="container">
 
@@ -9,6 +16,7 @@
             <img src="{% static 'img/banner.gif' %}" class="banner">
         </div>
     </div>
+
 
      <div class="row">
 
@@ -22,6 +30,30 @@
     </div>
 
     <div class=" con-w3l">
+        {% for gig in gigs %}
+        <div class="col-md-3 pro-1">
+            <div class="col-m">
+                <a href="#" data-toggle="modal" data-target="#myModal17" class="offer-img">
+                    <img src="{% static 'img/of12.png' %}" class="img-responsive" alt="">
+                </a>
+                <div class="mid-1">
+                    <div class="women">
+                        <h6><a href="single.html">Moisturiser</a>(500 g)</h6>
+                    </div>
+                    <div class="mid-2">
+                        <p ><label>$7.00</label><em class="item_price">$6.00</em></p>
+                          <div class="block">
+                            <div class="starbox small ghosting"> </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                        <div class="add add-2">
+                       <button class="btn btn-danger my-cart-btn my-cart-b" data-id="1" data-name="product 1" data-summary="summary 1" data-price="6.00" data-quantity="1" data-image="images/of16.png">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
         <div class="col-md-3 pro-1">
             <div class="col-m">
             <a href="#" data-toggle="modal" data-target="#myModal17" class="offer-img">
