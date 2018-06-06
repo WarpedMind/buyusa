@@ -495,8 +495,7 @@ span.fa.fa-shopping-cart.my-cart-icon {
     width: 55%;
     margin: 0 auto;
 }
-.search-form input[type='text']{
-	width: 93%;
+.search-form input[type='text']{	
     padding: 10px;
     outline: none;
     font-size: 1em;
@@ -505,7 +504,7 @@ span.fa.fa-shopping-cart.my-cart-icon {
     background: rgba(255, 255, 255, 0.45);*/
 }
 .search-form input[type='submit']{
-	    width: 40px;
+	width: 40px;
     height: 43px;
     outline: none;
     border: 1px solid #fff;
@@ -514,7 +513,7 @@ span.fa.fa-shopping-cart.my-cart-icon {
 }
 .search-form input[type='submit']:hover {
     background: url(../images/can.png) no-repeat 6px 7px #039445;
-        transition: 0.5s all;
+    transition: 0.5s all;
     -webkit-transition: 0.5s all;
     -moz-transition: 0.5s all;
     -o-transition: 0.5s all;
@@ -2274,9 +2273,7 @@ span.last {
 .big-sale1 {
     margin: 3em 0 0;
 }
-.search-form input[type='text'] {
-    width: 92%;
-}
+
 .search-form {
     width: 60%;
     margin: 0 auto;
@@ -2368,9 +2365,7 @@ p.fo-para {
     min-width: 730px;
 }
 
-.search-form input[type='text'] {
-    width: 89%;
-}
+
 .search-form {
     width: 70%;
 }
@@ -2505,7 +2500,8 @@ a.at-in {
 nav.navbar.navbar-default {
     float: left;
     height: auto;
-    width: 82%;
+    /*width: 82%;*/
+    width: 100%;
 }
 .navbar-collapse {
     max-height: none;
@@ -2901,8 +2897,7 @@ img.img-head {
     height: 35px;
     background: url(../images/can.png) no-repeat 4px 3px #FCCD1E;
 }
-.search-form input[type='text'] {
-    width: 85%;
+.search-form input[type='text'] {    
     padding: 7px 10px;
     font-size: 0.9em;
 }
@@ -3199,15 +3194,10 @@ div.spec
 
 .auth_form input{
     margin-top: 5px;
-    padding: 5px;
-    border-radius: 5px;
+    padding: 5px;    
     border: 1px solid black;
     box-shadow: none;
     width: 100%;
-}
-
-.auth_form input:focus{
-    border-radius: 5px;    
 }
 
 .auth_form button{
@@ -3242,14 +3232,33 @@ div.spec
     margin-top: 20px;
 }
 
-
+/* Positioning the Menu Button for Mobile and Desktop/Tablet */
+@media (max-width: 767px) {
 .apple{
-    text-align: center;
+    /*text-align: center;*/
     padding-bottom: 30px;
+    margin-left: 15px;
     /*padding: 30px;*/
 }
+}
+
+@media(min-width:768px){
+    .apple{
+        text-align: center;
+        padding-bottom: 30px;
+        margin-left: 15px;
+    }
+}
+
 
 .center_div{
     margin: auto;
     display: inline-block;
 }
+
+
+.flexbox { display: flex; }
+.flexbox .stretch { flex: 1; }
+.flexbox .normal { flex: 0; margin: 0 0 0 1rem; }
+.flexbox div input { padding: .5em 1em; width: 100%; }
+.flexbox div button { padding: .5em 1em; white-space: nowrap; }
