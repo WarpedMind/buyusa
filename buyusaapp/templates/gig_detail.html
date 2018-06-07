@@ -1,202 +1,67 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load formfilter %}
+
+{% block includes %}
+    {% include 'search_box.html' %}
+    {% include 'main_nav.html' %}
+{% endblock %}
 
 {% block page %}
-    <div class="row">
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <img src="{{ MEDIA_URL }}{{ gig.BrandLogo }}" class="img-responsive center-block" width="45%" style="float:right; padding: 0px 0px 20px 20px;">
-                    <h3>{{ gig.title }}</h3>
-                    <hr />
-                    <p>Website: <a href="{{ gig.BrandLink }}" target="_blank">{{ gig.BrandLink }}</a></p>
-                    <p>Customer Service: {{ gig.BrandCustomerServicePhone }}</p>
-                    <p>Buy This At: {{ gig.BrandWhereToBuy }}</p>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <p>{{ gig.description | safe }}</p>
-                    <hr>
-                    <div style="position: relative;">
-                    
-    <div class="mySlides">
-      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture1 }}" style="width:100%" alt="{{ gig.BrandCaption1 | default_if_none:'' }}">
-    </div>
 
-    <div class="mySlides">
-      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture2 }}" style="width:100%" alt="{{ gig.BrandCaption2 | default_if_none:'' }}">
-    </div>
-
-    <div class="mySlides">
-      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture3 }}" style="width:100%" alt="{{ gig.BrandCaption3 | default_if_none:'' }}">
-    </div>
-
-    <div class="mySlides">
-      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture4 }}" style="width:100%" alt="{{ gig.BrandCaption4 | default_if_none:'' }}">
-    </div>
-
-    <div class="mySlides">
-      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture5 }}" style="width:100%" alt="{{ gig.BrandCaption5 | default_if_none:'' }}">
-    </div>
-
-    <div class="mySlides">
-      <img src="{{ MEDIA_URL }}{{ gig.BrandPicture6 }}" style="width:100%" alt="{{ gig.BrandCaption6 | default_if_none:'' }}">
-    </div>
-
-
-    <!-- Next/previous controls -->
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-    <!-- Caption text -->
-    <div class="caption-container">
-      <p id="caption" style="margin:0"></p>
-    </div>
-
-    <!-- Thumbnail image controls -->
-
-    <div class="column">
-      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture1 }}" style="width: 100%;" onclick="currentSlide(1)" alt="{{ gig.BrandCaption1 | default_if_none:'' }}">
-    </div>
-    <div class="column">
-      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture2 }}" style="width: 100%;" onclick="currentSlide(2)" alt="{{ gig.BrandCaption2 | default_if_none:'' }}">
-    </div>
-    <div class="column">
-      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture3 }}" style="width: 100%;" onclick="currentSlide(3)" alt="{{ gig.BrandCaption3 | default_if_none:'' }}">
-    </div>
-    <div class="column">
-      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture4 }}" style="width: 100%;" onclick="currentSlide(4)" alt="{{ gig.BrandCaption4 | default_if_none:'' }}">
-    </div>
-    <div class="column">
-      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture5 }}" style="width: 100%;" onclick="currentSlide(5)" alt="{{ gig.BrandCaption5 | default_if_none:'' }}">
-    </div>
-    <div class="column">
-      <img class="demo" src="{{ MEDIA_URL }}{{ gig.BrandPicture6 }}" style="width: 100%;" onclick="currentSlide(6)" alt="{{ gig.BrandCaption6 | default_if_none:'' }}">
-    </div>
-
-
-                    
-                    </div>
-                </div>
-            </div>
-            <!-- *** BEGIN - Hide Review functionality - TCG - 1/26/18 *** -->
-            <!--
-            <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Review</h4>
-                    </div>
-
-                    {% if show_post_review %}
-                        <div class="panel-body">
-                            <form method="POST">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <textarea name="content" class="form-control"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-success">Post</button>
-                                </div>
-                            </form>
-                        </div>
-
-                    {% endif %}
-                    <ul class="list-group">
-                        {% for review in reviews %}
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <img src="{{ review.user.profile.avatar }}" class="img-circle center-block" height="60" width="60">
-                                    </div>
-                                <div class="col-md-10">
-                                    <h5>{{ review.user.username }}</h5>
-                                    <p>{{ review.content }}</p>
-                                </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-            </div>
-            -->
-            <!-- *** END - Hide Review functionality - TCG - 1/26/18 *** -->
+<div class="container gig_detail_div">
+    <div class="single-top-main row">
+        <div class="gig_gallery">
+            <img id="thumb2" src="/media/{{ gig.BrandPicture2 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
+            <img id="thumb3" src="/media/{{ gig.BrandPicture3 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
+            <img id="thumb4" src="/media/{{ gig.BrandPicture4 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
+            <img id="thumb5" src="/media/{{ gig.BrandPicture5 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
         </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-body">
 
-                    {% if user and not user.is_anonymous %}
-                        <form method="POST" action="/checkout/">
-                            {% csrf_token %}
-                            <div id="payment-form">
-                                <input name="gig_id" value="{{ gig.id }}" hidden>
-                                <button type="submit" class="btn btn-success btn-block">Order Now ($ {{ gig.price }})</button>
-                            </div>
-                        </form>
-
-                        <script src="https://js.braintreegateway.com/js/braintree-2.30.0.min.js"></script>
-                        <script>
-                            $(document).ready(function() {
-                                braintree.setup("{{ client_token }}", "dropin", {
-                                    container: "payment-form",
-                                    paypal: {
-                                        singleUse: true,
-                                        amount: "{{ gig.price }}",
-                                        currency: 'USD'
-                                    }
-                                })
-                            })
-                        </script>
-                    {% else %}
-                        You need to login to order this gig!
-                    {% endif %}
-                    
+        <div class="col-md-5 single-top">
+                
+            <div class="single-w3agile">
+                <div id="picture-frame">
+                    <img id="thumb1" src="/media/{{ gig.BrandPicture1 }}" data-src="/media/{{ gig.BrandPicture1 }}" alt="" class="img-responsive" />
                 </div>
+                <script src="{% static 'js/jquery.zoomtoo.js' %}"></script>
+                <script type="text/javascript">
+                    $(function() {
+                        $("#picture-frame").zoomToo({magnify: 1});
+                    });
+                </script>
             </div>
-            <div class="panel panel-default">
-                    <div class="panel-body">
-                        <img src="{% if gig.user.profile %} {{ gig.user.profile.avatar }} {% else %} {% static 'img/avatar.png' %} {% endif %}" class="img-circle center-block" height="100" width="100">
-                        <a href="{% url 'profile' gig.user.username %}"><h4 class="text-center">{{ gig.user.username }}</h4></a>
-                        <hr />
-                        <p>{{ gig.user.profile.about }}</p>
-                    </div>
-                </div>
         </div>
+        
+        <div class="col-md-7 single-top-left ">
+            <div class="single-right">
+                <h3>{{ gig.title }}</h3>    
+                <p class="gig_info">{{ gig.BrandCaption1 }} <br />{{ gig.category }}<br />
+                <i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;{{ gig.BrandCustomerServicePhone }}                
+                <p class="in-pa">{{ gig.description }}</p>
+                <p class="where_to_buy">{{ gig.BrandWhereToBuy|commaSplit|safe }}</p>
+
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+
+        <div class="clearfix"> </div>
     </div>
-    
-    
+</div>
 
-<script>
-
-var slideIndex = 1;
-showSlides(slideIndex);
-
-// Next/previous controls
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
-
-// Thumbnail image controls
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("demo");
-  var captionText = document.getElementById("caption");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";
-  captionText.innerHTML = dots[slideIndex-1].alt;
-}
+<script type="text/javascript">
+    /* Swaps the selected thumbnail image to the main image */
+    $(document).ready(function(){
+       $("#thumb2, #thumb3, #thumb4, #thumb5").click(function(){
+            var new_src = $(this).attr('src');
+            var thumb1 = $("#thumb1");
+            var thumb1zoom = $("#picture-frame img:nth-child(2)");
+            $(this).attr("src", thumb1.attr("src",));
+            thumb1.attr("src", new_src)
+            thumb1.attr("data-src", new_src)
+            thumb1zoom.attr("src", new_src)
+       });
+    });    
 </script>
 
 {% endblock %}
