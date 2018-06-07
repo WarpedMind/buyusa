@@ -634,7 +634,8 @@ ul.nav.tabs {
 .mid-2 p{
 	float:left;
 	font-size:0.9em;
-	color:#B4B4B4;
+    /*color:#B4B4B4;*/
+    color: black;
 }
 .mid-2 p em{
 	font-style:normal;
@@ -3262,3 +3263,46 @@ div.spec
 .flexbox .normal { flex: 0; margin: 0 0 0 1rem; }
 .flexbox div input { padding: .5em 1em; width: 100%; }
 .flexbox div button { padding: .5em 1em; white-space: nowrap; }
+
+
+/* Product Display */
+.mid-1 h6 {
+    line-height: 25px;    
+}
+
+
+.mid-1 h6 a {
+    color: #337ab7;
+    font-weight: bolder;
+}
+
+.mid-1 h6 a:hover {
+    color: #337ab7;
+    text-decoration: underline;
+}
+
+.gig_details {
+    margin-bottom: 20px;
+}
+
+.where_to_buy {
+    margin-top: 10px;
+}
+
+.where_to_buy span{
+    margin-right: 13px;
+    
+    /*border: 2px solid black;
+    border-radius: 10px;
+    background-color: grey;*/
+    color:#E04D84;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.where_to_buy  {
+    border-top: 1px solid #B2B2B2;
+    padding-top: 5px;
+    width: 100%
+}
+
