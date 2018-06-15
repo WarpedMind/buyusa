@@ -3401,3 +3401,14 @@ body .container .profile .form-control {
     text-align: center;
     margin-bottom: 30px;
 }
+
+
+/*** My GIGS PAGE ***/
+.mygigs{
+    margin-top: 60px;
+}
+
+.mygigs h1{
+    margin-bottom: 30px;
+    text-align: center;
+}
