@@ -193,7 +193,7 @@ def search(request):
             | Q(BrandCaption3__icontains=title) | Q(BrandCaption4__icontains=title) \
             | Q(BrandCaption5__icontains=title) | Q(BrandCaption6__icontains=title)
     gigs = Gig.objects.filter(qset)
-    return render(request, 'home.html', {"gigs": gigs,"MEDIA_URL" : settings.MEDIA_URL, 'title': title})
+    return render(request, 'search.html', {"gigs": gigs,"MEDIA_URL" : settings.MEDIA_URL, 'title': title})
 
 
 def file_save_to_media(photo,photoname='avatar'):

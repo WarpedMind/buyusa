@@ -3426,3 +3426,12 @@ div.edit_gig div.form-group div#cke_id_description{
 .form-group{
     margin-bottom: 30px;
 }
+
+/*** Search Results **/
+.search_term{
+    margin-bottom: 50px;    
+}
+
+.search_term span{
+    color: #e51c23;    
+}

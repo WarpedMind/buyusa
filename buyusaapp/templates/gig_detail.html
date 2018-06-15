@@ -2,6 +2,8 @@
 {% load staticfiles %}
 {% load formfilter %}
 
+{% block title %} - {{ gig.title }}{% endblock %}
+
 {% block includes %}
     {% include 'search_box.html' %}
     {% include 'main_nav.html' %}
@@ -38,7 +40,7 @@
                 <h3>{{ gig.title }}</h3>    
                 <p class="gig_info">{{ gig.BrandCaption1 }} <br />{{ gig.category }}<br />
                 <i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;{{ gig.BrandCustomerServicePhone }}                
-                <p class="in-pa">{{ gig.description }}</p>
+                <p class="in-pa">{{ gig.description|safe }}</p>
                 <p class="where_to_buy">{{ gig.BrandWhereToBuy|commaSplit|safe }}</p>
 
                 <div class="clearfix"> </div>

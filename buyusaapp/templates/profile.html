@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
 {% load formfilter %}
+
+{% block title %} - Profile - {{ profile.user.username }}{% endblock %}
 
 {% block page %}
 <div class="container">
