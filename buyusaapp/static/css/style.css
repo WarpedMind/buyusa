@@ -3406,9 +3406,23 @@ body .container .profile .form-control {
 /*** My GIGS PAGE ***/
 .mygigs{
     margin-top: 60px;
+    margin-bottom: 50px;
 }
 
 .mygigs h1{
     margin-bottom: 30px;
     text-align: center;
+}
+
+.edit_gig {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+div.edit_gig div.form-group div#cke_id_description{
+    width: auto !important;
+}
+
+.form-group{
+    margin-bottom: 30px;
 }
