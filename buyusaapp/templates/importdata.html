@@ -1,68 +1,64 @@
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %} - Import Data{% endblock %}
 
 {% block page %}
-<style>
+<div class="container outer_center">
+    <div class="row standard import_data">
+          {% if user.is_superuser %}
+          <br/>
+          <br/>
+          <form method="POST" enctype='multipart/form-data' onsubmit="$('.btn').attr('disabled','disabled')">
+              {% csrf_token %}
+              {% for field in form %}
+                <p>
+                  {{ field.label_tag }}<br>
+                  {{ field }}<br>
+                  {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                  {% endfor %}
+                  {% if field.help_text %}
+                    <p><small style="color: grey">{{ field.help_text | safe }}</small></p>
+                  {% endif %}
+                </p>
+              {% endfor %}
+              <div>
+                <div style="margin-top:6px" class="form-buttons-wrapper">
+                  <button id="input_2" type="submit" class="btn" >
+                    Import
+                  </button>
+                </div>
+              </div>
 
-</style>
-<div style="width:100%;">
-<div style="margin:auto;width:500px;">
-    {% if user.is_superuser %}
-    <br/>
-    <br/>
-    <form method="POST" enctype='multipart/form-data' onsubmit="$('.btn').attr('disabled','disabled')">
-        {% csrf_token %}
-        {% for field in form %}
+              <br/>
+
+          </form>
+          
+          {% if errlist %}
+          
+          <table>
+              <tr>
+                  <th>error reason</th>
+                  <th>error line</th>
+              </tr>
+              {% for s,l in errlist %}
+              <tr>
+                  <th>{{l}}</th>
+                  <th>{{s|escape}}</th>
+              </tr>
+              {% endfor %}
+          </table>
+          {% endif %}
           <p>
-            {{ field.label_tag }}<br>
-            {{ field }}<br>
-            {% for error in field.errors %}
-              <p style="color: red">{{ error }}</p>
-            {% endfor %}
-            {% if field.help_text %}
-              <p><small style="color: grey">{{ field.help_text | safe }}</small></p>
-            {% endif %}
+          sucess count：{{sucess}}，fail count:{{fail}}
           </p>
-        {% endfor %}
-        <div>
-          <div style="margin-top:6px" class="form-buttons-wrapper">
-            <button id="input_2" type="submit" class="btn" >
-              Import
-            </button>
+          
+          {% else %}
+          <div style="padding:20px;">
+          Please login as admin.
           </div>
-        </div>
-
-        <br/>
-
-    </form>
-    
-    {% if errlist %}
-    
-    <table>
-        <tr>
-            <th>error reason</th>
-            <th>error line</th>
-        </tr>
-        {% for s,l in errlist %}
-        <tr>
-            <th>{{l}}</th>
-            <th>{{s|escape}}</th>
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
-    <p>
-    sucess count：{{sucess}}，fail count:{{fail}}
-    </p>
-    
-    {% else %}
-    <div style="padding:20px;">
-    Please login as admin.
-    </div>
-    {% endif %}
-
-</div>
+          {% endif %}      
+      </div>
 </div>
 
 <script>

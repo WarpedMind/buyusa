@@ -11,16 +11,15 @@
             <ul class="card">
                 {% if user and not user.is_anonymous %}
                 <li><a href="{% url 'profile' user.username %}" ><i class="fa fa-user" aria-hidden="true"></i>My Profile</a></li>
-                <li><a href="{% url 'create_gig' %}" ><i class="fa fa-user" aria-hidden="true"></i>Create a Gig</a></li>
-                <li><a href="{% url 'my_gigs' %}" ><i class="fa fa-user" aria-hidden="true"></i>My Gigs</a></li>                
+                <li><a href="{% url 'create_gig' %}" ><i class="fa fa-plus" aria-hidden="true"></i>Create a Gig</a></li>
+                <li><a href="{% url 'my_gigs' %}" ><i class="fa fa-folder" aria-hidden="true"></i>My Gigs</a></li>
                     {% if user.is_superuser %}
-                        <li><a href="{% url 'importdata' %}" ><i class="fa fa-user" aria-hidden="true"></i>Import Data</a></li>
+                        <li><a href="{% url 'importdata' %}" ><i class="fa fa-upload" aria-hidden="true"></i>Import Data</a></li>
                     {% endif %}
-                <li><a href="{% url 'auth:logout' %}?next={{request.path}}" ><i class="fa fa-user" aria-hidden="true"></i>Logout</a></li>    
+                <li><a href="{% url 'auth:logout' %}?next={{request.path}}" ><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
                 {% else %}
-                <li><a href="/login/" ><i class="fa fa-user" aria-hidden="true"></i>Login</a></li>
-                <li><a href="/signup/" ><i class="fa fa-arrow-right" aria-hidden="true"></i>Register</a></li>
-                <li><a href="wishlist.html" ><i class="fa fa-heart" aria-hidden="true"></i>Wishlist</a></li>
+                <li><a href="/login/" ><i class="fa fa-sign-in" aria-hidden="true"></i>Login</a></li>
+                <li><a href="/signup/" ><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
                 {% endif %}
             </ul>
         </div>

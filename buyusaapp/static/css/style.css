@@ -3435,3 +3435,47 @@ div.edit_gig div.form-group div#cke_id_description{
 .search_term span{
     color: #e51c23;    
 }
+
+
+/*** STANDARD PAGES ***/
+.standard{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.standard h2{
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.import_data {    
+    display: inline-block;
+}
+
+.outer_center{
+    text-align: center;
+}
+
+.import_data form p{    
+    text-align: left;
+}
+
+.import_data form label{    
+    margin-bottom: 5px;
+}
+
+.import_data form input{
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.question{
+    margin-bottom: 40px;
+}
+
+.question h4{
+    margin-bottom: 10px;
+    font-weight: bold;
+}
