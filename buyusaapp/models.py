@@ -74,7 +74,7 @@ class Gig(models.Model):
 
     title = models.CharField(max_length=500)
     category = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default='')
-    description = RichTextField(max_length=1000, default='')
+    description = models.CharField(max_length=1000, default='') # RichTextField(max_length=1000, default='')
     BrandLogo = models.FileField(upload_to='gigs')
     BrandLink = models.CharField(max_length=50, default='')
     BrandCustomerServicePhone = models.CharField(max_length=50, default='')
