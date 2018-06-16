@@ -1,29 +1,38 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block title %} - My Gigs{% endblock %}
+
 {% block page %}
-    <h1 style="margin-bottom: 30px">My Gigs</h1>
-    <div class="panel panel-default">
-        <table class="table table-bordered table-striped">
-            <thead class="bg-success">
-                <tr>
-                  <th>
-                    <th>Gig Title</th>
-                    <!-- <th>Price ($)</th> -->
-                    <th>Publish</th>
-                  </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for gig in gigs %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td><a href="{% url 'edit_gig' gig.id%}">{{ gig.title }}</a></td>
-                        <!-- <td>{{ gig.price }}</td> -->
-                        <td>{{ gig.get_Publish }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    
+<div class="container">
+    <div class="row mygigs">
+        <h1>My Gigs</h1>
+        <div class="con-w3l">
+            <div class="panel panel-default">
+                <table class="table table-bordered table-striped">
+                    <thead class="bg-success">
+                        <tr>
+                        <th>
+                            <th>Gig Title</th>
+                            <!-- <th>Price ($)</th> -->
+                            <th>Publish</th>
+                        </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for gig in gigs %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'edit_gig' gig.id%}">{{ gig.title }}</a></td>
+                            <!-- <td>{{ gig.price }}</td> -->
+                            <td>{{ gig.get_Publish }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}

@@ -17,7 +17,7 @@ import datetime
 register = template.Library()
 
 @register.filter
-def add_class(field,cssclass=''):
+def add_class(field, cssclass=''):
     if cssclass:
         if field and field.field:
             if 'class' in field.field.widget.attrs:
@@ -25,3 +25,15 @@ def add_class(field,cssclass=''):
             else:
                 field.field.widget.attrs['class'] = cssclass
     return field
+
+@register.filter
+def commaSplit(value, sep = ","):
+    parts = value.split(sep)
+    output = []
+    i = 0
+    for part in parts:
+        i += 1
+        output.append("<span>" + part.strip().capitalize() + "</span>")
+        if i >= 6:
+            break
+    return "".join(output)

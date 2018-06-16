@@ -1,117 +1,162 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
 {% load formfilter %}
 
+{% block title %} - Profile - {{ profile.user.username }}{% endblock %}
+
 {% block page %}
+<div class="container">
+    <div class="row profile">
+        {% if request.user == profile.user %}
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="jumbotron text-center">                                        
+                    <div class="panel panel-default profile_inside">
+                        <h2>{{ profile.user.username }}</h2>
+                        <div class="panel-body">
 
-    {% if request.user == profile.user %}
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="jumbotron text-center">
-                    <h1><b>{{ profile.user.username }}</b></h1>
-                    {{ profile_form.slogan.label }}
-                    {{ profile_form.slogan|add_class:"form-control" }}
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <img src="{{ profile.avatar }}" class="img-circle" height="120" width="120" id="avatar_preview">
-                    {{ profile_form.avatar.label }}
-                    <input type="file" name="avatar" id="id_avatar" accept="image/*" required="" class="form-control">
-                    <h3 class="text-uppercase"><b>About {{ profile.user.username }}</h3>
-                    <hr>
-                    {{ profile_form.about.label }}{{ profile_form.about|add_class:"form-control" }}
-                    <br />
-                    {{ profile_form.CompanyName.label }}{{ profile_form.CompanyName|add_class:"form-control" }}
-                    <br />
-                    {{ profile_form.CompanyCategory.label }}{{ profile_form.CompanyCategory|add_class:"form-control" }}
-                    <br />
-                    {{ profile_form.CompanyType.label }}{{ profile_form.CompanyType|add_class:"form-control" }}
-                    <br />
-                    <img src="{{ MEDIA_URL }}{{ profile.CompanyLogo }}" class="img-circle" height="120" width="120" id="CompanyLogo_preview">
-                    {{ profile_form.CompanyLogo.label }}
-                    <input type="file" name="CompanyLogo" id="id_CompanyLogo" accept="image/*" required="" class="form-control">
-                    
-                    <br />
-                    {{ profile_form.CompanyLink.label }}{{ profile_form.CompanyLink|add_class:"form-control" }}
-                    <br />
-                    {{ profile_form.CompanyContactName.label }}{{ profile_form.CompanyContactName|add_class:"form-control" }}
-                    <br />
-                    {{ profile_form.CompanyContactPhone.label }}{{ profile_form.CompanyContactPhone|add_class:"form-control" }}
-                    <br />
-                    {{ profile_form.CompanyContactEmail.label }}{{ profile_form.CompanyContactEmail|add_class:"form-control" }}
-                    <br />
-                    {{ profile_form.Publish.label }}{{ profile_form.Publish|add_class:"form-control" }}
-                    <br />
-                    {% if profile_form.errors %}
-                    <span style="color:red">{{ profile_form.errors }}</span>
-                    <br />
-                    {% endif %}
-                    <button class="btn btn-success" type="submit">Update</button>
-                </div>
-            </div>
-        </form>
+                            <div class="profile_item">
+                                <div class="profile_input">{{ profile_form.slogan|add_class:"form-control" }}</div>
+                                <div class="profile_label">{{ profile_form.slogan.label|title }}</div>
+                            </div>
 
-    {% else %}
-        <div class="jumbotron text-center">
-            <h1><b>{{ profile.user.username }}</b></h1>
-            <p>{{ profile.slogan }}</p>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <img src="{{ profile.avatar }}" class="img-circle" height="120" width="120">
-                <h3 class="text-uppercase"><b>About {{ profile.user.username }}</h3>
-                <hr>
-                <p>{{ profile.about }}</p>
-            </div>
-        </div>
-    {% endif %}
+                            <div class="profile_item">
+                                <div class="profile_input">
+                                    <img src="{{ profile.avatar }}" class="img-circle" height="90" width="90" id="avatar_preview" />
+                                    <input type="file" name="avatar" id="id_avatar" accept="image/*" required="" class="form-control">
+                                </div>
+                                <div class="profile_label">{{ profile_form.avatar.label|title }}</div>
+                            </div>
 
-    
-    <h3 class="text-uppercase" style="margin-top:50px"><b>{{ profile.user.username }}'s gigs</b></h3>
-    <div class="row">
-        {% for gig in gigs %}
-            <div class="col-md-3">
-                <div class = "thumbnail">
-                    <a href="{% url 'gig_detail' gig.id %}"><img src="{{ MEDIA_URL }}{{ gig.BrandLogo }}"></a>
-                    <div class = "caption">
-                        <p><a href="{% url 'gig_detail' gig.id %}">{{ gig.title }}</a></p>
-                        <p>
-                            <span>
-                            <a href="{% url 'profile' gig.user.username %}">{{ gig.user.username }}</a>
-                            </span>
-                            <b class="green pull-right">$ {{ gig.price }}</b>
-                        </p>
+                            <div class="profile_item">
+                                <div class="profile_input">{{ profile_form.about|add_class:"form-control" }}</div>
+                                <div class="profile_label">{{ profile_form.about.label|title }}</div>
+                            </div>
+                            
+                            <div class="profile_item">
+                                <div class="profile_input">{{ profile_form.CompanyName|add_class:"form-control" }}</div>
+                                <div class="profile_label">Company Name</div>
+                            </div>
+
+                            
+                            <div class="profile_item">
+                                <div class="profile_input">{{ profile_form.CompanyCategory|add_class:"form-control" }}</div>
+                                <div class="profile_label">Company Category</div>
+                            </div>
+                            
+                            <div class="profile_item">
+                                <div class="profile_input">{{ profile_form.CompanyType|add_class:"form-control" }}</div>
+                                <div class="profile_label">Company Type</div>
+                            </div>
+
+                            <div class="profile_item">
+                                <div class="profile_input">
+                                    <img src="{{ MEDIA_URL }}{{ profile.CompanyLogo }}" class="img-circle" height="90" width="90" id="CompanyLogo_preview">
+                                    <input type="file" name="CompanyLogo" id="id_CompanyLogo" accept="image/*" required="" class="form-control">
+                                </div>
+                                <div class="profile_label">Company Logo</div>
+                            </div>
+
+                            <div class="profile_item">
+                                <div class="profile_input">{{ profile_form.CompanyLink|add_class:"form-control" }}</div>
+                                <div class="profile_label">Company Link</div>
+                            </div>
+
+                            <div class="profile_item">
+                                <div class="profile_input">{{ profile_form.CompanyContactName|add_class:"form-control" }}</div>
+                                <div class="profile_label">Company Contact Name</div>
+                            </div>
+
+                            <div class="profile_item">
+                                <div class="profile_input">{{ profile_form.CompanyContactPhone|add_class:"form-control" }}</div>
+                                <div class="profile_label">Company Contact Phone</div>
+                            </div>
+
+                            <div class="profile_item">
+                                <div class="profile_input">{{ profile_form.CompanyContactEmail|add_class:"form-control" }}</div>
+                                <div class="profile_label">Company Contact Email</div>
+                            </div>
+
+                            <div class="profile_item">
+                                <div class="profile_input">{{ profile_form.Publish|add_class:"form-control" }}</div>
+                                <div class="profile_label">{{ profile_form.Publish.label|title }}</div>
+                            </div>                            
+                            
+                            <div class="profile_item">
+                                {% if profile_form.errors %}
+                                <span style="color:red">{{ profile_form.errors }}</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="profile_item">
+                                <button class="btn btn-success" type="submit">Update</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
-    
-{% if request.user == profile.user %}
-<script>
+            </form>
 
-$(function () {
-    $("#id_avatar").change(function () {
-      if (this.files && this.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          $("#avatar_preview").attr("src", e.target.result);
-        }
-        reader.readAsDataURL(this.files[0]);
-      }
-    });
-    $("#id_CompanyLogo").change(function () {
-      if (this.files && this.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          $("#CompanyLogo_preview").attr("src", e.target.result);
-        }
-        reader.readAsDataURL(this.files[0]);
-      }
-    });
-});
+        {% else %}
+        <div class="text-center">
+                <h2>{{ profile.user.username }}</h2>
+                <p>{{ profile.slogan }}</p>
+                <img src="{{ profile.avatar }}" class="img-circle" height="90" width="90">
+            <div class="panel panel-default profile_inside">
+                
+            </div>
+        </div>
+        {% endif %}        
         
-</script>
-{% endif %}
+        <div class="row profile_gigs">
+                <h3 class="text-uppercase">{{ profile.user.username }}'s Gigs</h3>
+                {% for gig in gigs %}
+                <div class="col-md-3 pro-1">
+                    <div class="col-m">
+                        <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
+                            <img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt="">
+                        </a>
+                        <div class="mid-1">
+                            <div class="women">
+                                <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
+                            </div>
+                            <div class="mid-2">
+                                <p class="gig_details">{{gig.description|truncatechars:193}}</p>
+                                    
+                                <p class="gig_details where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p>
+                                <div class="clearfix"></div>
+                            </div>                    
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+    {% if request.user == profile.user %}
+    <script>
+
+    $(function () {
+        $("#id_avatar").change(function () {
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+            $("#avatar_preview").attr("src", e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+        });
+        $("#id_CompanyLogo").change(function () {
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+            $("#CompanyLogo_preview").attr("src", e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+        });
+    });
+            
+    </script>
+    {% endif %}
+    </div>
+</div>
 {% endblock %}

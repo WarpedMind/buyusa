@@ -1,9 +1,13 @@
 from django.conf.urls import url
 from buyusaapp import views
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
+    url(r'^terms/$', TemplateView.as_view(template_name="terms.html", content_type="text/html"), name="terms"),
+    url(r'^faqs/$', TemplateView.as_view(template_name="faqs.html", content_type="text/html"), name="faqs"),
+    url(r'^contact/$', TemplateView.as_view(template_name="contact.html", content_type="text/html"), name="contact"),
     url(r'^gigs/(?P<id>[0-9]+)/$', views.gig_detail, name='gig_detail'),
     url(r'^my_gigs/$', views.my_gigs, name='my_gigs'),
     url(r'^create_gig/$', views.create_gig, name='create_gig'),
@@ -21,6 +25,5 @@ urlpatterns = [
     url(r'^donate/$', views.donate, name='donate'),
     
     url(r'^importdata/$', views.importdata, name='importdata'),
-    url(r'^firstlogin/(?P<token>[\w|-]+)/$', views.firstlogin, name='firstlogin'),
-    
+    url(r'^firstlogin/(?P<token>[\w|-]+)/$', views.firstlogin, name='firstlogin'),    
 ]

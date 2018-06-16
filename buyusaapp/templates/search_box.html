@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<div data-vide-bg="{% static 'video/video' %}">
+    <div class="container">
+        <div class="banner-info">
+            <div class="search-form">
+                <form action="/search" method="get">
+                    <div class="flexbox">
+                        <div class="stretch">
+                            <input type="text" placeholder="Search..." name="title">
+                        </div>
+                        <div class="normal">
+                            <input type="submit" value=" ">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

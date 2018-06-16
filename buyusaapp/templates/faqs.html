@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %} - FAQS{% endblock %}
+
+{% block page %}
+ <div class="container">
+  <div class="row standard">
+    <h2>FAQS</h2>
+    <div class="question">
+      <h4>I searched and did not find an Item</h4>
+      <p>If you type in an item and no item comes up like (Cell Phone, Camera, etc.) unfortunately that product is currently not manufactured or 
+        assembled in the US or the Manufacture has not listed yet.</p>
+    </div>
+    <div class="question">
+      <h4>I found inaccurate information</h4>
+      <p>If any information on this site is inaccurate PLEASE email us so we can verify and correct our information.</p>         
+    </div>
+
+    <div class="question">
+        <h4>I want to list my products</h4>
+        <p>If you are a manufacturer no matter how big or small that makes or produces any product(s) that you sell and you are not listed on this 
+            site sign up for the site and start listing your products. <a href="/signup">Sign Up</a></p>
+      </div>
+
+    <div class="question">
+        <h4>I have many products that I want to list</h4>
+        <p>If you have a large number of products to list you can import them via our bulk import feature. <a href="/importdata">Import Data</a></p>
+    </div>  
+
+  </div>
+</div>
+{% endblock %}
