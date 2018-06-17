@@ -37,12 +37,21 @@
         
         <div class="col-md-7 single-top-left ">
             <div class="single-right">
-                <h3>{{ gig.title }}</h3>    
-                <p class="gig_info">{{ gig.BrandCaption1 }} <br />{{ gig.category }}<br />
-                <i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;{{ gig.BrandCustomerServicePhone }}                
-                <p class="in-pa">{{ gig.description|safe }}</p>
+                <h3>{{ gig.title }}</h3>
+                <div class="gig_brand_cat">
+                    <img src="{% if gig.user.profile %} {{ gig.user.profile.avatar }} {% else %} {% static 'img/avatar.png' %} {% endif %}" class="img-circle center-block" height="70" width="70">
+                    <a href="{% url 'profile' gig.user.username %}"><h4 class="text-center">{{ gig.user.username }}</h4></a>
+                </div>
+                <div class="details_brand">
+                    <p>{{ gig.BrandCaption1 }}</p>
+                    <img src="{{ MEDIA_URL }}{{ gig.BrandLogo }}" class="img-responsive" width="120px" height="120px">
+                    <p><i class="fa fa-globe" aria-hidden="true"></i>&nbsp;&nbsp;<a href="https://{{ gig.BrandLink }}" target="_blank">{{ gig.BrandLink }}</a></p>
+                    <p><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;{{ gig.BrandCustomerServicePhone }}</p>
+                </div>
+                <div class="gig_desc">
+                    <span class="gig_desc_text">{{ gig.description|safe }}</span>
+                </div>
                 <p class="where_to_buy">{{ gig.BrandWhereToBuy|commaSplit|safe }}</p>
-
                 <div class="clearfix"> </div>
             </div>
         </div>
