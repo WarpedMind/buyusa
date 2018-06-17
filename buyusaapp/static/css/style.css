@@ -3336,12 +3336,6 @@ div.spec
     margin-bottom: 20px;
 }
 
-.gig_info{
-    line-height: 20px;
-    font-style: italic;    
-}
-
-
 /*** PROFILE ***/
 .profile{
     margin-top: 60px;
@@ -3479,3 +3473,28 @@ div.edit_gig div.form-group div#cke_id_description{
     margin-bottom: 10px;
     font-weight: bold;
 }
+
+/*** Extra Product Details ***/
+.details_brand p{
+    margin-top: 5px;    
+}
+
+.details_brand img{
+    margin-top: 5px;    
+}
+
+.gig_brand_cat{
+    float: right;
+}
+
+.gig_brand_cat h4{    
+    margin-top: 5px;
+}
+
+.gig_desc{    
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    clear: both;
+}
+
