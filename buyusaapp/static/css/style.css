@@ -3498,3 +3498,23 @@ div.edit_gig div.form-group div#cke_id_description{
     clear: both;
 }
 
+/*** Disclimer ***/
+
+.disclaimer h3{
+    margin-bottom: 20px;
+    margin-top: 40px;
+    font-weight: bold;    
+    font-size: 20px;
+}
+
+.disclaimer p{
+    margin-bottom: 10px;
+}
+
+.disclaimer ul li{
+    margin-left: 50px;
+}
+
+.disclaimer ul{    
+    margin-bottom: 20px;
+}
