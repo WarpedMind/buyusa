@@ -212,10 +212,15 @@ img.img-head {
 .head-t {
     /*margin: 1em 0;*/
     margin: 5px 0;
+    float: right;    
 }
-.card li{
-	display:inline-block;
+
+.head-t .card li {        
+    text-align: left;
+    list-style: none;
+    
 }
+
 .card li a{
 	display:inline-block;
 	color: #999;
@@ -483,7 +488,8 @@ span.fa.fa-shopping-cart.my-cart-icon {
 /*--banner--*/
 .banner-info {
     margin:2em 0;
-	text-align:center;
+    text-align:center;
+    margin-top: 50px;
 }
 .banner-info h3 {
     color: #fff;
@@ -2867,7 +2873,7 @@ nav.navbar.navbar-default {
     padding: 0 5px;
 }
 .banner-info {
-    margin: 2em 0;
+    margin: 2em 0;    
 }
 img.img-head {
     width: 19%;
@@ -3498,3 +3504,138 @@ div.edit_gig div.form-group div#cke_id_description{
     clear: both;
 }
 
+/*** Disclimer ***/
+
+.disclaimer h3{
+    margin-bottom: 20px;
+    margin-top: 40px;
+    font-weight: bold;    
+    font-size: 20px;
+}
+
+.disclaimer p{
+    margin-bottom: 10px;
+}
+
+.disclaimer ul li{
+    margin-left: 50px;
+}
+
+.disclaimer ul{
+    margin-bottom: 20px;
+}
+
+
+/*** DONATION ***/
+
+.donate h2{
+    margin-bottom: 40px;
+}
+
+.donate input{
+    margin-bottom: 20px;    
+}
+
+.donate table{
+    margin-top: 20px;
+    width: 100%;
+}
+
+#input_3_cc_firstName{
+    width: 100%;
+}
+
+#input_2{
+    margin-top: 30px;
+}
+
+/*** Search Box ***/
+.search_box_text{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 12px;
+    text-align: left;
+    width: 100%;
+    color: black;
+}
+
+.search_box_text p{
+    margin-bottom: 10px;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main_button {
+    background-color: #FFF; /* Green */
+    border: 1px solid black;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 150px;
+    /*border-radius: 10px;*/
+}
+
+.main_buttons p{
+    margin-bottom: 30px;
+}
+
+.main_button:hover{
+    text-decoration: none;
+}
+
+.main_button:focus{
+    text-decoration: none;
+}
+
+.donate_btn{
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.donate_btn:hover{
+    background-color: #4CAF50; /* Green */
+    color: white;
+    text-decoration: none;
+}
+
+.main_goals{
+    margin-top: 60px;
+    margin-bottom: 100px;
+}
+
+.main_goals h2{
+    margin-bottom: 20px;    
+}
+
+.main_goals p{
+    margin-top: 20px;
+    text-align: left;
+}
+
+/*** Slide Show ***/
+.slideshow
+{    
+    
+    display: block;
+}
+
+.slideshow img
+{
+    position: absolute;    
+    z-index:-1;    
+    width: 840px;    
+    height: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+
+/*.inner_slideshow*/
