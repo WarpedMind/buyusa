@@ -3,33 +3,38 @@
     <div class="container">
         <div class="banner-info">
 
-            <div class="search_box_text">
-                <p>THIS IS AN INFORMATION-ONLY SITE INTENDED TO INFORM THE PUBLIC OF PRODUCTS THAT ARE MADE OR ASSEMBLED IN THE USA, 
-                    AS WELL AS WHERE AND/OR HOW THESE ITEMS MAY BE PURCHASED.</p>
-                <p>We are a donation-only help site supporting our U.S. manufacturers, workers, economy, and country by listing over 
-                    384,200 actual U.S. based manufacturers and 1.2 billion products, as well as where these retail, wholesale, 
-                    manufacturer to manufacture, and everyday items may be purchased. Through our TV commercials, social media, 
-                    and your help, we will put as much accurate information out as possible, so that the public can make a choice to buy U.S. made products or not.</p>
-            </div>
+            <div class="slideshow">
+                <div class="inner_slideshow">
 
-            <div class="search-form">
-                <form action="/search" method="get">
-                    <div class="flexbox">
-                        <div class="stretch">
-                            <input type="text" placeholder="Search..." name="title">
-                        </div>
-                        <div class="normal">
-                            <input type="submit" value=" ">
-                        </div>
+                    <div class="search_box_text">
+                        <p>THIS IS AN INFORMATION-ONLY SITE INTENDED TO INFORM THE PUBLIC OF PRODUCTS THAT ARE MADE OR ASSEMBLED IN THE USA, 
+                            AS WELL AS WHERE AND/OR HOW THESE ITEMS MAY BE PURCHASED.</p>
+                        <p>We are a donation-only help site supporting our U.S. manufacturers, workers, economy, and country by listing over 
+                            384,200 actual U.S. based manufacturers and 1.2 billion products, as well as where these retail, wholesale, 
+                            manufacturer to manufacture, and everyday items may be purchased. Through our TV commercials, social media, 
+                            and your help, we will put as much accurate information out as possible, so that the public can make a choice to buy U.S. made products or not.</p>
                     </div>
-                </form>
-            </div>
 
-            <div class="search_box_text">
-                <p>If you type in an item and no item comes up, unfortunately, that product is either currently not manufactured or assembled in the U.S. 
-                    or the manufacturer has not listed their products with us yet. If any information on this site is inaccurate, 
-                    PLEASE email us so we can verify and correct our information. If you are a manufacturer, big or small, 
-                    that produces products in the U.S. or sells products and you are not listed on this site, <a href="/signup">please register here.</a></p>
+                    <div class="search-form">
+                        <form action="/search" method="get">
+                            <div class="flexbox">
+                                <div class="stretch">
+                                    <input type="text" placeholder="Search..." name="title">
+                                </div>
+                                <div class="normal">
+                                    <input type="submit" value=" ">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="search_box_text">
+                        <p>If you type in an item and no item comes up, unfortunately, that product is either currently not manufactured or assembled in the U.S. 
+                            or the manufacturer has not listed their products with us yet. If any information on this site is inaccurate, 
+                            PLEASE email us so we can verify and correct our information. If you are a manufacturer, big or small, 
+                            that produces products in the U.S. or sells products and you are not listed on this site, <a href="/signup">please register here.</a></p>
+                    </div>
+                </div>
             </div>
 
             <div class="main_buttons">
@@ -73,3 +78,33 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    $( document ).ready(function() {
+        var images=new Array('/static/img/search_banners/search_banner1.png','/static/img/search_banners/search_banner2.png','/static/img/search_banners/search_banner3.png');
+        var nextimage=0;
+        
+        doSlideshow();
+    
+    
+        function doSlideshow()
+        {
+            if($('.slideshowimage').length!=0)
+            {
+                $('.slideshowimage').fadeOut(500,function(){slideshowFadeIn();$(this).remove()});
+            }
+            else
+            {
+                slideshowFadeIn();
+            }
+        }
+        function slideshowFadeIn()
+        {
+            $('.slideshow').prepend($('<img class="slideshowimage img-responsive" src="'+images[nextimage++]+'" style="display:none;opacity: 0.2;filter: alpha(opacity=20);/* For IE8 and earlier */">').fadeIn(500,function(){setTimeout(doSlideshow,10000);}));
+            if(nextimage>=images.length)
+                nextimage=0;
+        }
+    });
+
+</script>

@@ -3556,6 +3556,7 @@ div.edit_gig div.form-group div#cke_id_description{
     font-size: 12px;
     text-align: left;
     width: 100%;
+    color: black;
 }
 
 .search_box_text p{
@@ -3617,5 +3618,24 @@ div.edit_gig div.form-group div#cke_id_description{
     text-align: left;
 }
 
+/*** Slide Show ***/
+.slideshow
+{    
+    
+    display: block;
+}
+
+.slideshow img
+{
+    position: absolute;    
+    z-index:-1;    
+    width: 840px;    
+    height: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
 
 
+/*.inner_slideshow*/
