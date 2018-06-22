@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}- Donate{% endblock %}
 
 {% block page %}
 <style>
@@ -16,21 +16,19 @@
     margin-top: 3px;
 }
 </style>
-<div style="width:100%;">
-<div style="margin:auto;width:500px;">
-    <br/>
-    <br/>
+<div class="container">
+    <div class="row auth_form donate">
+      <h2>Make A Donation</h2>
     <form method="POST" name="donateform" onsubmit="return check()">
         {% csrf_token %}
         <input type="hidden" name="cardtype">
         <div id="payment-form">
-   <label class="form-label form-label-top form-label-auto" id="label_3" for="input_3"> Donate </label>
+        <label class="form-label form-label-top form-label-auto" id="label_3" for="input_3">Amount (USD)</label>
         <div id="cid_3" class="form-input-wide">
           <div data-wrapper-react="true">
             <div data-wrapper-react="true">
               <span class="form-sub-label-container" style="vertical-align:top">
-                <input type="text" class="form-textbox validate[Numeric]" id="input_3_donation" name="donatevalue" value="5" value="{{donatevalue}}" >
-                USD
+                <input type="text" class="form-textbox validate[Numeric]" id="input_3_donation" name="donatevalue" value="5" value="{{donatevalue}}">
               </span>
             </div>
             <table class="form-address-table payment-form-table" style="border:0" cellpadding="0" cellspacing="0">
