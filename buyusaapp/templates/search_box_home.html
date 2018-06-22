@@ -34,14 +34,40 @@
 
             <div class="main_buttons">
                 <p>
-                    <a href="#" class="main_button">BLOG</a>
-                    <a href="#" class="main_button">TV/MEDIA</a>
-                    <a href="#" class="main_button">NEWS</a>                    
+                    <a href="javascript:void(0)" class="main_button">BLOG</a>
+                    <a href="javascript:void(0)" class="main_button">TV/MEDIA</a>
+                    <a href="javascript:void(0)" class="main_button">NEWS</a>                    
                 </p>
                 <p>
-                    <a href="#" class="main_button">GOALS</a>
+                    <a href="javascript:void(0)" class="main_button" onclick="toggleGoals()">GOALS</a>
                     <a href="/donate" class="main_button donate_btn">Donate</a>
                 </p>
+
+                <div id="main_goal_id" class="main_goals" style="display:none;">
+                    <h2>OUR GOAL</h2>
+                    <p>Our goal is to provide the largest, most accurate database of U.S. products and food items, accessible by the public, 
+                        as well as where and how these items may be purchased. By typing in your specific requests item in the product search box above, 
+                        the company’s name(s), website, brand(s), and where/how your item can be purchased will be listed.</p>
+                    
+                    <p><b>Products</b>:  Currently, the Federal Trade Commission (FTC) does not require any manufacturers foreign or domestic to 
+                        label the country of origin on any product except for automobiles, textiles, wool, and fur products.</p>
+                    
+                    <p><b>Food</b>:  Canned goods, packaged and processed foods will be listed the same as products. 
+                        Produce will be listed under Name and Origin. The Food and Drug Administration (FDA) requirements on the importation 
+                        of our food products is up for interpretation (please see our FDA blog).</p>
+                </div>
+
+                <script type="text/javascript">
+                    function toggleGoals() {
+                        var x = document.getElementById("main_goal_id");
+                        if (x.style.display === "none") {
+                            x.style.display = "block";
+                        } else {
+                            x.style.display = "none";
+                        }
+                    }
+                </script>
+
             </div>
 
         </div>

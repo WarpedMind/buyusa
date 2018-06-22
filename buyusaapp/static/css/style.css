@@ -3584,6 +3584,14 @@ div.edit_gig div.form-group div#cke_id_description{
     margin-bottom: 30px;
 }
 
+.main_button:hover{
+    text-decoration: none;
+}
+
+.main_button:focus{
+    text-decoration: none;
+}
+
 .donate_btn{
     background-color: #4CAF50; /* Green */
     color: white;
@@ -3592,6 +3600,21 @@ div.edit_gig div.form-group div#cke_id_description{
 .donate_btn:hover{
     background-color: #4CAF50; /* Green */
     color: white;
+    text-decoration: none;
+}
+
+.main_goals{
+    margin-top: 60px;
+    margin-bottom: 100px;
+}
+
+.main_goals h2{
+    margin-bottom: 20px;    
+}
+
+.main_goals p{
+    margin-top: 20px;
+    text-align: left;
 }
 
 
