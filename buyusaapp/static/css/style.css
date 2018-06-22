@@ -3564,3 +3564,35 @@ div.edit_gig div.form-group div#cke_id_description{
     margin-left: auto;
     margin-right: auto;
 }
+
+.main_button {
+    background-color: #FFF; /* Green */
+    border: 1px solid black;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 150px;
+    /*border-radius: 10px;*/
+}
+
+.main_buttons p{
+    margin-bottom: 30px;
+}
+
+.donate_btn{
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.donate_btn:hover{
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+
+
