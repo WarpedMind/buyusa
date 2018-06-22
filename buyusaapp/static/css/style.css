@@ -212,9 +212,17 @@ img.img-head {
 .head-t {
     /*margin: 1em 0;*/
     margin: 5px 0;
+    float: right;    
 }
+
+.head-t .card li {        
+    text-align: left;
+    list-style: none;
+    
+}
+
 .card li{
-	display:inline-block;
+	/*display:inline-block;*/
 }
 .card li a{
 	display:inline-block;
