@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <div data-vide-bg="{% static 'video/video' %}">
-    <div class="container">
+    <div class="container wide_container">
         <div class="banner-info">
 
             <div class="slideshow">
@@ -88,23 +88,29 @@
         '/static/img/search_banners/search_banner10.png',);
         var nextimage=0;
         
-        doSlideshow();
+        //doSlideshow();
     
     
         function doSlideshow()
         {
-            if($('.slideshowimage').length!=0)
+            /*if($('.slideshowimage').length!=0)
             {
                 $('.slideshowimage').fadeOut(500,function(){slideshowFadeIn();$(this).remove()});
             }
             else
             {
                 slideshowFadeIn();
-            }
+            }*/
+            
+                slideshowFadeIn();
+            
         }
         function slideshowFadeIn()
         {
-            $('.slideshow').prepend($('<img class="slideshowimage img-responsive" src="'+images[nextimage++]+'" style="display:none;opacity: 0.2;filter: alpha(opacity=20);/* For IE8 and earlier */">').fadeIn(500,function(){setTimeout(doSlideshow,10000);}));
+            console.log("Doiig..")
+            var imageUrl = images[nextimage++];
+            $('.slideshow:before').css('background-image', "url(' + imageUrl + ')").fadeIn(500,function(){setTimeout(doSlideshow,1000);});
+            //$('.slideshow').prepend($('<img class="slideshowimage img-responsive" src="'+images[nextimage++]+'" style="display:none;opacity: 0.2;filter: alpha(opacity=20);/* For IE8 and earlier */">').fadeIn(500,function(){setTimeout(doSlideshow,10000);}));
             if(nextimage>=images.length)
                 nextimage=0;
         }
