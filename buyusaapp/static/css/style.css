@@ -3603,6 +3603,21 @@ div.edit_gig div.form-group div#cke_id_description{
     text-decoration: none;
 }
 
+li.donate_btn a{
+    color: white;        
+}
+
+li.donate_btn a:hover{
+    color: white;
+    text-decoration: none;
+}
+
+li.donate_btn{
+    margin-top: 20px;
+    border: 1px solid black;
+    padding: 3px;
+}
+
 .main_goals{
     margin-top: 60px;
     margin-bottom: 100px;
@@ -3663,7 +3678,7 @@ div.edit_gig div.form-group div#cke_id_description{
 
 
 .inner_slideshow{
-    width: 80%;
+    width: 65%;
     margin: auto;
 }
 
