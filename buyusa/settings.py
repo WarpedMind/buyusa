@@ -15,7 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SITE_URL='http://stormy-beach-97292.herokuapp.com'
+SITE_URL='https://www.buyusa.support'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -26,7 +26,7 @@ SECRET_KEY = '$z-h&j3-_@uiz1++g1m3$f6znq+#f7lc!k+pej#5@9$nz7h=o_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['64.15.183.5','127.0.0.1','stormy-beach-97292.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['34.201.114.248','127.0.0.1','stormy-beach-97292.herokuapp.com', 'localhost', 'buyusa.support', 'www.buyusa.support']
 
 
 # Application definition
@@ -165,3 +165,12 @@ db_from_env = dj_database_url.config()
 # Setup upload directory for Gig model
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# Email settings
+#EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+DEFAULT_FROM_EMAIL = 'support@buyusa.support'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'inringame@gmail.com'
+EMAIL_HOST_PASSWORD = 'ginich70x7'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

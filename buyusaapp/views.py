@@ -7,6 +7,7 @@ from django.db.models import Q, Max
 from django.db import transaction, connection
 from django.core.cache import cache
 from django.http import HttpResponseRedirect,HttpResponse,Http404,JsonResponse
+from django.core.mail import send_mail
 
 from .models import Gig, Profile, Purchase, Review, Donate, ImportData
 from .forms import GigForm, SignUpForm, ProfileForm, ImportDataForm
@@ -244,6 +245,11 @@ MAIL_USER="postmaster"
 MAIL_PASS="Zkwl85622611"   
 MAIL_POSTFIX="handctrl.com"  
 
+#MAIL_HOST="smtp.gmail.com"  
+#MAIL_USER="inringame"   
+#MAIL_PASS="ginich70x7"   
+#MAIL_POSTFIX="buyusa.support"
+
 def generate_token(length=32, chars=UNICODE_ASCII_CHARACTER_SET):
     rand = random.SystemRandom()
     return ''.join(rand.choice(chars) for x in range(length))
@@ -288,7 +294,9 @@ def resetpassword(request):
                 return JsonResponse({'result':False,'msg':u'Your email is not valid.'})
             token = generate_token()
             cache.set('email_email_%s' % token,email,86400)
-            sendmailbythread([email,], u'[buyusa] Reset your password',u'Your token is：%s' % (token,))
+            #sendmailbythread([email,], u'[buyusa] Reset your password',u'Your token is：%s' % (token,))
+            send_mail('Welcome to BuyUSA.support - Login Info', 'Token: ' + token, 'support@buyusa.support', [email], fail_silently=False, )
+
             return JsonResponse({'result':True,'msg':u'Your token has sent to your email, please check your email.',})
     
     if request.method == 'POST':
