@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
+    url(r'^$', views.home, name='home'),    
     url(r'^terms/$', TemplateView.as_view(template_name="terms.html", content_type="text/html"), name="terms"),
     url(r'^faqs/$', TemplateView.as_view(template_name="faqs.html", content_type="text/html"), name="faqs"),
     url(r'^contact/$', TemplateView.as_view(template_name="contact.html", content_type="text/html"), name="contact"),
@@ -22,10 +22,10 @@ urlpatterns = [
     url(r'^search/$', views.search, name='search'),
     
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
-    url(r'^signup/$', views.signup, name='signup'),
+    #url(r'^signup/$', views.signup, name='signup'),
     url(r'^resetpassword/$', views.resetpassword, name='resetpassword'),
     url(r'^donate/$', views.donate, name='donate'),
     
     url(r'^importdata/$', views.importdata, name='importdata'),
-    url(r'^firstlogin/(?P<token>[\w|-]+)/$', views.firstlogin, name='firstlogin'),    
+    #url(r'^firstlogin/(?P<token>[\w|-]+)/$', views.firstlogin, name='firstlogin'),    
 ]

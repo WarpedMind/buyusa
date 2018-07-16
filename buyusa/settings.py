@@ -32,13 +32,14 @@ ALLOWED_HOSTS = ['34.201.114.248','127.0.0.1','stormy-beach-97292.herokuapp.com'
 # Application definition
 
 INSTALLED_APPS = [
+    'buyusaapp',    
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'buyusaapp',
+    'django.contrib.staticfiles',    
     'social_django',
     'ckeditor',
     # 'ckeditor_uploader',
@@ -140,7 +141,11 @@ AUTHENTICATION_BACKENDS = {
     'django.contrib.auth.backends.ModelBackend'
 }
 
+# Registration
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/login'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '136569393640886'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'dc2c5ae890d906791b88108430e43ba8'
@@ -169,8 +174,8 @@ MEDIA_URL = '/media/'
 # Email settings
 #EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 DEFAULT_FROM_EMAIL = 'support@buyusa.support'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'inringame@gmail.com'
-EMAIL_HOST_PASSWORD = 'ginich70x7'
+EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
+EMAIL_HOST_USER = 'AKIAJWUJZ23KKNIL3A5Q'
+EMAIL_HOST_PASSWORD = 'Ao2fmWAa/HxcQWSima4jQlaqidboqqICyw+GBkrrUz0y'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

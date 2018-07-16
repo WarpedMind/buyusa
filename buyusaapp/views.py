@@ -193,8 +193,11 @@ def search(request):
             | Q(BrandCaption1__icontains=title) | Q(BrandCaption2__icontains=title) \
             | Q(BrandCaption3__icontains=title) | Q(BrandCaption4__icontains=title) \
             | Q(BrandCaption5__icontains=title) | Q(BrandCaption6__icontains=title)
-    gigs = Gig.objects.filter(qset)
-    return render(request, 'search.html', {"gigs": gigs,"MEDIA_URL" : settings.MEDIA_URL, 'title': title})
+        gigs = Gig.objects.filter(qset)
+        return render(request, 'search.html', {"gigs": gigs,"MEDIA_URL" : settings.MEDIA_URL, 'title': title})
+    else:
+        return redirect('home')
+
 
 
 def file_save_to_media(photo,photoname='avatar'):
@@ -243,12 +246,7 @@ UNICODE_ASCII_CHARACTER_SET = ('abcdefghijklmnopqrstuvwxyz'
 MAIL_HOST="smtp.handctrl.com"  
 MAIL_USER="postmaster"   
 MAIL_PASS="Zkwl85622611"   
-MAIL_POSTFIX="handctrl.com"  
-
-#MAIL_HOST="smtp.gmail.com"  
-#MAIL_USER="inringame"   
-#MAIL_PASS="ginich70x7"   
-#MAIL_POSTFIX="buyusa.support"
+MAIL_POSTFIX="handctrl.com"
 
 def generate_token(length=32, chars=UNICODE_ASCII_CHARACTER_SET):
     rand = random.SystemRandom()
@@ -602,3 +600,4 @@ def firstlogin(request, token):
         login(request, profile.user,backend='django.contrib.auth.backends.ModelBackend')
         return redirect('home')
     return render(request, 'firstlogin.html', {'profile':profile})
+    

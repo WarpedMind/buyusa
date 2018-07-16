@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %} - Activation Complete{% endblock %}
+
+
+{% block content %}
+<div class="container">
+        <div class="row generic_text">
+            
+            <h2>{% trans "Activation Complete" %}</h2>
+            <p class="margin_small">{% trans "You are now a registered user." %}</p>
+            <p class="margin_small">{% trans "Thank You for supporting America." %}</p>
+            <p class="login_link">Would you like to make a small donation to support our efforts to promote American businesses?</p>
+            <ul><li class="donate_btn activation_donate"><a href="/donate/" ><i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;&nbsp;Donate Now</a></li></ul>
+    </div>
+</div>
+
+
+{% endblock %}

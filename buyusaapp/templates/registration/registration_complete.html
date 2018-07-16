@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %} - Complete Registration{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row generic_text">
+        
+        <p>{% trans "Thank you for your registration!" %}</p>
+        <p>{% trans "You will receive an email with an activation link shortly." %}</p>        
+        
+    </div>
+</div>
+
+{% endblock %}
