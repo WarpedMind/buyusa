@@ -209,16 +209,30 @@ img.img-head {
     color: #fff;
     line-height: 8px;
 }
-.head-t {
-    /*margin: 1em 0;*/
-    margin: 5px 0;
-    float: right;    
+
+
+@media(max-width:5760px){
+    .head-t {
+        /*margin: 1em 0;*/
+        margin: 5px 0;
+        float: right;
+        margin-top: -100px;
+    }
 }
+
+@media(max-width:599px){
+    .head-t {
+        /*margin: 1em 0;*/
+        margin: 5px 0;
+        float: right;        
+    }
+}
+
+
 
 .head-t .card li {        
     text-align: left;
     list-style: none;
-    
 }
 
 .card li a{
@@ -497,7 +511,7 @@ span.fa.fa-shopping-cart.my-cart-icon {
     margin: 0 auto 1em;
 }
 .search-form {
-    width: 55%;
+    width: 95%;
     margin: 0 auto;
 }
 .search-form input[type='text']{	
@@ -2281,7 +2295,7 @@ span.last {
 }
 
 .search-form {
-    width: 60%;
+    width: 95%;
     margin: 0 auto;
 }
 .main-agileits {
@@ -2373,7 +2387,7 @@ p.fo-para {
 
 
 .search-form {
-    width: 70%;
+    width: 95%;
 }
 .carousel-indicators {
     left: 46%;
@@ -2564,14 +2578,11 @@ ul.multi-column-dropdown {
     font-size: 2.8em;
 }
 .search-form {
-    width: 76%;
+    width: 95%;
     margin: 0 auto;
 }
 .banner-info {
     margin: 5em 0;
-}
-.search-form {
-    width: 76%;
 }
 .agileinf {
     padding-top: 0em;
@@ -2666,7 +2677,7 @@ a.at-in {
     font-size: 2em;
 }
 .search-form {
-    width: 93%;
+    width: 95%;
 }
 .banner-info {
     margin: 4em 0;
@@ -2876,6 +2887,9 @@ nav.navbar.navbar-default {
 }
 img.img-head {
     width: 19%;
+}
+.logo{
+    clear: both;
 }
 .logo h1 {
     font-size: 2.2em;
@@ -3178,10 +3192,10 @@ div.spec
 }
 
 .auth_form{
-    margin: auto;    
-    margin-top: 70px;
+    margin: auto;        
     width: 300px;
-    height: 500px;    
+    height: 500px;
+    margin-top: 70px;
 }
 
 .signup_form
@@ -3677,12 +3691,52 @@ li.donate_btn{
 }
 
 
-.inner_slideshow{
-    width: 65%;
-    margin: auto;
+@media(max-width:5760px){
+    .inner_slideshow{
+        width: 65%;
+        margin: auto;
+    }
+}
+
+@media(max-width:1024px){
+    .inner_slideshow{
+        width: 95%;
+        margin: auto;
+    }
 }
 
 .wide_container{
     width: 100%;
     padding: 0;
+}
+
+
+/* Generic */
+.generic_text{
+    
+    margin-top: 70px;    
+    text-align: center;
+    height: 300px;    
+}
+
+.generic_text h2{
+    margin-bottom: 70px;    
+}
+
+.generic_text p.login_link{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: red;
+}
+
+ul li.activation_donate
+{
+    padding: 10px;
+    text-align: center;
+    display: inline;    
+}
+
+body div.container div.row{
+    margin-right: auto;
+    margin-left: auto;
 }

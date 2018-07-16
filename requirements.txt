@@ -21,3 +21,4 @@ django-ckeditor==5.4.0
 Pillow
 payeezy
 xlrd
+django-registration-redux==2.4

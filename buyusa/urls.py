@@ -24,5 +24,6 @@ urlpatterns = [
     url('^social/', include('social.apps.django_app.urls', namespace = 'social')),
     url('^auth/', include(('django.contrib.auth.urls','django.contrib.auth'), namespace = 'auth')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
     url('', include('buyusaapp.urls'))
 ] + static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

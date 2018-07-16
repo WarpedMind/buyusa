@@ -3,6 +3,11 @@
 <div class="header">
 
     <div class="container">
+        
+        <div class="logo">
+            <h1 ><a href="/">BUYUSA.SUPPORT<span>Helping America Buy American</span></a></h1>
+        </div>
+        
         <div class="head-t">
             <ul class="card">
                 {% if user and not user.is_anonymous %}
@@ -16,13 +21,10 @@
                 <li class="donate_btn"><a href="/donate/" ><i class="fa fa-credit-card" aria-hidden="true"></i>Donate</a></li>
                 {% else %}
                 <li><a href="/login/" ><i class="fa fa-sign-in" aria-hidden="true"></i>Login</a></li>
-                <li><a href="/signup/" ><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+                <li><a href="/accounts/register/" ><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
                 <li class="donate_btn"><a href="/donate/" ><i class="fa fa-credit-card" aria-hidden="true"></i>Donate</a></li>
                 {% endif %}
             </ul>
-        </div>
-        <div class="logo">
-            <h1 ><a href="/">BUYUSA.SUPPORT<span>Helping America Buy American</span></a></h1>
         </div>
         
     </div>
