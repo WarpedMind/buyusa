@@ -189,7 +189,7 @@ LOGGING = {
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.FileHandler',
-                'filename': 'D:\Projects\GitHub\buyusa_web\buyusa.log',
+                'filename': 'D:\\Projects\\GitHub\\buyusa_web\\buyusa.log',
                 'formatter': 'verbose',
             },
             'console': {
