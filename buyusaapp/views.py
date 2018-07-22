@@ -18,6 +18,8 @@ import braintree
 braintree.Configuration.configure(braintree.Environment.Sandbox, merchant_id="7968vwncy9mkmwv6", public_key="5k6r27pfddhdx4wb", private_key="3a6cfa52f4b1d37475125a7a5b5117eb")
 
 import payeezy
+import logging
+logger = logging.getLogger("buyusa")
 
 # Create your views here.
 def home(request):
@@ -35,6 +37,7 @@ def gig_detail(request, id):
     try:
         gig = Gig.objects.get(id=id)
     except Gig.DoesNotExist:
+        logger.exception("Error GIG DOES NOT EXIST...")
         return redirect('/')
     
     if request.user.is_anonymous or \
@@ -73,7 +76,9 @@ def create_gig(request):
                 return redirect('my_gigs')
             else:
                 print(gig_form.errors)
+                logger.exception("GIG form error... Data is not valid")
                 error = "Data is not valid"
+                
     else:
         gig_form = GigForm()
     return render(request, 'create_gig.html', {"error": error, "gig_form":gig_form})
@@ -560,6 +565,7 @@ def importdata(request):
                         except Exception as e:
                             exc_type, exc_obj, exc_tb = sys.exc_info()
                             err = '%s Exception. %s' % (exc_tb.tb_lineno, e)
+                            logger.exception(err)
                             errlist.append((err,u'line %s,%s' % ((i+1),','.join([str(sh.row(i)[col_set[x]['col']].value).strip() for x in col_set.keys()]))))
 
                         
@@ -569,6 +575,7 @@ def importdata(request):
         exc_type, exc_obj, exc_tb = sys.exc_info()
         #log.error('%s %s Exception: %s' % (exc_tb.tb_lineno,sys._getframe().f_code.co_name, ex) ) 
         errmsg = '%s Exception: %s' % (exc_tb.tb_lineno,ex)
+        logger.exception(errmsg)
     return render(request, 'importdata.html',{'form':form,'errmsg':errmsg,'errlist':errlist,
                                               'sucess':sucess,'fail':len(errlist)}) 
 
