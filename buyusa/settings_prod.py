@@ -24,7 +24,7 @@ SITE_URL='https://www.buyusa.support'
 SECRET_KEY = '$z-h&j3-_@uiz1++g1m3$f6znq+#f7lc!k+pej#5@9$nz7h=o_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1','stormy-beach-97292.herokuapp.com', 'localhost', 'buyusa.support', 'www.buyusa.support']
 
@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'buyusa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': '/u01/buyusa/data/db.sqlite3',
     }
 }
 
@@ -168,7 +168,7 @@ db_from_env = dj_database_url.config()
 #DATABASES['default'].update(db_from_env)
 
 # Setup upload directory for Gig model
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/u01/buyusa/media'
 MEDIA_URL = '/media/'
 
 # Email settings
@@ -189,7 +189,7 @@ LOGGING = {
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.FileHandler',
-                'filename': 'D:\Projects\GitHub\buyusa_web\buyusa.log',
+                'filename': '/u01/buyusa/logs/buyusa.log',
                 'formatter': 'verbose',
             },
             'console': {
