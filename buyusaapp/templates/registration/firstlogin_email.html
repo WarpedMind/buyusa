@@ -14,24 +14,21 @@
 </p>
 <p>
     {% blocktrans %}
-    To activate this account, please click the following link within the next
-    {{ expiration_days }} days:
+    Your username is: {{ username }}.
+    To view this account, please login and change your password.
     {% endblocktrans %}
 </p>
 
 <p>
-    <a href="http://{{site.domain}}{% url 'registration_activate' activation_key %}">
-        {{site.domain}}{% url 'registration_activate' activation_key %}
+    <a href="http://{{site.domain}}{% url 'firstlogin' login_link %}">
+        {{site.domain}}{% url 'firstlogin' login_link %}
     </a>
 </p>
 
-
-<p>If you'd like to change your password, please visit: <a href="http://{{site.domain}}/resetpassword/">http://{{site.domain}}/resetpassword/</a></p>
-<p>Once you log in, you may visit your profile <a href="http://{{site.domain}}/profile/{{ user.username }}/">http://{{site.domain}}/profile/{{ user.username }}/</a> to update it as you choose.
+<p>Once you log in, you may visit your profile <a href="http://{{site.domain}}/profile/{{ username }}/">http://{{site.domain}}/profile/{{ username }}/</a> to update it as you choose.
     Once your profile is exactly the way you'd like the world to see it, be sure to set the last field to "Published". 
     Until you do, your profile will be hidden.</p>
 <p>Thanks again for joining us and thank you for buying American.</p>
-
 
 <p>
     {% blocktrans with site_name=site.name %}

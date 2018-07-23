@@ -3740,3 +3740,7 @@ body div.container div.row{
     margin-right: auto;
     margin-left: auto;
 }
+
+.fix_bot_margin{
+    margin-bottom: 30px;
+}

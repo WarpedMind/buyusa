@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% blocktrans with site.name as site_name %}
+Thank you for joining BuyUSA.support. We sincerely hope that we can help promote your American business.
+
+Your username is: {{ username }}
+To view this account, please login and change your password.
+
+{% endblocktrans %}
+
+{{site.domain}}{% url 'firstlogin' login_link %}
+
+Once you log in, you may visit your profile http://{{site.domain}}/profile/{{ username }}/ to update it as you choose.
+Once your profile is exactly the way you'd like the world to see it, be sure to set the last field to "Published". Until you do, your profile will be hidden.
+
+{% trans "Sincerely," %}
+{{ site.name }}
