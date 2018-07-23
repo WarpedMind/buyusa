@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -8,6 +9,7 @@ from django.db import transaction, connection
 from django.core.cache import cache
 from django.http import HttpResponseRedirect,HttpResponse,Http404,JsonResponse
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 from .models import Gig, Profile, Purchase, Review, Donate, ImportData
 from .forms import GigForm, SignUpForm, ProfileForm, ImportDataForm
@@ -444,7 +446,7 @@ membership function
 I need a scratch.( draft)
 """
 
-def process_importdata(impdata):
+def process_importdata(impdata, request):
     importedid = '%s-%s' % (impdata.ImportID,impdata.companyid)
     haveprofile = Profile.objects.filter(ImportedCompanyID=importedid)
     if not haveprofile:
@@ -478,12 +480,23 @@ def process_importdata(impdata):
             gig.BrandID = gig.id
             gig.save(update_fields=['BrandID',])
         email = impdata.email
-        sendmailbythread([email,], u'[buyusa] Please do your first login and change password',
-                         u'Please do your first login and change password：%s/firstlogin/%s' % (settings.SITE_URL,user.profile.LoginLink,))
+        site = get_current_site(request)
+        msg_plain = render_to_string('registration/firstlogin_email.txt', {'username': user.username, "login_link": user.profile.LoginLink, "site": site})
+        msg_html = render_to_string('registration/firstlogin_email.html', {'username': user.username, "login_link": user.profile.LoginLink, "site": site})
+        send_mail('BuyUSA.Support Account Setup', msg_plain, 'support@buyusa.support', [email],html_message=msg_html)
+        #sendmailbythread([email,], u'[buyusa] Please do your first login and change password',
+        #                 u'Please do your first login and change password：%s/firstlogin/%s' % (settings.SITE_URL,user.profile.LoginLink,))
 
 @login_required(login_url="/login")
 @transaction.atomic
 def importdata(request):
+    #site = get_current_site(request)
+    #ink = "mEvzv86u8K5pxxDGn1llPy0LCGqmAscv"
+    #email = "batousai_de@hotmail.com"
+    #msg_plain = render_to_string('registration/firstlogin_email.txt', {'username': request.user.username, "login_link": link, "site": site})
+    #msg_html = render_to_string('registration/firstlogin_email.html', {'username': request.user.username, "login_link": link, "site": site})
+    #send_mail('BuyUSA.Support Account Setup', msg_plain, 'support@buyusa.support', [email],html_message=msg_html)
+
     form = None
     errmsg = ''
     errlist=[]
@@ -556,7 +569,7 @@ def importdata(request):
                                 impdata.titleext=sh.row(i)[col_set['TITLEEXT']['col']].value
                                 impdata.ImportSource=request.POST.get('source','')
                                 impdata.ImportID=importid
-                                process_importdata(impdata)
+                                process_importdata(impdata, request)
                                 impdata.save()
                                 sucess+=1
                             else:
@@ -591,13 +604,13 @@ def firstlogin(request, token):
         confirm_password = request.POST.get('confirm_password','').strip()
 
         if not password and not confirm_password:
-            alertmsg = u'password and confirmed password are required'
+            alertmsg = u'Password and confirmed password are required.'
         else:
             if len(password)<6:
-                alertmsg = 'The length of the password can not less than 6.'
+                alertmsg = 'The length of the password can not be less than 6.'
             else:
                 if password != confirm_password:
-                    alertmsg = 'Password and confirmed password are not matched.'
+                    alertmsg = 'Password and confirmed password do not match.'
         if alertmsg:
             return render(request, 'firstlogin.html', {'alertmsg': alertmsg,'profile':profile,
                                                        'password':password,'confirm_password':confirm_password})

@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^donate/$', views.donate, name='donate'),
     
     url(r'^importdata/$', views.importdata, name='importdata'),
-    #url(r'^firstlogin/(?P<token>[\w|-]+)/$', views.firstlogin, name='firstlogin'),    
+    url(r'^firstlogin/(?P<token>[\w|-]+)/$', views.firstlogin, name='firstlogin'),    
 ]
