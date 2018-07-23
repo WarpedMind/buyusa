@@ -479,11 +479,11 @@ def process_importdata(impdata, request):
             gig.save()
             gig.BrandID = gig.id
             gig.save(update_fields=['BrandID',])
-        email = impdata.email
-        site = get_current_site(request)
-        msg_plain = render_to_string('registration/firstlogin_email.txt', {'username': user.username, "login_link": user.profile.LoginLink, "site": site})
-        msg_html = render_to_string('registration/firstlogin_email.html', {'username': user.username, "login_link": user.profile.LoginLink, "site": site})
-        send_mail('BuyUSA.Support Account Setup', msg_plain, 'support@buyusa.support', [email],html_message=msg_html)
+        #email = impdata.email
+        #site = get_current_site(request)
+        #msg_plain = render_to_string('registration/firstlogin_email.txt', {'username': user.username, "login_link": user.profile.LoginLink, "site": site})
+        #msg_html = render_to_string('registration/firstlogin_email.html', {'username': user.username, "login_link": user.profile.LoginLink, "site": site})
+        #send_mail('BuyUSA.Support Account Setup', msg_plain, 'support@buyusa.support', [email],html_message=msg_html)
         #sendmailbythread([email,], u'[buyusa] Please do your first login and change password',
         #                 u'Please do your first login and change password：%s/firstlogin/%s' % (settings.SITE_URL,user.profile.LoginLink,))
 
