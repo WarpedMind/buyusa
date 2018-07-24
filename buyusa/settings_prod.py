@@ -174,9 +174,6 @@ MEDIA_URL = '/media/'
 # Email settings
 #EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 DEFAULT_FROM_EMAIL = 'support@buyusa.support'
-EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
-EMAIL_HOST_USER = 'AKIAJWUJZ23KKNIL3A5Q'
-EMAIL_HOST_PASSWORD = 'Ao2fmWAa/HxcQWSima4jQlaqidboqqICyw+GBkrrUz0y'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
