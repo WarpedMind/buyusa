@@ -3744,3 +3744,20 @@ body div.container div.row{
 .fix_bot_margin{
     margin-bottom: 30px;
 }
+
+/*** EXPORT DATA ***/
+.export_data{
+    height: 300px;
+}
+
+.export_btn{
+    padding: 15px;
+    color: white;
+    background-color: grey;
+    border: 1px solid black;        
+}
+
+.export_btn:hover{
+    text-decoration: none;    
+    color: white;
+}
