@@ -10,7 +10,7 @@
         {% if request.user == profile.user %}
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="jumbotron text-center">                                        
+                <div class="text-center">                                        
                     <div class="panel panel-default profile_inside">
                         <h2>{{ profile.user.username }}</h2>
                         <div class="panel-body">
@@ -106,30 +106,30 @@
             </div>
         </div>
         {% endif %}        
-        
-        <div class="row profile_gigs">
-                <h3 class="text-uppercase">{{ profile.user.username }}'s Brands And Products</h3>
-                {% for gig in gigs %}
-                <div class="col-md-3 pro-1">
-                    <div class="col-m">
-                        <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
-                            <img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt="">
-                        </a>
-                        <div class="mid-1">
-                            <div class="women">
-                                <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
-                            </div>
-                            <div class="mid-2">
-                                <p class="gig_details">{{gig.description|truncatechars:193}}</p>
-                                    
-                                <p class="gig_details where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p>
-                                <div class="clearfix"></div>
-                            </div>                    
+    </div>
+    <div class="row profile_gigs">
+            <h3 class="text-uppercase">{{ profile.user.username }}'s Brands And Products</h3>
+            {% for gig in gigs %}
+            <div class="col-md-3 pro-1">
+                <div class="col-m">
+                    <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
+                        <img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt="">
+                    </a>
+                    <div class="mid-1">
+                        <div class="women">
+                            <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
                         </div>
+                        <div class="mid-2">
+                            <p class="gig_details">{{gig.description|safe|truncatechars:193}}</p>
+                                
+                            <p class="gig_details where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p>
+                            <div class="clearfix"></div>
+                        </div>                    
                     </div>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
+    </div>
         
     {% if request.user == profile.user %}
     <script>
@@ -157,6 +157,6 @@
             
     </script>
     {% endif %}
-    </div>
+    
 </div>
 {% endblock %}
