@@ -16,6 +16,7 @@
                 <li><a href="{% url 'my_gigs' %}" ><i class="fa fa-folder" aria-hidden="true"></i>My Gigs</a></li>                
                     {% if user.is_superuser %}
                         <li><a href="{% url 'importdata' %}" ><i class="fa fa-upload" aria-hidden="true"></i>Import Data</a></li>
+                        <li><a href="{% url 'exportdata' %}" ><i class="fa fa-download" aria-hidden="true"></i>Export Data</a></li>
                     {% endif %}                
                 <li><a href="{% url 'auth:logout' %}?next={{request.path}}" ><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
                 <li class="donate_btn"><a href="/donate/" ><i class="fa fa-credit-card" aria-hidden="true"></i>Donate</a></li>

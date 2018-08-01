@@ -7,7 +7,8 @@ from django.conf import settings
 from django.db.models import Q, Max
 from django.db import transaction, connection
 from django.core.cache import cache
-from django.http import HttpResponseRedirect,HttpResponse,Http404,JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
@@ -17,6 +18,7 @@ from .forms import GigForm, SignUpForm, ProfileForm, ImportDataForm
 import os,random, threading, re, datetime, sys
 import xlrd
 import braintree
+import csv
 braintree.Configuration.configure(braintree.Environment.Sandbox, merchant_id="7968vwncy9mkmwv6", public_key="5k6r27pfddhdx4wb", private_key="3a6cfa52f4b1d37475125a7a5b5117eb")
 
 import payeezy
@@ -620,4 +622,28 @@ def firstlogin(request, token):
         login(request, profile.user,backend='django.contrib.auth.backends.ModelBackend')
         return redirect('home')
     return render(request, 'firstlogin.html', {'profile':profile})
-    
+
+@login_required(login_url="/login")
+def export_import_data(request):
+    # data = download_csv(request, ImportData.objects.all())
+    if not request.user.is_staff:
+        raise PermissionDenied
+    queryset = ImportData.objects.all()
+    opts = queryset.model._meta
+    model = queryset.model
+    response = HttpResponse(content_type='text/csv')
+    # force download.
+    response['Content-Disposition'] = 'attachment;filename=buyusa_export.csv'
+    # the csv writer
+    writer = csv.writer(response)
+    field_names = [field.name for field in opts.fields]
+    # Write a first row with header information
+    writer.writerow(field_names)
+    # Write data rows
+    for obj in queryset:
+        writer.writerow([getattr(obj, field, None) for field in field_names])    
+    return response
+
+
+def exportdata(request):
+    return render(request, 'exportdata.html')

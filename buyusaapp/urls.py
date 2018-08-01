@@ -27,5 +27,7 @@ urlpatterns = [
     url(r'^donate/$', views.donate, name='donate'),
     
     url(r'^importdata/$', views.importdata, name='importdata'),
+    url(r'^exportdata/$', views.exportdata, name='exportdata'),
+    url(r'^export_import_data/$', views.export_import_data, name='export_import_data'),
     url(r'^firstlogin/(?P<token>[\w|-]+)/$', views.firstlogin, name='firstlogin'),    
 ]

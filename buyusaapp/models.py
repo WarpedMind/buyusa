@@ -172,6 +172,6 @@ class ImportData(models.Model):
     # Every record from that import will have whatever the latest incremented number is listed in this column. 
     # For example, for our first import, the number 1 will be in Import ID for every record brought in during the import.
     def __str__(self):
-        return self.company    
-    
+        return self.company
+
     
