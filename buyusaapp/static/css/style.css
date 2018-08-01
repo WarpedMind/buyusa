@@ -3313,10 +3313,9 @@ div.spec
     
     /*border: 2px solid black;
     border-radius: 10px;
-    background-color: grey;*/
-    color:#E04D84;
+    background-color: grey;*/    
     font-weight: bold;
-    font-size: 14px;
+    font-size: 14px;    
 }
 
 .where_to_buy  {
@@ -3358,23 +3357,22 @@ div.spec
 /*** PROFILE ***/
 .profile{
     margin-top: 60px;
+    max-width: 600px;    
 }
 
 .profile h2{
     font-size: 30px;
-    font-weight: bold;
-    color: #029241;    
+    font-weight: bold;    
     margin-bottom: 30px;
 }
 
 .profile_item{
-    width: 70%;
+    
     margin-bottom: 50px;    
 }
 
 .profile_label{
-    margin: auto;
-    color: #E04D84;
+    margin: auto;    
     font-weight: bold;
     float: left;
 }
@@ -3387,7 +3385,7 @@ div.spec
     border: 0px;
     padding: 0px;
     box-shadow: inset 0 0px 0px rgba(0,0,0,.075);
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid black;
     border-radius: 0px;    
 }
 
