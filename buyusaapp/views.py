@@ -30,7 +30,8 @@ logger = logging.getLogger("buyusa")
 # Create your views here.
 def home(request):
     title = request.GET.get('title')
-    gigs = Gig.objects.filter(status=True,Publish=True,user__profile__Publish=True)
+    #gigs = Gig.objects.filter(status=True,Publish=True,user__profile__Publish=True)
+    gigs = None
     return render(request, 'home.html', {"gigs": gigs, "MEDIA_URL" : settings.MEDIA_URL, 'title': title})
 
 def gig_detail(request, id):
@@ -658,7 +659,7 @@ def export_import_data(request):
     writer.writerow(field_names)
     # Write data rows
     for obj in queryset:
-        writer.writerow([getattr(obj, field, None) for field in field_names])    
+        writer.writerow([getattr(obj, field, None) for field in field_names])
     return response
 
 
