@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'ckeditor',
     # 'ckeditor_uploader',
     'social.apps.django_app.default',
+    'crispy_forms',
     # 'django_truncate',
 ]
 
@@ -180,6 +181,8 @@ EMAIL_HOST_PASSWORD = 'applepie76'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+CRISPY_FAIL_SILENTLY = not DEBUG
+DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800
 
 LOGGING = {
     'version': 1,
