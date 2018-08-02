@@ -55,7 +55,10 @@ class ImagePreviewInput(FileInput):
         attrs['accept'] = "image/*"
         base = super(ImagePreviewInput, self).render(name, value, attrs)
         valuedata=''
-        photourl = u'%s%s' % ( settings.STATIC_URL, 'buyusa.png') # default
+        # photourl = u'%s%s' % ( settings.STATIC_URL, 'buyusa.png') # default
+        # photourl = 'http://via.placeholder.com/200x150' # default
+        photourl = u'%s%s' % ( settings.STATIC_URL, 'img/200x150.png') # default
+        
         if value and hasattr(value,'url'):
             photourl = value.url
             valuedata = photourl

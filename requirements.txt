@@ -22,3 +22,4 @@ Pillow
 payeezy
 xlrd
 django-registration-redux==2.4
+django-crispy-forms=1.7.2

@@ -11,6 +11,8 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonRespons
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.template import RequestContext
+from crispy_forms.utils import render_crispy_form
 
 from .models import Gig, Profile, Purchase, Review, Donate, ImportData
 from .forms import GigForm, SignUpForm, ProfileForm, ImportDataForm
@@ -57,6 +59,27 @@ def gig_detail(request, id):
 
 @login_required(login_url="/login")
 def create_gig(request):
+    
+    if request.method == 'POST':        
+        form = GigForm(request.POST, request.FILES)        
+        if form.is_valid():
+            gig = form.save(commit=False)
+            gig.user = request.user
+            gig.CompanyID=gig.user.profile.CompanyID
+            gig.save()
+            gig.BrandID = gig.id
+            gig.save(update_fields=['BrandID',])
+            return redirect('my_gigs')
+    else:
+        form = GigForm()
+
+    errors = form.errors
+    errors_non = form.non_field_errors
+    
+    return render(request, 'create_gig.html', {'gig_form': form, 'gig_errors':errors, 'errors_non':errors_non})
+
+@login_required(login_url="/login")
+def create_gig_old(request):
     error = ''
     if request.method == 'POST':
         gig_form = GigForm(request.POST, request.FILES)
@@ -89,24 +112,18 @@ def create_gig(request):
 
 @login_required(login_url="/login")
 def edit_gig(request, id):
-    try:
+    try:        
         gig = Gig.objects.get(id=id, user=request.user)
-        error = ''
         if request.method == 'POST':
             gig_form = GigForm(request.POST, request.FILES, instance=gig)
-            for imagefield in ['BrandPicture6','BrandPicture5','BrandPicture4','BrandPicture3',
-                               'BrandPicture2','BrandPicture1','BrandLogo']:
-                if not gig_form.data['%s-data' % imagefield]:
-                    error = "%s is required" % imagefield
-            if not error:
-                if gig_form.is_valid():
-                    gig.save()
-                    return redirect('my_gigs')
-                else:
-                    error = "Data is not valid"
+            if gig_form.is_valid():
+                gig.save()
+                return redirect('my_gigs')
         else:
             gig_form = GigForm(instance=gig)
-        return render(request, 'edit_gig.html', {"gig": gig, "error": error, "MEDIA_URL" : settings.MEDIA_URL, "gig_form":gig_form})
+            print('a')
+        gig_form.helper.form_action = "/edit_gig/" + str(gig.id) + "/"
+        return render(request, 'edit_gig.html', {"gig": gig, "gig_form":gig_form})
     except Gig.DoesNotExist:
         return redirect('/')
 
