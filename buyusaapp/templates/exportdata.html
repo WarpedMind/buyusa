@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %} - Import Data{% endblock %}
+{% block title %} - Export Data{% endblock %}
 
 {% block page %}
 <div class="container outer_center">
     <div class="row standard export_data">
           {% if user.is_superuser %}
-          <h2>Data Export</h2>
-          <p><a class="export_btn fa fa-arrow-circle-o-down" href="\export_import_data">&nbsp;&nbsp;Start Export</a></p>
+          <div class="exporting">
+            <p>Export imported data: <a class="export_btn fa fa-arrow-circle-o-down" href="\exportdata?type=import">&nbsp;&nbsp;Start Export</a></p><br />            
+            <p>Export profile data: <a class="export_btn fa fa-arrow-circle-o-down" href="\exportdata?type=profile">&nbsp;&nbsp;Start Export</a></p>                       
+            
+          </div>
           {% endif %}
-      </div>
+    </div>
 </div>
 {% endblock %}

@@ -3748,8 +3748,20 @@ body div.container div.row{
     height: 300px;
 }
 
+.export_data h2{
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.export_data p{    
+    text-align: left;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .export_btn{
-    padding: 15px;
+    padding: 10px;
     color: white;
     background-color: grey;
     border: 1px solid black;        

@@ -641,12 +641,32 @@ def firstlogin(request, token):
         return redirect('home')
     return render(request, 'firstlogin.html', {'profile':profile})
 
-@login_required(login_url="/login")
+
 def export_import_data(request):
     # data = download_csv(request, ImportData.objects.all())
     if not request.user.is_staff:
         raise PermissionDenied
     queryset = ImportData.objects.all()
+    opts = queryset.model._meta
+    model = queryset.model
+    response = HttpResponse(content_type='text/csv')
+    # force download.
+    response['Content-Disposition'] = 'attachment;filename=buyusa_profile_export.csv'
+    # the csv writer
+    writer = csv.writer(response)
+    field_names = [field.name for field in opts.fields]
+    # Write a first row with header information
+    writer.writerow(field_names)
+    # Write data rows
+    for obj in queryset:
+        writer.writerow([getattr(obj, field, None) for field in field_names])
+    return response
+
+def export_profile_data(request):
+    # data = download_csv(request, ImportData.objects.all())
+    if not request.user.is_staff:
+        raise PermissionDenied
+    queryset = Profile.objects.all()
     opts = queryset.model._meta
     model = queryset.model
     response = HttpResponse(content_type='text/csv')
@@ -659,9 +679,24 @@ def export_import_data(request):
     writer.writerow(field_names)
     # Write data rows
     for obj in queryset:
-        writer.writerow([getattr(obj, field, None) for field in field_names])
+        row = []
+        for field in field_names:
+            attr = getattr(obj, field, None)
+            if field == "LoginLink":
+                attr = get_current_site(request).domain + "/firstlogin/" + attr
+            row.append(attr)
+        writer.writerow(row)
+
     return response
 
-
+@login_required(login_url="/login")
 def exportdata(request):
-    return render(request, 'exportdata.html')
+    if not request.user.is_staff:
+        raise PermissionDenied        
+    ex_type = request.GET.get('type')
+    if ex_type == "profile":
+        return export_profile_data(request)
+    elif ex_type == "import":
+        return export_import_data(request)
+    else:
+        return render(request, 'exportdata.html')

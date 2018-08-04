@@ -1,4 +1,5 @@
 {
     "python.linting.pylintEnabled": false,
-    "python.pythonPath": "D:\\Projects\\GitHub\\virtual_environments\\buy_usa_env\\Scripts\\python.exe"
+    "python.pythonPath": "/home/mugi/Desktop/Projects/virtual_envs/buyusa_env/bin/python",
+    //"python.pythonPath": "D:\\Projects\\GitHub\\virtual_environments\\buy_usa_env\\Scripts\\python.exe"    
 }
