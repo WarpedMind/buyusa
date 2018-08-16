@@ -3,20 +3,21 @@
 {% load formfilter %}
 {% load crispy_forms_tags %}
 
-{% block title %} - Create Brand{% endblock %}
+{% block title %} - Create Product{% endblock %}
 
 {% block page %}
 <div class="container">
     <div class="row edit_gig">
         
-        {% if gig_errors  %}
+        {% if product_errors  %}
         <div class="gig_errors">
             
             <h3>Please Correct The Below Errors</h3>
-            {{gig_errors}}
+            {{product_errors}}
         </div>
-        {% endif  %}
-        {% crispy gig_form gig_form.helper %}        
+        {% endif %}
+        {% crispy product_form product_form.helper %}
+        
     </div>
 </div>
 {% endblock %}

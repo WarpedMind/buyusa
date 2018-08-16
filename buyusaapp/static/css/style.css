@@ -3855,3 +3855,36 @@ div.gig_errors li{
 .close{
     margin-top: -8px;
 }
+
+.search_result_item {
+    min-height: 500px;
+}
+
+.prod_button {    
+    background-color: #03a9f4;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    transform: rotate(90deg);
+    transform-origin: left top 0;
+    margin-left: 3px;
+    border: 1px solid #B2B2B2;
+    margin-left: 6px;
+}
+
+.brand_button {
+    background-color: #4CAF50; /* Green */    
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    transform: rotate(90deg);
+    transform-origin: left top 0;
+    margin-left: 3px;
+    border: 1px solid #B2B2B2;
+    margin-left: 6px;
+}
+

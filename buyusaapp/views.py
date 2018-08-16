@@ -13,8 +13,9 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.template import RequestContext
 from crispy_forms.utils import render_crispy_form
+from itertools import chain
 
-from .models import Gig, Profile, Purchase, Review, Donate, ImportData
+from .models import Gig, Profile, Purchase, Review, Donate, ImportData, Product
 from .forms import GigForm, SignUpForm, ProfileForm, ImportDataForm
 
 import os,random, threading, re, datetime, sys
@@ -116,21 +117,26 @@ def edit_gig(request, id):
     try:        
         gig = Gig.objects.get(id=id, user=request.user)
         if request.method == 'POST':
-            gig_form = GigForm(request.POST, request.FILES, instance=gig)
+            gig_form = GigForm(request.POST, request.FILES, instance=gig, edit=True)
             if gig_form.is_valid():
                 gig.save()
                 return redirect('my_gigs')
         else:
-            gig_form = GigForm(instance=gig)
-            print('a')
+            gig_form = GigForm(instance=gig, edit=True)
+
+        errors = gig_form.errors
+        errors_non = gig_form.non_field_errors    
+        
         gig_form.helper.form_action = "/edit_gig/" + str(gig.id) + "/"
-        return render(request, 'edit_gig.html', {"gig": gig, "gig_form":gig_form})
+        return render(request, 'edit_gig.html', {"gig": gig, "gig_form":gig_form, 'gig_errors':errors, 'errors_non':errors_non})
     except Gig.DoesNotExist:
         return redirect('/')
 
+@login_required(login_url="/login")
 def my_gigs(request):
     gigs = Gig.objects.filter(user=request.user)
-    return render(request, 'my_gigs.html', {"gigs": gigs})
+    products = Product.objects.filter(user=request.user)
+    return render(request, 'my_gigs.html', {"gigs": gigs, "products":products})
 
 #@login_required(login_url="/login")
 def profile(request, username):
@@ -220,8 +226,18 @@ def search(request):
             | Q(BrandCaption1__icontains=title) | Q(BrandCaption2__icontains=title) \
             | Q(BrandCaption3__icontains=title) | Q(BrandCaption4__icontains=title) \
             | Q(BrandCaption5__icontains=title) | Q(BrandCaption6__icontains=title)
-        gigs = Gig.objects.filter(qset)
-        return render(request, 'search.html', {"gigs": gigs,"MEDIA_URL" : settings.MEDIA_URL, 'title': title})
+        gigs = list(Gig.objects.filter(qset, Publish=True)[:15])
+
+
+        product_qset = Q(title__icontains=title) \
+            | Q(description__icontains=title) | Q(search_keywords__icontains=title) \
+            | Q(caption1__icontains=title) | Q(caption2__icontains=title) \
+            | Q(caption3__icontains=title) | Q(caption4__icontains=title) \
+            | Q(caption5__icontains=title) | Q(caption6__icontains=title)
+
+        products = list(Product.objects.filter(product_qset, publish=True)[:15])
+        results = gigs + products
+        return render(request, 'search.html', {"gigs": results, "MEDIA_URL" : settings.MEDIA_URL, 'title': title})
     else:
         return redirect('home')
 

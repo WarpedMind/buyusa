@@ -7,14 +7,14 @@
     
 <div class="container">
     <div class="row mygigs">
-        <h1>My Gigs</h1>
+        <h1>My Brands</h1>
         <div class="con-w3l">
             <div class="panel panel-default">
                 <table class="table table-bordered table-striped">
                     <thead class="bg-success">
                         <tr>
                         <th>
-                            <th>Gig Title</th>
+                            <th>Brand Title</th>
                             <!-- <th>Price ($)</th> -->
                             <th>Publish</th>
                         </th>
@@ -34,5 +34,34 @@
             </div>
         </div>
     </div>
+
+    <div class="row mygigs">
+        <h1>My Products</h1>
+        <div class="con-w3l">
+            <div class="panel panel-default">
+                <table class="table table-bordered table-striped">
+                    <thead class="bg-success">
+                        <tr>
+                        <th>
+                            <th>Product Title</th>
+                            <!-- <th>Price ($)</th> -->
+                            <th>Publish</th>
+                        </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'edit_product' product.id%}">{{ product.title }}</a></td>                            
+                            <td>{{ product.get_Publish }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

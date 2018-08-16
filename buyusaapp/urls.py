@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from buyusaapp import views
+from buyusaapp import views, views_product
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
@@ -20,6 +20,10 @@ urlpatterns = [
     url(r'^my_purchases/$', views.my_purchases, name='my_purchases'),
     url(r'^category/(?P<link>[\w|-]+)/$', views.category, name='category'),
     url(r'^search/$', views.search, name='search'),
+
+    url(r'^create_product/$', views_product.create_product, name='create_product'),
+    url(r'^edit_product/(?P<id>[0-9]+)/$', views_product.edit_product, name='edit_product'),
+    url(r'^my_products/$', views_product.my_products, name='my_products'),
     
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     #url(r'^signup/$', views.signup, name='signup'),
