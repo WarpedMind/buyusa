@@ -3888,3 +3888,8 @@ div.gig_errors li{
     margin-left: 6px;
 }
 
+div.gig_detail_div .prod_button_detail{
+    
+    transform-origin: left top 0;
+}
+
