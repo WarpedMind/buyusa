@@ -174,4 +174,46 @@ class ImportData(models.Model):
     def __str__(self):
         return self.company
 
+
+class Product(models.Model):
+
+    title = models.CharField(max_length=500)
+    description = models.CharField(max_length=1000, default='')
+    user = models.ForeignKey(User,on_delete=models.SET_NULL, null=True)
+    brand = models.ForeignKey(Gig,on_delete=models.SET_NULL, null=True)
+    search_keywords = models.CharField(max_length=500, default='')
+    image1 =  models.FileField(upload_to='products')
+    image2 =  models.FileField(upload_to='products')
+    image3 =  models.FileField(upload_to='products')
+    image4 =  models.FileField(upload_to='products')
+    image5 =  models.FileField(upload_to='products')
+    image6 =  models.FileField(upload_to='products')
+    caption1 = models.CharField(max_length=200, default='')
+    caption2 = models.CharField(max_length=200, default='')
+    caption3 = models.CharField(max_length=200, default='')
+    caption4 = models.CharField(max_length=200, default='')
+    caption5 = models.CharField(max_length=200, default='')
+    caption6 = models.CharField(max_length=200, default='')
+    status = models.BooleanField(default=True)
+    create_time = models.DateTimeField(default=timezone.now)
+    modified_time = models.DateTimeField(default=timezone.now)
+    publish = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.create_time = timezone.now()
+        self.modified_time = timezone.now()
+        super(Product, self).save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.title
+
+    def get_Publish(self):
+        rst = 'Published'
+        if not self.publish:
+            rst = 'Unpublished'
+        return rst
+
     

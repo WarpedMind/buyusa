@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Gig, Profile
+from .models import Gig, Profile, Product
 from .widgets import ImagePreviewInput
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Div, Fieldset
@@ -11,7 +11,7 @@ from django.core.exceptions import ValidationError
 
 class GigForm(ModelForm):
 
-    title = forms.CharField(label=u'Brand/Product Name', max_length=200, required=True)
+    title = forms.CharField(label=u'Brand Name', max_length=200, required=True)
     description = forms.CharField(widget=forms.Textarea, max_length=400,label=u'Description', required=True)
     BrandLink = forms.CharField(label=u'Website', required=True)
     BrandCustomerServicePhone = forms.CharField(label=u'Customer Service Phone', required=True)
@@ -56,6 +56,7 @@ class GigForm(ModelForm):
                   'Publish']
 
     def __init__(self, *args, **kwargs):
+        self.edit = kwargs.pop('edit', None)
         super(GigForm, self).__init__(*args, **kwargs)        
         self.helper = FormHelper()
         self.helper.form_id = 'id-gigForm'
@@ -69,7 +70,7 @@ class GigForm(ModelForm):
         self.helper.form_class = 'form-horizontal'
         self.helper.layout = Layout(
             
-            Fieldset('Gig Details', 
+            Fieldset('Brand Details', 
                 Field('title'), 
                 Field('description'),
                 Field('BrandLogo'),
@@ -79,7 +80,7 @@ class GigForm(ModelForm):
                 Field('BrandWhereToBuy'),                
             ),
 
-            Fieldset('Gig Images',
+            Fieldset('Brand Images',
                 Accordion(
                     AccordionGroup('',                        
                         Field('BrandCaption1'), 
@@ -103,10 +104,14 @@ class GigForm(ModelForm):
                 ),                
             ),
 
-            Fieldset('Submit Gig',                 
+            Fieldset('Submit Brand',                 
                 Field('Publish'),
             ),
-        )    
+        )
+
+        if self.edit:
+            self.fields['BrandLogo'].required = False
+            self.fields['BrandPicture1'].required = False        
 
 
 class SignUpForm(UserCreationForm):
@@ -141,3 +146,113 @@ class ProfileForm(ModelForm):
 class ImportDataForm(forms.Form):
     source = forms.CharField(label=u'What is the source of this import?',required=True)
     file = forms.FileField(label=u'data file(Excel file)',required=True)
+
+
+
+class ProductForm(ModelForm):
+
+    title = forms.CharField(label=u'Product Name', max_length=200, required=True)
+    description = forms.CharField(widget=forms.Textarea, max_length=400,label=u'Description', required=True)
+    search_keywords = forms.CharField(widget=forms.Textarea, max_length=400,label=u'Search Keywords', required=False)
+    brand = forms.ModelChoiceField(queryset=Gig.objects.all()[:30], label=u'Brand', required=True)
+
+    caption1 = forms.CharField(label=u'Caption 1', max_length=200, required=True)
+    image1 = forms.ImageField(widget=ImagePreviewInput(),label=u'Image 1',required=True)
+
+    caption2 = forms.CharField(label=u'Caption 2', max_length=200, required=False)
+    image2 = forms.ImageField(widget=ImagePreviewInput(),label=u'Image 2',required=False)
+
+    caption3 = forms.CharField(label=u'Caption 3', max_length=200, required=False)
+    image3 = forms.ImageField(widget=ImagePreviewInput(),label=u'Image 3',required=False)
+
+    caption4 = forms.CharField(label=u'Caption 4', max_length=200, required=False)
+    image4 = forms.ImageField(widget=ImagePreviewInput(),label=u'Image 4',required=False)
+    
+    caption5 = forms.CharField(label=u'Caption 5', max_length=200, required=False)
+    image5 = forms.ImageField(widget=ImagePreviewInput(),label=u'Image 5',required=False)
+    
+    caption6 = forms.CharField(label=u'Caption 6', max_length=200, required=False)
+    image6 = forms.ImageField(widget=ImagePreviewInput(),label=u'Image 6',required=False)    
+    
+    publish = forms.ChoiceField(choices=[(True,'Published'),(False,'Unpublished')])
+    
+    class Meta:
+        model = Product        
+        fields = ['title', 'description', 'brand', 'search_keywords',
+                  'caption1', 'image1',
+                  'caption2', 'image2',
+                  'caption3', 'image3',
+                  'caption4', 'image4',
+                  'caption5', 'image5',
+                  'caption6', 'image6',                  
+                  'publish']
+
+    def __init__(self, *args, **kwargs):
+        self.user_obj = kwargs.pop('user_obj', None)
+        self.edit = kwargs.pop('edit', None)
+        super(ProductForm, self).__init__(*args, **kwargs)        
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-gigForm'
+        self.helper.form_class = 'gigForms'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'create_product'
+        self.helper.form_show_errors = True
+        self.helper.error_text_inline = True
+        self.helper.help_text_inline = False
+        self.helper.add_input(Submit('submit', 'Save'))
+        self.helper.form_class = 'form-horizontal'
+        self.helper.layout = Layout(
+            
+            Fieldset('Product Details', 
+                Field('title'), 
+                Field('brand'), 
+                Field('description'),
+                Field('search_keywords'),
+            ),
+
+            Fieldset('Product Images',
+                Accordion(
+                    AccordionGroup('',                        
+                        Field('caption1'), 
+                        Field('image1'),
+                        Alert(content='<strong>Keep total image uploads less than 50MB...</strong>'),
+                        css_id = "first_gig_image",
+                        css_class='button white'
+                    ),
+                    AccordionGroup('Add More Images', 
+                        Field('caption2'), 
+                        Field('image2'),
+                        Field('caption3'), 
+                        Field('image3'),
+                        Field('caption4'), 
+                        Field('image4'),
+                        Field('caption5'), 
+                        Field('image5'),
+                        Field('caption6'), 
+                        Field('image6')
+                    ),
+                ),                
+            ),
+
+            Fieldset('Submit Product',                 
+                Field('publish'),
+            ),
+        )
+
+        if self.edit:
+            self.fields['image1'].required = False
+
+        if self.user_obj:
+            gig_ids = [gig.id for gig in Gig.objects.filter(user=self.user_obj)[:30]] # workaround bcuz u cant slice and then filter a queryset            
+            self.fields['brand'].queryset = Gig.objects.filter(user=self.user_obj, id__in=gig_ids)
+
+    '''
+    def clean_brand(self):
+        brand = self.cleaned_data['brand']
+        possible_brands = Gig.objects.filter(user=self.user)
+        for bran in possible_brands:
+            if bran.title == brand:
+                return brand
+        raise ValidationError("Brand does not exist for user")
+        return None
+    '''

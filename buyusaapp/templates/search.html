@@ -26,10 +26,34 @@
         </div>
         
 
-        <div class="con-w3l row">            
+        <div class="con-w3l row">
+
         {% for gig in gigs %}
             <div class="col-md-3 pro-1">
-                <div class="col-m">
+
+                {% if gig.brand %} <!-- If this is a product -->
+                <div class="col-m search_result_item">
+                    <button class="prod_button" disabled>PRODUCT</button>
+                    <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
+                        <img src="/media/{{ gig.image1 }}" class="img-responsive" alt="">
+                    </a>
+                    <div class="mid-1">
+                        <div class="women">
+                            <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
+                        </div>
+                        <div class="mid-2">
+                            <p class="gig_details">{{gig.description|safe|truncatechars:193}}</p>
+                                
+                            <p class="gig_details where_to_buy">{{gig.brand.BrandWhereToBuy|commaSplit|safe}}</p>
+                            <div class="clearfix"></div>
+                        </div>                    
+                    </div>
+                </div>
+
+                {% else %}
+
+                <div class="col-m search_result_item">
+                    <button class="brand_button" disabled>BRAND</button>
                     <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
                         <img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt="">
                     </a>
@@ -44,7 +68,10 @@
                             <div class="clearfix"></div>
                         </div>                    
                     </div>
-                </div>
+                </div>                    
+
+                {% endif %}
+
             </div>
         {% endfor %}
         </div>
