@@ -29,18 +29,20 @@ logger = logging.getLogger("buyusa")
 
 
 def product_detail(request, id):
+    '''
     if request.method == 'POST' and \
         not request.user.is_anonymous() and \
         Purchase.objects.filter(gig_id=id, buyer=request.user).count() > 0 and \
         'content' in request.POST and \
         request.POST['content'].strip() != '':
         Review.objects.create(content=request.POST['content'], gig_id=id, user=request.user )
+    '''
     try:
-        gig = Product.objects.get(id=id)
+        product = Product.objects.get(id=id)
     except Product.DoesNotExist:
         logger.exception("Error Product DOES NOT EXIST...")
         return redirect('/')
-    
+    '''
     if request.user.is_anonymous or \
         Purchase.objects.filter(gig=gig, buyer=request.user).count() == 0 or \
         Review.objects.filter(gig=gig, user=request.user).count() > 0:
@@ -48,9 +50,12 @@ def product_detail(request, id):
     else:
         show_post_review = Purchase.objects.filter(gig=gig, buyer=request.user).count() > 0
     reviews = Review.objects.filter(gig=gig)
+    
     client_token = braintree.ClientToken.generate()
-    return render(request, 'gig_detail.html', {"show_post_review": show_post_review, "reviews":reviews, "gig": gig, 
+    return render(request, 'product_detail.html', {"show_post_review": show_post_review, "reviews":reviews, "product": product, 
                                                "client_token": client_token , "MEDIA_URL" : settings.MEDIA_URL, })
+    '''
+    return render(request, 'product_detail.html', {"product": product, "MEDIA_URL" : settings.MEDIA_URL })
 
 @login_required(login_url="/login")
 def create_product(request):

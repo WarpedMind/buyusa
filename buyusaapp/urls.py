@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^coming_soon/$', TemplateView.as_view(template_name="coming_soon.html", content_type="text/html"), name="coming_soon"),
     url(r'^disclaimer/$', TemplateView.as_view(template_name="disclaimer.html", content_type="text/html"), name="disclaimer"),
     url(r'^gigs/(?P<id>[0-9]+)/$', views.gig_detail, name='gig_detail'),
+    url(r'^products/(?P<id>[0-9]+)/$', views_product.product_detail, name='product_detail'),
     url(r'^my_gigs/$', views.my_gigs, name='my_gigs'),
     url(r'^create_gig/$', views.create_gig, name='create_gig'),
     url(r'^edit_gig/(?P<id>[0-9]+)/$', views.edit_gig, name='edit_gig'),

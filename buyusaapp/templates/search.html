@@ -34,12 +34,12 @@
                 {% if gig.brand %} <!-- If this is a product -->
                 <div class="col-m search_result_item">
                     <button class="prod_button" disabled>PRODUCT</button>
-                    <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
+                    <a href="{% url 'product_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
                         <img src="/media/{{ gig.image1 }}" class="img-responsive" alt="">
                     </a>
                     <div class="mid-1">
                         <div class="women">
-                            <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
+                            <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
                         </div>
                         <div class="mid-2">
                             <p class="gig_details">{{gig.description|safe|truncatechars:193}}</p>
