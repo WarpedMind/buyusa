@@ -14,6 +14,7 @@ from django.template.loader import render_to_string
 from django.template import RequestContext
 from crispy_forms.utils import render_crispy_form
 from itertools import chain
+from django.db import connection
 
 from .models import Gig, Profile, Purchase, Review, Donate, ImportData, Product
 from .forms import GigForm, SignUpForm, ProfileForm, ImportDataForm
@@ -214,10 +215,26 @@ def category(request, link):
     except KeyError:
         return redirect('home')
 
+def search_products_brands(self, title):
+    cursor = connection.cursor()
+    cursor.execute("select id_noga from myapp_Tnogahist a inner join myapp_Tdzien b on a.dziens=b.dziens where b.dzienrok = 1234")
+    row = cursor.fetchone()
+    return row
+
 
 def search(request):
     qset=Q()
     title = request.GET.get('title')
+    page = request.GET.get('page')
+
+    '''
+    contact_list = Contacts.objects.all()
+    paginator = Paginator(contact_list, 25) # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    contacts = paginator.get_page(page)
+    '''
+
     if title:
         qset = Q(title__icontains=title) | Q(category__icontains=title) \
             | Q(description__icontains=title) | Q(BrandLink__icontains=title) \
@@ -227,6 +244,7 @@ def search(request):
             | Q(BrandCaption3__icontains=title) | Q(BrandCaption4__icontains=title) \
             | Q(BrandCaption5__icontains=title) | Q(BrandCaption6__icontains=title)
         gigs = list(Gig.objects.filter(qset, Publish=True)[:15])
+        paginator = Paginator(contact_list, 25)
 
 
         product_qset = Q(title__icontains=title) \
@@ -546,9 +564,10 @@ def importdata(request):
                 if importid == None:
                     importid = 1
                 else:
-                    importid += 1
+                    importid += 1                
                 file_ = form.cleaned_data['file']
-                bk = xlrd.open_workbook(file_contents=file_.file.getvalue())
+                bk = xlrd.open_workbook(file_contents=file_.read())
+                #bk = xlrd.open_workbook(file_contents=file_.file.getvalue())
                 if len(bk.sheets()) > 0:
                     col_set={
                         'COMPANYID':{'col':None,'cache':{},'errcache':[],'required':True},
@@ -569,23 +588,26 @@ def importdata(request):
                     }
                     sh = bk.sheets()[0]
                     for i in range(sh.nrows):
-                        if i == 0:
-                            continue
-                        if i == 1:
+                        if i == 0:                        
                             for j in range(sh.ncols):
-                                v = sh.row(i)[j].value.strip().upper()
+                                cell_data = str(sh.row(i)[j].value)
+                                logger.info(cell_data)
+                                v = cell_data.strip().upper()
                                 xxx = [key for key, value in col_set.items() if v==key]
                                 if len(xxx) > 0:
                                     col_set[xxx[0]]['col'] = j
-                            for k,v in col_set.items():
+                            for k,v in col_set.items():                                
                                 if v['required'] and v['col'] == None:
                                     err= u'Error: no  “%s” column' % k
+                                    logger.info(cell_data)
                                     raise Exception(err)
+                                    
                             continue
                         try:
-                            havedone = ImportData.objects.filter(companyid=sh.row(i)[col_set['COMPANYID']['col']].value,
-                                                                 company=sh.row(i)[col_set['COMPANY']['col']].value,
-                                                                 )
+                            tempval = col_set['COMPANYID']['col']
+                            compid = sh.row(i)[tempval].value
+                            comp = sh.row(i)[col_set['COMPANY']['col']].value
+                            havedone = ImportData.objects.filter(companyid=compid, company=comp)
                             if not havedone:
                                 impdata = ImportData()
                                 impdata.companyid=sh.row(i)[col_set['COMPANYID']['col']].value
@@ -625,8 +647,7 @@ def importdata(request):
         #log.error('%s %s Exception: %s' % (exc_tb.tb_lineno,sys._getframe().f_code.co_name, ex) ) 
         errmsg = '%s Exception: %s' % (exc_tb.tb_lineno,ex)
         logger.exception(errmsg)
-    return render(request, 'importdata.html',{'form':form,'errmsg':errmsg,'errlist':errlist,
-                                              'sucess':sucess,'fail':len(errlist)}) 
+    return render(request, 'importdata.html',{'form':form,'errmsg':errmsg,'errlist':errlist, 'sucess':sucess,'fail':len(errlist)})
 
 
 def firstlogin(request, token):
