@@ -15,7 +15,7 @@
 
 <script type="text/javascript">
 
-    var brand_page = 1;
+    var brand_page = 0;
     var product_page = 1;
 
     function openCity(evt, cityName) {
@@ -30,6 +30,38 @@
         }
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
+    }
+
+    function truncate(text, length){
+        if (text.length > length){
+            return text.substring(0,length) + "...";        
+        }
+        else{
+            return text;
+        }
+    }
+
+    function safe(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function commaSplit(text){        
+        parts = text.split(',')
+        output = []
+        var cnt = parts.length;
+        for(i=0;i<cnt;i++)
+        {
+            var part = parts[i];
+            output.push("<span>" + capitalizeFirstLetter(part.trim()) + "</span>")
+            if( i >= 6){
+                break;
+            }                
+        }
+        return output.join();
     }
 
     function loadMore(evt, obj_type, title) {
@@ -51,26 +83,37 @@
                     alert(data.error_message);
                 }
                 console.log(data);
-                
 
-                var brand_html = '<div class="col-md-3"> ' +
-                    '<div class="search_result_item"> ' +
-                        ' <button class="brand_button" disabled>BRAND</button> ' +
-                        '<div class="clearfix"></div> ' +
-                        '<a href="{% url \'gig_detail\' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img"> ' +
-                            '<img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt=""> </a>' +                        
-                        '<div class="mid-1">' +
-                            '<div class="women"> ' +
-                                '<h6><a href="{% url \'gig_detail\' gig.id %}">{{gig.title|truncatechars:78}}</a></h6> ' +
-                            '</div> ' +
-                            '<div class="mid-2"> ' +
-                                '<p class="gig_details">{{gig.description|safe|truncatechars:193}}</p> ' +
-                                '<p class="gig_details where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p> ' +
-                                '<div class="clearfix"></div> ' +
+                
+                for(key in data) {                    
+                    var gig = data[key];
+                    //console.log(gig)
+
+                    console.log('{{gig.title|truncatechars:78}}');
+
+                    var brand_html = '<div class="col-md-3"> ' +
+                        '<div class="search_result_item"> ' +
+                            ' <button class="brand_button" disabled>BRAND</button> ' +
+                            '<div class="clearfix"></div> ' +
+                            '<a href="/gigs/' + gig.id + '" data-toggle="modal" data-target="#myModal17" class="offer-img"> ' +
+                                '<img src="/media/' + gig.BrandPicture1 + '" class="img-responsive" alt=""> </a>' +                        
+                            '<div class="mid-1">' +
+                                '<div class="women"> ' +
+                                    '<h6><a href="/gigs/' + gig.id + '">' + truncate(gig.title,78) + '</a></h6> ' +
+                                '</div> ' +
+                                '<div class="mid-2"> ' +
+                                    '<p class="gig_details">'+ truncate(gig.description, 193) +'</p> ' +
+                                    '<p class="gig_details where_to_buy">' + commaSplit(safe(gig.BrandWhereToBuy)) + '</p> ' +
+                                    '<div class="clearfix"></div> ' +
+                                '</div> ' +
                             '</div> ' +
                         '</div> ' +
-                    '</div> ' +
-                '</div> ';
+                    '</div> ';
+    
+                    $('#Brands').append(brand_html);
+                }
+
+                
             }
         });
     }
