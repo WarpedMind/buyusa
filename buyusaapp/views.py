@@ -15,9 +15,11 @@ from django.template import RequestContext
 from crispy_forms.utils import render_crispy_form
 from itertools import chain
 from django.db import connection
-
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import JsonResponse
 from .models import Gig, Profile, Purchase, Review, Donate, ImportData, Product
 from .forms import GigForm, SignUpForm, ProfileForm, ImportDataForm
+
 
 import os,random, threading, re, datetime, sys
 import xlrd
@@ -222,10 +224,50 @@ def search_products_brands(self, title):
     return row
 
 
+def search_show_more(request):
+    
+    title = request.GET.get('title')
+    obj_type = request.GET.get('obj_type')
+    page = request.GET.get('page')
+
+    if title and obj_type and page:
+
+        if obj_type == "brand":
+            qset = Q(title__icontains=title) | Q(category__icontains=title) \
+                | Q(description__icontains=title) | Q(BrandLink__icontains=title) \
+                | Q(BrandCustomerServicePhone__icontains=title) | Q(BrandSearch__icontains=title) \
+                | Q(BrandWhereToBuy__icontains=title) \
+                | Q(BrandCaption1__icontains=title) | Q(BrandCaption2__icontains=title) \
+                | Q(BrandCaption3__icontains=title) | Q(BrandCaption4__icontains=title) \
+                | Q(BrandCaption5__icontains=title) | Q(BrandCaption6__icontains=title)
+            gigs = Gig.objects.filter(qset, Publish=True).values()
+            gigs_count = gigs.count()
+            paginator = Paginator(gigs, 24)
+            gigs_p = list(paginator.get_page(page))
+            return JsonResponse(gigs_p, safe=False)
+        else:
+            product_qset = Q(title__icontains=title) \
+                | Q(description__icontains=title) | Q(search_keywords__icontains=title) \
+                | Q(caption1__icontains=title) | Q(caption2__icontains=title) \
+                | Q(caption3__icontains=title) | Q(caption4__icontains=title) \
+                | Q(caption5__icontains=title) | Q(caption6__icontains=title)
+
+            products = Product.objects.filter(product_qset, publish=True).values
+            products_count = products.count()
+            paginator_prods = Paginator(products, 24)
+            prods_p = list(paginator_prods.get_page(page))
+            return JsonResponse(prods_p, safe=False)
+        
+    else:
+        return JsonResponse({'error':'title, page or object type missing from url query...'})
+
+
+
+
 def search(request):
     qset=Q()
     title = request.GET.get('title')
-    page = request.GET.get('page')
+    gig_page = request.GET.get('page')
 
     '''
     contact_list = Contacts.objects.all()
@@ -243,9 +285,10 @@ def search(request):
             | Q(BrandCaption1__icontains=title) | Q(BrandCaption2__icontains=title) \
             | Q(BrandCaption3__icontains=title) | Q(BrandCaption4__icontains=title) \
             | Q(BrandCaption5__icontains=title) | Q(BrandCaption6__icontains=title)
-        gigs = list(Gig.objects.filter(qset, Publish=True)[:15])
-        paginator = Paginator(contact_list, 25)
-
+        gigs = Gig.objects.filter(qset, Publish=True)
+        gigs_count = gigs.count()
+        paginator = Paginator(gigs, 24)
+        gigs_p = paginator.get_page('1')
 
         product_qset = Q(title__icontains=title) \
             | Q(description__icontains=title) | Q(search_keywords__icontains=title) \
@@ -253,12 +296,15 @@ def search(request):
             | Q(caption3__icontains=title) | Q(caption4__icontains=title) \
             | Q(caption5__icontains=title) | Q(caption6__icontains=title)
 
-        products = list(Product.objects.filter(product_qset, publish=True)[:15])
-        results = gigs + products
-        return render(request, 'search.html', {"gigs": results, "MEDIA_URL" : settings.MEDIA_URL, 'title': title})
+        products = Product.objects.filter(product_qset, publish=True)
+        products_count = products.count()
+        paginator_prods = Paginator(products, 24)
+        prods_p = paginator_prods.get_page('1')
+
+        return render(request, 'search.html', {"brands": gigs_p, "products": prods_p, "MEDIA_URL" : settings.MEDIA_URL, 'title': title, 
+        "brands_count":gigs_count, "products_count": products_count})
     else:
         return redirect('home')
-
 
 
 def file_save_to_media(photo,photoname='avatar'):
