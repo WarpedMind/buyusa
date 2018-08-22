@@ -217,11 +217,31 @@ def category(request, link):
     except KeyError:
         return redirect('home')
 
-def search_products_brands(self, title):
-    cursor = connection.cursor()
-    cursor.execute("select id_noga from myapp_Tnogahist a inner join myapp_Tdzien b on a.dziens=b.dziens where b.dzienrok = 1234")
-    row = cursor.fetchone()
-    return row
+
+def query_brands(title, page):
+    qset = Q(title__icontains=title) | Q(category__icontains=title) \
+            | Q(description__icontains=title) | Q(BrandLink__icontains=title) \
+            | Q(BrandCustomerServicePhone__icontains=title) | Q(BrandSearch__icontains=title) \
+            | Q(BrandWhereToBuy__icontains=title) \
+            | Q(BrandCaption1__icontains=title) | Q(BrandCaption2__icontains=title) \
+            | Q(BrandCaption3__icontains=title) | Q(BrandCaption4__icontains=title) \
+            | Q(BrandCaption5__icontains=title) | Q(BrandCaption6__icontains=title)
+    gigs = Gig.objects.filter(qset, Publish=True).order_by('create_time')
+    paginator = Paginator(gigs, settings.SEARCH_RESULTS_PER_PAGE)
+    return paginator.get_page(page)
+
+
+def query_products(title, page):
+    product_qset = Q(title__icontains=title) \
+            | Q(description__icontains=title) | Q(search_keywords__icontains=title) \
+            | Q(caption1__icontains=title) | Q(caption2__icontains=title) \
+            | Q(caption3__icontains=title) | Q(caption4__icontains=title) \
+            | Q(caption5__icontains=title) | Q(caption6__icontains=title)
+
+    products = Product.objects.filter(product_qset, publish=True).order_by('create_time')
+    paginator_prods = Paginator(products, settings.SEARCH_RESULTS_PER_PAGE)
+    return paginator_prods.get_page(page)
+
 
 
 def search_show_more(request):
@@ -231,78 +251,25 @@ def search_show_more(request):
     page = request.GET.get('page')
 
     if title and obj_type and page:
-
-        if obj_type == "brand":
-            qset = Q(title__icontains=title) | Q(category__icontains=title) \
-                | Q(description__icontains=title) | Q(BrandLink__icontains=title) \
-                | Q(BrandCustomerServicePhone__icontains=title) | Q(BrandSearch__icontains=title) \
-                | Q(BrandWhereToBuy__icontains=title) \
-                | Q(BrandCaption1__icontains=title) | Q(BrandCaption2__icontains=title) \
-                | Q(BrandCaption3__icontains=title) | Q(BrandCaption4__icontains=title) \
-                | Q(BrandCaption5__icontains=title) | Q(BrandCaption6__icontains=title)
-            gigs = Gig.objects.filter(qset, Publish=True).values()
-            gigs_count = gigs.count()
-            paginator = Paginator(gigs, 24)
-            gigs_p = list(paginator.get_page(page))
-            return JsonResponse(gigs_p, safe=False)
-        else:
-            product_qset = Q(title__icontains=title) \
-                | Q(description__icontains=title) | Q(search_keywords__icontains=title) \
-                | Q(caption1__icontains=title) | Q(caption2__icontains=title) \
-                | Q(caption3__icontains=title) | Q(caption4__icontains=title) \
-                | Q(caption5__icontains=title) | Q(caption6__icontains=title)
-
-            products = Product.objects.filter(product_qset, publish=True).values
-            products_count = products.count()
-            paginator_prods = Paginator(products, 24)
-            prods_p = list(paginator_prods.get_page(page))
-            return JsonResponse(prods_p, safe=False)
-        
+        try:
+            results = query_brands(title, page) if obj_type == "brand" else query_products(title, page)
+            result_string = render_to_string('search_items_display.html', {'results': results, 'title': title})
+            return JsonResponse(result_string, safe=False)
+        except Exception as ex:
+            return JsonResponse({'error':str(ex)})
     else:
         return JsonResponse({'error':'title, page or object type missing from url query...'})
-
-
-
+        
 
 def search(request):
     qset=Q()
     title = request.GET.get('title')
-    gig_page = request.GET.get('page')
-
-    '''
-    contact_list = Contacts.objects.all()
-    paginator = Paginator(contact_list, 25) # Show 25 contacts per page
-
     page = request.GET.get('page')
-    contacts = paginator.get_page(page)
-    '''
 
     if title:
-        qset = Q(title__icontains=title) | Q(category__icontains=title) \
-            | Q(description__icontains=title) | Q(BrandLink__icontains=title) \
-            | Q(BrandCustomerServicePhone__icontains=title) | Q(BrandSearch__icontains=title) \
-            | Q(BrandWhereToBuy__icontains=title) \
-            | Q(BrandCaption1__icontains=title) | Q(BrandCaption2__icontains=title) \
-            | Q(BrandCaption3__icontains=title) | Q(BrandCaption4__icontains=title) \
-            | Q(BrandCaption5__icontains=title) | Q(BrandCaption6__icontains=title)
-        gigs = Gig.objects.filter(qset, Publish=True)
-        gigs_count = gigs.count()
-        paginator = Paginator(gigs, 24)
-        gigs_p = paginator.get_page('1')
-
-        product_qset = Q(title__icontains=title) \
-            | Q(description__icontains=title) | Q(search_keywords__icontains=title) \
-            | Q(caption1__icontains=title) | Q(caption2__icontains=title) \
-            | Q(caption3__icontains=title) | Q(caption4__icontains=title) \
-            | Q(caption5__icontains=title) | Q(caption6__icontains=title)
-
-        products = Product.objects.filter(product_qset, publish=True)
-        products_count = products.count()
-        paginator_prods = Paginator(products, 24)
-        prods_p = paginator_prods.get_page('1')
-
-        return render(request, 'search.html', {"brands": gigs_p, "products": prods_p, "MEDIA_URL" : settings.MEDIA_URL, 'title': title, 
-        "brands_count":gigs_count, "products_count": products_count})
+        gigs_page = query_brands(title, '1')
+        prods_page = query_products(title, '1')
+        return render(request, 'search.html', {"brands": gigs_page, "products": prods_page, "MEDIA_URL" : settings.MEDIA_URL, 'title': title })
     else:
         return redirect('home')
 

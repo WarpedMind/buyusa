@@ -3858,8 +3858,9 @@ div.gig_errors li{
 }
 
 .search_result_item {
-    min-height: 500px;
+    min-height: 505px;
     margin-top: 30px;
+    margin-bottom: 30px;
     border: 1px solid #B2B2B2;
     padding: 10px;
 }
@@ -3901,7 +3902,7 @@ div[class*="col"]{padding-left:5px; padding-right:5px;} /* Fix for bootstrap 3 g
 }
 
 .product_button_details{
-    background-color: #03a9f4; /* Green */
+    background-color: #03a9f4;
     color: white;
     border: 1px solid #B2B2B2;
     font-size: 12px;
@@ -3965,4 +3966,32 @@ div.gig_detail_div .prod_button_detail {
 
 .result_counts h4 {
     margin-bottom: 10px;
+}
+
+.show_more_button{
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #B2B2B2;
+    background-color: #4CAF50;
+    font-size: 16px;
+    padding: 10px;
+    width: 150px;
+    color: white;    
+    display: block;
+    margin-top: 30px;
+    clear: both;
+}
+
+.show_more_button_product{
+    background-color: #03a9f4;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #B2B2B2;
+    font-size: 16px;
+    padding: 10px;
+    width: 150px;
+    color: white;    
+    display: block;
+    margin-top: 30px;
+    clear: both;
 }

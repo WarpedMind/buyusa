@@ -15,7 +15,7 @@
 
 <script type="text/javascript">
 
-    var brand_page = 0;
+    var brand_page = 1;
     var product_page = 1;
 
     function openCity(evt, cityName) {
@@ -30,39 +30,7 @@
         }
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
-    }
-
-    function truncate(text, length){
-        if (text.length > length){
-            return text.substring(0,length) + "...";        
-        }
-        else{
-            return text;
-        }
-    }
-
-    function safe(str) {
-        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    function commaSplit(text){        
-        parts = text.split(',')
-        output = []
-        var cnt = parts.length;
-        for(i=0;i<cnt;i++)
-        {
-            var part = parts[i];
-            output.push("<span>" + capitalizeFirstLetter(part.trim()) + "</span>")
-            if( i >= 6){
-                break;
-            }                
-        }
-        return output.join();
-    }
+    }    
 
     function loadMore(evt, obj_type, title) {
         var page_to_get = 1
@@ -79,41 +47,15 @@
             url: '{% url "search_show_more" %}?obj_type=' + obj_type + '&title=' + title + '&page=' + page_to_get,
             dataType: 'json',
             success: function (data) {
-                if (data.is_taken) {
-                    alert(data.error_message);
+                //console.log(data);
+                if(obj_type == "brand"){
+                    $('.show_more_button').remove();
+                    $('#Brands').append(data).show('slow');
                 }
-                console.log(data);
-
-                
-                for(key in data) {                    
-                    var gig = data[key];
-                    //console.log(gig)
-
-                    console.log('{{gig.title|truncatechars:78}}');
-
-                    var brand_html = '<div class="col-md-3"> ' +
-                        '<div class="search_result_item"> ' +
-                            ' <button class="brand_button" disabled>BRAND</button> ' +
-                            '<div class="clearfix"></div> ' +
-                            '<a href="/gigs/' + gig.id + '" data-toggle="modal" data-target="#myModal17" class="offer-img"> ' +
-                                '<img src="/media/' + gig.BrandPicture1 + '" class="img-responsive" alt=""> </a>' +                        
-                            '<div class="mid-1">' +
-                                '<div class="women"> ' +
-                                    '<h6><a href="/gigs/' + gig.id + '">' + truncate(gig.title,78) + '</a></h6> ' +
-                                '</div> ' +
-                                '<div class="mid-2"> ' +
-                                    '<p class="gig_details">'+ truncate(gig.description, 193) +'</p> ' +
-                                    '<p class="gig_details where_to_buy">' + commaSplit(safe(gig.BrandWhereToBuy)) + '</p> ' +
-                                    '<div class="clearfix"></div> ' +
-                                '</div> ' +
-                            '</div> ' +
-                        '</div> ' +
-                    '</div> ';
-    
-                    $('#Brands').append(brand_html);
+                else{
+                    $('.show_more_button_product').remove();
+                    $('#Products').append(data).show('slow');
                 }
-
-                
             }
         });
     }
@@ -130,8 +72,8 @@
         
         <div class="col-md-12">
             <div class="result_counts">
-                <h4>Brands found: <span>{{ brands_count }}</span><h4>
-                <h4>Products found: <span>{{ products_count }}</span><h4>
+                <h4>Brands found: <span>{{ brands.paginator.count }}</span><h4>
+                <h4>Products found: <span>{{ products.paginator.count }}</span><h4>
             </div>
             <div class="clearfix"></div>
             <h4 class="search_term">Searched for: <span>{{title|safe|truncatechars:50}}</span></h4>
@@ -142,57 +84,11 @@
             </div>
         
             <div id="Brands" class="tabcontent">
-                <button class="show_more_button" onclick="loadMore(event, 'brand', '{{ title }}')">Show More</button>
-            {% for gig in brands %}
-            
-            <div class="col-md-3">
-                <div class="search_result_item">
-                    <button class="brand_button" disabled>BRAND</button>
-                    <div class="clearfix"></div>
-                    <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
-                        <img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt="">
-                    </a>
-                    <div class="mid-1">
-                        <div class="women">
-                            <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
-                        </div>
-                        <div class="mid-2">
-                            <p class="gig_details">{{gig.description|safe|truncatechars:193}}</p>                                
-                            <p class="gig_details where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            
-            </div>  
-            
+                {% include "search_items_display.html" with results=brands title=title %}
+            </div>            
             
             <div id="Products" class="tabcontent">
-                {% for gig in products %}
-                <div class="col-md-3">
-                    <div class="search_result_item">
-                        <button class="prod_button" disabled>PRODUCT</button>
-                        <div class="clearfix"></div>
-                        <a href="{% url 'product_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
-                            <img src="/media/{{ gig.image1 }}" class="img-responsive" alt="">
-                        </a>
-                        <div class="mid-1">
-                            <div class="women">
-                                <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
-                            </div>
-                            <div class="mid-2">
-                                <p class="gig_details">{{gig.description|safe|truncatechars:193}}</p>
-                                    
-                                <p class="gig_details where_to_buy">{{gig.brand.BrandWhereToBuy|commaSplit|safe}}</p>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                    </div>                    
-                </div>
-                {% endfor %}
-                
+                {% include "search_items_display.html" with results=products title=title %}
             </div>
             
         </div>       
