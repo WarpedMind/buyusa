@@ -19,7 +19,7 @@
             <img id="thumb4" src="/media/{{ product.image3 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
             <img id="thumb5" src="/media/{{ product.image4 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
         </div>
-        <button class="prod_button" disabled>PRODUCT</button>
+        <button class="product_button_details" disabled>PRODUCT</button>
         <div class="col-md-5 single-top">
                 
             <div class="single-w3agile">
@@ -37,7 +37,7 @@
         
         <div class="col-md-7 single-top-left ">
             <div class="single-right">
-                <h3>{{ gig.title }}</h3>
+                <h3>{{ product.title }}</h3>
                 <div class="gig_brand_cat">
                     <img src="{% if product.brand.user.profile %} {{ product.brand.user.profile.avatar }} {% else %} {% static 'img/avatar.png' %} {% endif %}" class="img-circle center-block" height="70" width="70">
                     <a href="{% url 'profile' product.brand.user.username %}"><h4 class="text-center">{{ product.brand.user.username }}</h4></a>

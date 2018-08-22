@@ -12,71 +12,88 @@
 
 
 {% block page %}
+
+<script type="text/javascript">
+
+    var brand_page = 1;
+    var product_page = 1;
+
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }    
+
+    function loadMore(evt, obj_type, title) {
+        var page_to_get = 1
+        if(obj_type == "brand"){
+            brand_page += 1;
+            page_to_get = brand_page;
+        }
+        else{
+            product_page += 1;
+            page_to_get = product_page;
+        }
+
+        $.ajax({
+            url: '{% url "search_show_more" %}?obj_type=' + obj_type + '&title=' + title + '&page=' + page_to_get,
+            dataType: 'json',
+            success: function (data) {
+                //console.log(data);
+                if(obj_type == "brand"){
+                    $('.show_more_button').remove();
+                    $('#Brands').append(data).show('slow');
+                }
+                else{
+                    $('.show_more_button_product').remove();
+                    $('#Products').append(data).show('slow');
+                }
+            }
+        });
+    }
+
+</script>
+
  <div class="container">
 
-     <div class="row">
+     <div class="row no-gutter">
         <div class="spec">
-            <h3>Results Found: {{gigs|length}}</h3>
+            <h3>Search Results</h3>
             <div class="ser-t"><b></b><span><i></i></span><b class="line"></b></div>            
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="search_term">Searched for: <span>{{title|safe|truncatechars:50}}</span></h4>
-            </div>
-        </div>
         
-
-        <div class="con-w3l row">
-
-        {% for gig in gigs %}
-            <div class="col-md-3 pro-1">
-
-                {% if gig.brand %} <!-- If this is a product -->
-                <div class="col-m search_result_item">
-                    <button class="prod_button" disabled>PRODUCT</button>
-                    <a href="{% url 'product_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
-                        <img src="/media/{{ gig.image1 }}" class="img-responsive" alt="">
-                    </a>
-                    <div class="mid-1">
-                        <div class="women">
-                            <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
-                        </div>
-                        <div class="mid-2">
-                            <p class="gig_details">{{gig.description|safe|truncatechars:193}}</p>
-                                
-                            <p class="gig_details where_to_buy">{{gig.brand.BrandWhereToBuy|commaSplit|safe}}</p>
-                            <div class="clearfix"></div>
-                        </div>                    
-                    </div>
-                </div>
-
-                {% else %}
-
-                <div class="col-m search_result_item">
-                    <button class="brand_button" disabled>BRAND</button>
-                    <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
-                        <img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt="">
-                    </a>
-                    <div class="mid-1">
-                        <div class="women">
-                            <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
-                        </div>
-                        <div class="mid-2">
-                            <p class="gig_details">{{gig.description|safe|truncatechars:193}}</p>
-                                
-                            <p class="gig_details where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p>
-                            <div class="clearfix"></div>
-                        </div>                    
-                    </div>
-                </div>                    
-
-                {% endif %}
-
+        <div class="col-md-12">
+            <div class="result_counts">
+                <h4>Brands found: <span>{{ brands.paginator.count }}</span><h4>
+                <h4>Products found: <span>{{ products.paginator.count }}</span><h4>
             </div>
-        {% endfor %}
-        </div>
+            <div class="clearfix"></div>
+            <h4 class="search_term">Searched for: <span>{{title|safe|truncatechars:50}}</span></h4>
 
-        <div class="clearfix"></div>    
+            <div class="tab">
+                <button class="tablinks active" onclick="openCity(event, 'Brands')">Brands</button>
+                <button class="tablinks" onclick="openCity(event, 'Products')">Products</button>            
+            </div>
+        
+            <div id="Brands" class="tabcontent">
+                {% include "search_items_display.html" with results=brands title=title %}
+            </div>            
+            
+            <div id="Products" class="tabcontent">
+                {% include "search_items_display.html" with results=products title=title %}
+            </div>
+            
+        </div>       
+
+        <div class="clearfix"></div>
     </div>
  </div>
 

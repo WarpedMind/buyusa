@@ -14,9 +14,12 @@ from django.template.loader import render_to_string
 from django.template import RequestContext
 from crispy_forms.utils import render_crispy_form
 from itertools import chain
-
+from django.db import connection
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import JsonResponse
 from .models import Gig, Profile, Purchase, Review, Donate, ImportData, Product
 from .forms import GigForm, SignUpForm, ProfileForm, ImportDataForm
+
 
 import os,random, threading, re, datetime, sys
 import xlrd
@@ -215,32 +218,60 @@ def category(request, link):
         return redirect('home')
 
 
-def search(request):
-    qset=Q()
-    title = request.GET.get('title')
-    if title:
-        qset = Q(title__icontains=title) | Q(category__icontains=title) \
+def query_brands(title, page):
+    qset = Q(title__icontains=title) | Q(category__icontains=title) \
             | Q(description__icontains=title) | Q(BrandLink__icontains=title) \
             | Q(BrandCustomerServicePhone__icontains=title) | Q(BrandSearch__icontains=title) \
             | Q(BrandWhereToBuy__icontains=title) \
             | Q(BrandCaption1__icontains=title) | Q(BrandCaption2__icontains=title) \
             | Q(BrandCaption3__icontains=title) | Q(BrandCaption4__icontains=title) \
             | Q(BrandCaption5__icontains=title) | Q(BrandCaption6__icontains=title)
-        gigs = list(Gig.objects.filter(qset, Publish=True)[:15])
+    gigs = Gig.objects.filter(qset, Publish=True).order_by('create_time')
+    paginator = Paginator(gigs, settings.SEARCH_RESULTS_PER_PAGE)
+    return paginator.get_page(page)
 
 
-        product_qset = Q(title__icontains=title) \
+def query_products(title, page):
+    product_qset = Q(title__icontains=title) \
             | Q(description__icontains=title) | Q(search_keywords__icontains=title) \
             | Q(caption1__icontains=title) | Q(caption2__icontains=title) \
             | Q(caption3__icontains=title) | Q(caption4__icontains=title) \
             | Q(caption5__icontains=title) | Q(caption6__icontains=title)
 
-        products = list(Product.objects.filter(product_qset, publish=True)[:15])
-        results = gigs + products
-        return render(request, 'search.html', {"gigs": results, "MEDIA_URL" : settings.MEDIA_URL, 'title': title})
+    products = Product.objects.filter(product_qset, publish=True).order_by('create_time')
+    paginator_prods = Paginator(products, settings.SEARCH_RESULTS_PER_PAGE)
+    return paginator_prods.get_page(page)
+
+
+
+def search_show_more(request):
+    
+    title = request.GET.get('title')
+    obj_type = request.GET.get('obj_type')
+    page = request.GET.get('page')
+
+    if title and obj_type and page:
+        try:
+            results = query_brands(title, page) if obj_type == "brand" else query_products(title, page)
+            result_string = render_to_string('search_items_display.html', {'results': results, 'title': title})
+            return JsonResponse(result_string, safe=False)
+        except Exception as ex:
+            return JsonResponse({'error':str(ex)})
+    else:
+        return JsonResponse({'error':'title, page or object type missing from url query...'})
+        
+
+def search(request):
+    qset=Q()
+    title = request.GET.get('title')
+    page = request.GET.get('page')
+
+    if title:
+        gigs_page = query_brands(title, '1')
+        prods_page = query_products(title, '1')
+        return render(request, 'search.html', {"brands": gigs_page, "products": prods_page, "MEDIA_URL" : settings.MEDIA_URL, 'title': title })
     else:
         return redirect('home')
-
 
 
 def file_save_to_media(photo,photoname='avatar'):
@@ -546,9 +577,10 @@ def importdata(request):
                 if importid == None:
                     importid = 1
                 else:
-                    importid += 1
+                    importid += 1                
                 file_ = form.cleaned_data['file']
-                bk = xlrd.open_workbook(file_contents=file_.file.getvalue())
+                bk = xlrd.open_workbook(file_contents=file_.read())
+                #bk = xlrd.open_workbook(file_contents=file_.file.getvalue())
                 if len(bk.sheets()) > 0:
                     col_set={
                         'COMPANYID':{'col':None,'cache':{},'errcache':[],'required':True},
@@ -569,23 +601,26 @@ def importdata(request):
                     }
                     sh = bk.sheets()[0]
                     for i in range(sh.nrows):
-                        if i == 0:
-                            continue
-                        if i == 1:
+                        if i == 0:                        
                             for j in range(sh.ncols):
-                                v = sh.row(i)[j].value.strip().upper()
+                                cell_data = str(sh.row(i)[j].value)
+                                logger.info(cell_data)
+                                v = cell_data.strip().upper()
                                 xxx = [key for key, value in col_set.items() if v==key]
                                 if len(xxx) > 0:
                                     col_set[xxx[0]]['col'] = j
-                            for k,v in col_set.items():
+                            for k,v in col_set.items():                                
                                 if v['required'] and v['col'] == None:
                                     err= u'Error: no  “%s” column' % k
+                                    logger.info(cell_data)
                                     raise Exception(err)
+                                    
                             continue
                         try:
-                            havedone = ImportData.objects.filter(companyid=sh.row(i)[col_set['COMPANYID']['col']].value,
-                                                                 company=sh.row(i)[col_set['COMPANY']['col']].value,
-                                                                 )
+                            tempval = col_set['COMPANYID']['col']
+                            compid = sh.row(i)[tempval].value
+                            comp = sh.row(i)[col_set['COMPANY']['col']].value
+                            havedone = ImportData.objects.filter(companyid=compid, company=comp)
                             if not havedone:
                                 impdata = ImportData()
                                 impdata.companyid=sh.row(i)[col_set['COMPANYID']['col']].value
@@ -625,8 +660,7 @@ def importdata(request):
         #log.error('%s %s Exception: %s' % (exc_tb.tb_lineno,sys._getframe().f_code.co_name, ex) ) 
         errmsg = '%s Exception: %s' % (exc_tb.tb_lineno,ex)
         logger.exception(errmsg)
-    return render(request, 'importdata.html',{'form':form,'errmsg':errmsg,'errlist':errlist,
-                                              'sucess':sucess,'fail':len(errlist)}) 
+    return render(request, 'importdata.html',{'form':form,'errmsg':errmsg,'errlist':errlist, 'sucess':sucess,'fail':len(errlist)})
 
 
 def firstlogin(request, token):

@@ -1,0 +1,51 @@
+{% load staticfiles %}
+{% load formfilter %}
+
+{% for gig in results %}                
+<div class="col-md-3">
+    <div class="search_result_item">
+        {% if gig.brand %}
+            <button class="prod_button" disabled>PRODUCT</button>
+        {% else %}
+            <button class="brand_button" disabled>BRAND</button>
+        {% endif %}
+        <div class="clearfix"></div>
+        {% if gig.brand %}
+            <a href="{% url 'product_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
+                <img src="/media/{{ gig.image1 }}" class="img-responsive" alt="">
+            </a>
+            <div class="mid-1">
+                <div class="women">
+                    <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
+                </div>
+        
+        {% else %}
+            <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
+                <img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt="">
+            </a>
+            <div class="mid-1">
+                <div class="women">
+                    <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
+                </div>
+        {% endif %}
+            <div class="mid-2">
+                <p class="gig_details">{{gig.description|safe|truncatechars:193}}</p>
+                {% if gig.brand %}
+                    <p class="gig_details where_to_buy">{{gig.brand.BrandWhereToBuy|commaSplit|safe}}</p>
+                {% else %}
+                    <p class="gig_details where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p>
+                {% endif %}
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% if results.has_next %}
+    {% if results.0.brand %}
+        <button class="show_more_button_product" onclick="loadMore(event, 'product', '{{ title }}')">Show More</button>
+    {% else %}
+        <button class="show_more_button" onclick="loadMore(event, 'brand', '{{ title }}')">Show More</button>        
+    {% endif %}
+{% endif %}
