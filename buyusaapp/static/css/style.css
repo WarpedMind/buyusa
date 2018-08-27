@@ -3864,6 +3864,10 @@ div.gig_errors li{
     border: 1px solid #B2B2B2;
     padding: 10px;
 }
+
+div.container .search_result_item_prod{
+    min-height: 615px;
+}
 div[class*="col"]{padding-left:5px; padding-right:5px;} /* Fix for bootstrap 3 gutter*/
 
 .prod_button {    
@@ -3994,4 +3998,27 @@ div.gig_detail_div .prod_button_detail {
     display: block;
     margin-top: 30px;
     clear: both;
+}
+
+.container p.product_brand_search_link a{
+    font-size: 12px;
+    color: #4CAF50;
+    word-wrap: break-word;
+    font-weight: bold;
+}
+
+p.product_brand_search_link{
+    word-wrap: break-word;
+    float: none;    
+}
+
+h6.product_brand_search_link{    
+    border-bottom: 1px solid #B2B2B2;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+img.product_brand_search_link{
+    float: left;
+    margin-right: 10px;
 }

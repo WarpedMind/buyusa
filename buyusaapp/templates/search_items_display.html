@@ -3,7 +3,7 @@
 
 {% for gig in results %}                
 <div class="col-md-3">
-    <div class="search_result_item">
+    <div class="search_result_item {% if gig.brand %}search_result_item_prod{% endif %}">
         {% if gig.brand %}
             <button class="prod_button" disabled>PRODUCT</button>
         {% else %}
@@ -16,7 +16,7 @@
             </a>
             <div class="mid-1">
                 <div class="women">
-                    <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
+                    <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>
                 </div>
         
         {% else %}
@@ -25,11 +25,11 @@
             </a>
             <div class="mid-1">
                 <div class="women">
-                    <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|truncatechars:78}}</a></h6>
+                    <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>
                 </div>
         {% endif %}
             <div class="mid-2">
-                <p class="gig_details">{{gig.description|safe|truncatechars:193}}</p>
+                <p class="gig_details">{{gig.description|safe|striptags|truncatechars:193}}</p>
                 {% if gig.brand %}
                     <p class="gig_details where_to_buy">{{gig.brand.BrandWhereToBuy|commaSplit|safe}}</p>
                 {% else %}
@@ -37,6 +37,15 @@
                 {% endif %}
                 <div class="clearfix"></div>
             </div>
+
+            {% if gig.brand %}
+            <div class="mid-2">
+                <h6 class="product_brand_search_link">Brand</h6>                
+                <img src="/media/{{ gig.brand.BrandPicture1 }}" class="img-responsive product_brand_search_link" alt="" height="50px" width="50px">                
+                <p class="product_brand_search_link"><a href="{% url 'gig_detail' gig.brand.id %}">{{gig.brand.title|striptags|truncatechars:78}}</a></p>
+                <div class="clearfix"></div>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
