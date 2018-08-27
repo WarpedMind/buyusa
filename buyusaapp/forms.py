@@ -14,7 +14,7 @@ class GigForm(ModelForm):
     title = forms.CharField(label=u'Brand Name', max_length=200, required=True)
     description = forms.CharField(widget=forms.Textarea, max_length=400,label=u'Description', required=True)
     BrandLink = forms.CharField(label=u'Website', required=True)
-    BrandCustomerServicePhone = forms.CharField(label=u'Customer Service Phone', required=True)
+    BrandCustomerServicePhone = forms.CharField(label=u'Customer Service Phone', required=False)
     BrandSearch = forms.CharField(widget=forms.Textarea, max_length=400,label=u'Search Keywords', required=True)
     BrandWhereToBuy = forms.CharField(label=u'Where To Buy', max_length=200, required=True)
 
