@@ -11,37 +11,37 @@
         {% endif %}
         <div class="clearfix"></div>
         {% if gig.brand %}
+            <!-- 
             <a href="{% url 'product_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
                 <img src="/media/{{ gig.image1 }}" class="img-responsive" alt="">
-            </a>
-            <div class="mid-1">
-                <div class="women">
-                    <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>
-                </div>
+            </a>-->
+            <div class="mid-1">                
+                <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>                
         
         {% else %}
-            <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
+            <!--<a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
                 <img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt="">
-            </a>
+            </a>-->
             <div class="mid-1">
-                <div class="women">
-                    <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>
-                </div>
+                <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>
+                
         {% endif %}
             <div class="mid-2">
                 <p class="gig_details">{{gig.description|safe|striptags|truncatechars:193}}</p>
+                
+                <h5>Where To Buy</h5>
                 {% if gig.brand %}
-                    <p class="gig_details where_to_buy">{{gig.brand.BrandWhereToBuy|commaSplit|safe}}</p>
+                    <p class="where_to_buy">{{gig.brand.BrandWhereToBuy|commaSplit|safe}}</p>
                 {% else %}
-                    <p class="gig_details where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p>
+                    <p class="where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p>
                 {% endif %}
                 <div class="clearfix"></div>
             </div>
 
             {% if gig.brand %}
-            <div class="mid-2">
-                <h6 class="product_brand_search_link">Brand</h6>                
-                <a href="{% url 'gig_detail' gig.brand.id %}"><img src="/media/{{ gig.brand.BrandPicture1 }}" class="img-responsive product_brand_search_link" alt="" height="50px" width="50px"></a>
+            <div class="mid-3">
+                <h5 class="product_brand_search_link">Brand</h5>
+                <!-- <a href="{% url 'gig_detail' gig.brand.id %}"><img src="/media/{{ gig.brand.BrandPicture1 }}" class="img-responsive product_brand_search_link" alt="" height="50px" width="50px"></a> -->
                 <p class="product_brand_search_link"><a href="{% url 'gig_detail' gig.brand.id %}">{{gig.brand.title|striptags|truncatechars:78}}</a></p>
                 <div class="clearfix"></div>
             </div>

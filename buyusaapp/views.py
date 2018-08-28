@@ -161,8 +161,11 @@ def profile(request, username):
         except Profile.DoesNotExist:
             redirect('/')
 
-    gigs = Gig.objects.filter(user=profile.user, status=True)
-    return render(request, 'profile.html', {"profile":profile, "gigs": gigs, 'profile_form': profile_form,
+    gigs = Gig.objects.filter(user=profile.user, status=True, Publish=True).order_by('create_time')
+    gigs_paginator = Paginator(gigs, settings.SEARCH_RESULTS_PER_PAGE)
+    products = Product.objects.filter(user=profile.user, publish=True).order_by('create_time')
+    paginator_prods = Paginator(products, settings.SEARCH_RESULTS_PER_PAGE)
+    return render(request, 'profile.html', {"profile":profile, "brands": gigs_paginator.get_page("1"), "products": paginator_prods.get_page("1"), 'profile_form': profile_form,
                                             "MEDIA_URL" : settings.MEDIA_URL})
 
 

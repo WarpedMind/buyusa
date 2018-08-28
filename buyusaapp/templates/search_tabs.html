@@ -1,0 +1,62 @@
+<script type="text/javascript">
+
+    var brand_page = 1;
+    var product_page = 1;
+
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }    
+
+    function loadMore(evt, obj_type, title) {
+        var page_to_get = 1
+        if(obj_type == "brand"){
+            brand_page += 1;
+            page_to_get = brand_page;
+        }
+        else{
+            product_page += 1;
+            page_to_get = product_page;
+        }
+
+        $.ajax({
+            url: '{% url "search_show_more" %}?obj_type=' + obj_type + '&title=' + title + '&page=' + page_to_get,
+            dataType: 'json',
+            success: function (data) {
+                //console.log(data);
+                if(obj_type == "brand"){
+                    $('.show_more_button').remove();
+                    $('#Brands').append(data).show('slow');
+                }
+                else{
+                    $('.show_more_button_product').remove();
+                    $('#Products').append(data).show('slow');
+                }
+            }
+        });
+    }
+
+</script>
+
+
+<div class="tab">
+    <button class="tablinks active" onclick="openCity(event, 'Brands')">Brands</button>
+    <button class="tablinks" onclick="openCity(event, 'Products')">Products</button>            
+</div>
+
+<div id="Brands" class="tabcontent">
+    {% include "search_items_display.html" with results=brands title=title %}
+</div>            
+
+<div id="Products" class="tabcontent">
+    {% include "search_items_display.html" with results=products title=title %}
+</div>
