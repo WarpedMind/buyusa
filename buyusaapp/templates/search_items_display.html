@@ -28,17 +28,19 @@
         {% endif %}
             <div class="mid-2">
                 <p class="gig_details">{{gig.description|safe|striptags|truncatechars:193}}</p>
+                
+                <h5>Where To Buy</h5>
                 {% if gig.brand %}
-                    <p class="gig_details where_to_buy">{{gig.brand.BrandWhereToBuy|commaSplit|safe}}</p>
+                    <p class="where_to_buy">{{gig.brand.BrandWhereToBuy|commaSplit|safe}}</p>
                 {% else %}
-                    <p class="gig_details where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p>
+                    <p class="where_to_buy">{{gig.BrandWhereToBuy|commaSplit|safe}}</p>
                 {% endif %}
                 <div class="clearfix"></div>
             </div>
 
             {% if gig.brand %}
-            <div class="mid-2">
-                <h6 class="product_brand_search_link">Brand</h6>                
+            <div class="mid-3">
+                <h5 class="product_brand_search_link">Brand</h5>
                 <!-- <a href="{% url 'gig_detail' gig.brand.id %}"><img src="/media/{{ gig.brand.BrandPicture1 }}" class="img-responsive product_brand_search_link" alt="" height="50px" width="50px"></a> -->
                 <p class="product_brand_search_link"><a href="{% url 'gig_detail' gig.brand.id %}">{{gig.brand.title|striptags|truncatechars:78}}</a></p>
                 <div class="clearfix"></div>
