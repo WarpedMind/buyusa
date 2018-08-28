@@ -12,7 +12,7 @@
         <div class="clearfix"></div>
         {% if gig.brand %}
             <a href="{% url 'product_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
-                <img src="/media/{{ gig.image1 }}" class="img-responsive" alt="">
+                <!-- <img src="/media/{{ gig.image1 }}" class="img-responsive" alt=""> -->
             </a>
             <div class="mid-1">
                 <div class="women">
@@ -21,7 +21,7 @@
         
         {% else %}
             <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
-                <img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt="">
+                <!--<img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt=""> -->
             </a>
             <div class="mid-1">
                 <div class="women">
@@ -41,7 +41,7 @@
             {% if gig.brand %}
             <div class="mid-2">
                 <h6 class="product_brand_search_link">Brand</h6>                
-                <a href="{% url 'gig_detail' gig.brand.id %}"><img src="/media/{{ gig.brand.BrandPicture1 }}" class="img-responsive product_brand_search_link" alt="" height="50px" width="50px"></a>
+                <!-- <a href="{% url 'gig_detail' gig.brand.id %}"><img src="/media/{{ gig.brand.BrandPicture1 }}" class="img-responsive product_brand_search_link" alt="" height="50px" width="50px"></a> -->
                 <p class="product_brand_search_link"><a href="{% url 'gig_detail' gig.brand.id %}">{{gig.brand.title|striptags|truncatechars:78}}</a></p>
                 <div class="clearfix"></div>
             </div>

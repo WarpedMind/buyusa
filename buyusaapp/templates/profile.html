@@ -20,13 +20,13 @@
                                 <div class="profile_label">{{ profile_form.slogan.label|title }}</div>
                             </div>
 
-                            <div class="profile_item">
+                            <!--<div class="profile_item">
                                 <div class="profile_input">
                                     <img src="{{ profile.avatar }}" class="img-circle" height="90" width="90" id="avatar_preview" />
                                     <input type="file" name="avatar" id="id_avatar" accept="image/*" required="" class="form-control">
                                 </div>
                                 <div class="profile_label">{{ profile_form.avatar.label|title }}</div>
-                            </div>
+                            </div>-->
 
                             <div class="profile_item">
                                 <div class="profile_input">{{ profile_form.about|add_class:"form-control" }}</div>
@@ -49,13 +49,13 @@
                                 <div class="profile_label">Company Type</div>
                             </div>
 
-                            <div class="profile_item">
+                            <!--<div class="profile_item">
                                 <div class="profile_input">
                                     <img src="{{ MEDIA_URL }}{{ profile.CompanyLogo }}" class="img-circle" height="90" width="90" id="CompanyLogo_preview">
                                     <input type="file" name="CompanyLogo" id="id_CompanyLogo" accept="image/*" required="" class="form-control">
                                 </div>
                                 <div class="profile_label">Company Logo</div>
-                            </div>
+                            </div> -->
 
                             <div class="profile_item">
                                 <div class="profile_input">{{ profile_form.CompanyLink|add_class:"form-control" }}</div>
@@ -100,13 +100,18 @@
         <div class="text-center">
             <h2>{{ profile.user.username }}</h2>
             <p>{{ profile.slogan }}</p>
-            <img src="{{ profile.avatar }}" class="img-circle" height="90" width="90">
+            <!--<img src="{{ profile.avatar }}" class="img-circle" height="90" width="90">-->
             <div class="panel panel-default profile_inside"></div>
         </div>
-        {% endif %}        
+        {% endif %}
     </div>
+
     <div class="row profile_gigs">
             <h3 class="text-uppercase">{{ profile.user.username }}'s Brands And Products</h3>
+
+            {% include 'search_tabs.html' with brands=brands products=products title=title   %}
+
+            <!--
             {% for gig in gigs %}
             <div class="col-md-3 pro-1">
                 <div class="col-m">
@@ -127,6 +132,7 @@
                 </div>
             </div>
         {% endfor %}
+        -->
     </div>
         
     {% if request.user == profile.user %}

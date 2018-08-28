@@ -55,7 +55,7 @@ def product_detail(request, id):
     return render(request, 'product_detail.html', {"show_post_review": show_post_review, "reviews":reviews, "product": product, 
                                                "client_token": client_token , "MEDIA_URL" : settings.MEDIA_URL, })
     '''
-    return render(request, 'product_detail.html', {"product": product, "MEDIA_URL" : settings.MEDIA_URL })
+    return render(request, 'gig_detail.html', {"gig": product, "MEDIA_URL" : settings.MEDIA_URL })
 
 @login_required(login_url="/login")
 def create_product(request):

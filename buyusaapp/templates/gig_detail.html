@@ -11,21 +11,40 @@
 
 {% block page %}
 
+
 <div class="container gig_detail_div">
     <div class="single-top-main row">
+        <!--
+        {% if gig.brand %}
+        <div class="gig_gallery">
+            <img id="thumb2" src="/media/{{ gig.image2 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
+            <img id="thumb3" src="/media/{{ gig.image3 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
+            <img id="thumb4" src="/media/{{ gig.image4 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
+            <img id="thumb5" src="/media/{{ gig.image5 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
+        </div>
+        {% else %}
         <div class="gig_gallery">
             <img id="thumb2" src="/media/{{ gig.BrandPicture2 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
             <img id="thumb3" src="/media/{{ gig.BrandPicture3 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
             <img id="thumb4" src="/media/{{ gig.BrandPicture4 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
             <img id="thumb5" src="/media/{{ gig.BrandPicture5 }}" alt="" class="img-responsive thumb_image img-thumbnail" height="70px" width="70px" />
         </div>
-
+        {% endif %}
+        -->
+        {% if gig.brand %}
+        <button class="product_button_details" disabled>PRODUCT</button>
+        {% else %}
         <button class="brand_button_details" disabled>BRAND</button>
-        
+        {% endif %}
+        <!--
         <div class="col-md-5 single-top">                
             <div class="single-w3agile">
                 <div id="picture-frame">
+                    {% if gig.brand %}
+                    <img id="thumb1" src="/media/{{ gig.image1 }}" data-src="/media/{{ gig.image1 }}" alt="" class="img-responsive" />
+                    {% else %}
                     <img id="thumb1" src="/media/{{ gig.BrandPicture1 }}" data-src="/media/{{ gig.BrandPicture1 }}" alt="" class="img-responsive" />
+                    {% endif %}
                 </div>
                 <script src="{% static 'js/jquery.zoomtoo.js' %}"></script>
                 <script type="text/javascript">
@@ -35,19 +54,20 @@
                 </script>
             </div>
         </div>
+        -->
         
-        <div class="col-md-7 single-top-left ">
+        <div class="col-md-7 col-md-offset-2">
             <div class="single-right">
                 <h3>{{ gig.title }}</h3>
                 <div class="gig_brand_cat">
-                    <img src="{% if gig.user.profile %} {{ gig.user.profile.avatar }} {% else %} {% static 'img/avatar.png' %} {% endif %}" class="img-circle center-block" height="70" width="70">
+                    <!-- <img src="{% if gig.user.profile %} {{ gig.user.profile.avatar }} {% else %} {% static 'img/avatar.png' %} {% endif %}" class="img-circle center-block" height="70" width="70"> -->
                     <a href="{% url 'profile' gig.user.username %}"><h4 class="text-center">{{ gig.user.username }}</h4></a>
                 </div>
                 <div class="details_brand">
-                    <p>{{ gig.BrandCaption1 }}</p>
-                    <img src="{{ MEDIA_URL }}{{ gig.BrandLogo }}" class="img-responsive" width="120px" height="120px">
-                    <p><i class="fa fa-globe" aria-hidden="true"></i>&nbsp;&nbsp;<a href="https://{{ gig.BrandLink }}" target="_blank">{{ gig.BrandLink }}</a></p>
-                    <p><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;{{ gig.BrandCustomerServicePhone }}</p>
+                    <!--{% if gig.brand %} {{ gig.caption1 }} {% else %} {{ gig.BrandCaption1 }} {% endif %}</p>
+                    <img src="{{ MEDIA_URL }}{% if gig.brand %}{{ gig.brand.BrandLogo }}{% else %}{{ gig.BrandLogo }}{% endif %}" class="img-responsive" width="120px" height="120px"> -->
+                    <p><i class="fa fa-globe" aria-hidden="true"></i>&nbsp;&nbsp;<a href="https://{% if gig.brand %}{{ gig.brand.BrandLink }} {% else %}{{ gig.BrandLink }}{% endif %}" target="_blank">{% if gig.brand %}{{ gig.brand.BrandLink }} {% else %}{{ gig.BrandLink }}{% endif %}</a></p>
+                    <p><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;{% if gig.brand %}{{ gig.brand.BrandCustomerServicePhone }}{% else %}{{ gig.BrandCustomerServicePhone }}{% endif %}</p>
                 </div>
                 <div class="gig_desc">
                     <span class="gig_desc_text">{{ gig.description|safe }}</span>
