@@ -79,7 +79,7 @@ class GigForm(ModelForm):
                 Field('BrandLink'), 
                 Field('BrandCustomerServicePhone'), 
                 Field('BrandSearch'),
-                Field('BrandWhereToBuy'),                
+                Field('BrandWhereToBuy'),
             ),
 
             
@@ -134,6 +134,7 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'password1', 'password2', )
 
+
 class ProfileForm(ModelForm):    
     #avatar = forms.ImageField(widget=ImagePreviewInput(),label=u'avatar')
     #CompanyLogo = forms.ImageField(widget=ImagePreviewInput(),label=u'CompanyLogo')
@@ -148,6 +149,7 @@ class ProfileForm(ModelForm):
                   'CompanyLink', 'CompanyContactName', 'CompanyContactPhone',
                   'CompanyContactEmail','Publish')
         
+
 class ImportDataForm(forms.Form):
     source = forms.CharField(label=u'What is the source of this import?', required=True)    
     file = forms.FileField(label=u'data file(Excel file)',required=True)
@@ -159,7 +161,7 @@ class ProductForm(ModelForm):
     title = forms.CharField(label=u'Product Name', max_length=200, required=True)
     description = forms.CharField(widget=forms.Textarea, max_length=2000,label=u'Description', required=True)
     search_keywords = forms.CharField(widget=forms.Textarea, max_length=400,label=u'Search Keywords', required=False)
-    brand = forms.ModelChoiceField(queryset=Gig.objects.all()[:30], label=u'Brand', required=True)
+    brand = forms.ModelChoiceField(queryset=Gig.objects.all()[:30], label=u'Brand', required=True, initial=0)
 
     #caption1 = forms.CharField(label=u'Caption 1', max_length=200, required=True)
     #image1 = forms.ImageField(widget=ImagePreviewInput(),label=u'Image 1',required=True)
@@ -177,7 +179,7 @@ class ProductForm(ModelForm):
     #image5 = forms.ImageField(widget=ImagePreviewInput(),label=u'Image 5',required=False)
     
     #caption6 = forms.CharField(label=u'Caption 6', max_length=200, required=False)
-    #image6 = forms.ImageField(widget=ImagePreviewInput(),label=u'Image 6',required=False)    
+    #image6 = forms.ImageField(widget=ImagePreviewInput(),label=u'Image 6',required=False)
     
     publish = forms.ChoiceField(choices=[(True,'Published'),(False,'Unpublished')])
     

@@ -11,22 +11,20 @@
         {% endif %}
         <div class="clearfix"></div>
         {% if gig.brand %}
+            <!-- 
             <a href="{% url 'product_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
-                <!-- <img src="/media/{{ gig.image1 }}" class="img-responsive" alt=""> -->
-            </a>
-            <div class="mid-1">
-                <div class="women">
-                    <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>
-                </div>
+                <img src="/media/{{ gig.image1 }}" class="img-responsive" alt="">
+            </a>-->
+            <div class="mid-1">                
+                <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>                
         
         {% else %}
-            <a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
-                <!--<img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt=""> -->
-            </a>
+            <!--<a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
+                <img src="/media/{{ gig.BrandPicture1 }}" class="img-responsive" alt="">
+            </a>-->
             <div class="mid-1">
-                <div class="women">
-                    <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>
-                </div>
+                <h6><a href="{% url 'gig_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>
+                
         {% endif %}
             <div class="mid-2">
                 <p class="gig_details">{{gig.description|safe|striptags|truncatechars:193}}</p>
