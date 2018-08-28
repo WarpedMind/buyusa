@@ -79,6 +79,16 @@
 
         <div class="clearfix"> </div>
     </div>
+
+    {% if products %}
+    <div class="row related_products">
+        <div class="col-md-12 ">
+            <h3 class="text-uppercase">Related Products</h3>
+            {% include 'search_tabs.html' with products=products title=title show_tab="true" %}
+        </div>
+    </div>
+    {% endif %}
+
 </div>
 
 <script type="text/javascript">

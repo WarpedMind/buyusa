@@ -59,7 +59,10 @@ def gig_detail(request, id):
         show_post_review = Purchase.objects.filter(gig=gig, buyer=request.user).count() > 0
     reviews = Review.objects.filter(gig=gig)
     client_token = braintree.ClientToken.generate()
-    return render(request, 'gig_detail.html', {"show_post_review": show_post_review, "reviews":reviews, "gig": gig, 
+
+    products = Product.objects.filter(brand=gig, publish=True).order_by('create_time')
+    paginator_prods = Paginator(products, settings.SEARCH_RESULTS_PER_PAGE)
+    return render(request, 'gig_detail.html', {"show_post_review": show_post_review, "reviews": reviews, "gig": gig, "products": paginator_prods.get_page("1"),
                                                "client_token": client_token , "MEDIA_URL" : settings.MEDIA_URL, })
 
 @login_required(login_url="/login")
@@ -83,37 +86,6 @@ def create_gig(request):
     
     return render(request, 'create_gig.html', {'gig_form': form, 'gig_errors':errors, 'errors_non':errors_non})
 
-@login_required(login_url="/login")
-def create_gig_old(request):
-    error = ''
-    if request.method == 'POST':
-        gig_form = GigForm(request.POST, request.FILES)
-        #fields = list(gig_form.fields.keys())
-        #fields.reverse()
-        #for f in fields:
-            #if not gig_form.data[f]:
-                #error = "%s is required" % f
-        for imagefield in ['BrandPicture6','BrandPicture5','BrandPicture4','BrandPicture3',
-                           'BrandPicture2','BrandPicture1','BrandLogo']:
-            if not gig_form.data['%s-data' % imagefield]:
-                error = "%s is required" % imagefield
-        if not error:
-            if gig_form.is_valid():
-                gig = gig_form.save(commit=False)
-                gig.user = request.user
-                gig.CompanyID=gig.user.profile.CompanyID
-                gig.save()
-                gig.BrandID = gig.id
-                gig.save(update_fields=['BrandID',])
-                return redirect('my_gigs')
-            else:
-                print(gig_form.errors)
-                logger.exception("GIG form error... Data is not valid")
-                error = "Data is not valid"
-                
-    else:
-        gig_form = GigForm()
-    return render(request, 'create_gig.html', {"error": error, "gig_form":gig_form})
 
 @login_required(login_url="/login")
 def edit_gig(request, id):
