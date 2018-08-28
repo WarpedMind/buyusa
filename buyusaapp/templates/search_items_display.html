@@ -1,7 +1,8 @@
 {% load staticfiles %}
 {% load formfilter %}
 
-{% for gig in results %}                
+{% for gig in results %}
+
 <div class="col-md-3">
     <div class="search_result_item {% if gig.brand %}search_result_item_prod{% endif %}">
         {% if gig.brand %}
@@ -15,8 +16,8 @@
             <a href="{% url 'product_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">
                 <img src="/media/{{ gig.image1 }}" class="img-responsive" alt="">
             </a>-->
-            <div class="mid-1">                
-                <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>                
+            <div class="mid-1">
+                <h6><a href="{% url 'product_detail' gig.id %}">{{gig.title|striptags|truncatechars:78}}</a></h6>
         
         {% else %}
             <!--<a href="{% url 'gig_detail' gig.id %}" data-toggle="modal" data-target="#myModal17" class="offer-img">

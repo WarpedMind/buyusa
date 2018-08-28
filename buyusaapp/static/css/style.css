@@ -4034,3 +4034,11 @@ img.product_brand_search_link{
     float: left;
     margin-right: 10px;
 }
+
+.related_products{
+    margin-top: 100px;
+}
+
+.related_products h3{
+    text-align: center;    
+}

@@ -47,16 +47,25 @@
 
 </script>
 
+{% if show_tab %}
+    <div id="Productsa" class="tabcontent">
+            {% include "search_items_display.html" with results=products title=title %}
+    </div>
+{% else %}
 
-<div class="tab">
-    <button class="tablinks active" onclick="openCity(event, 'Brands')">Brands</button>
-    <button class="tablinks" onclick="openCity(event, 'Products')">Products</button>            
-</div>
+    <div class="tab">    
+        <button class="tablinks active" onclick="openCity(event, 'Brands')">Brands</button>    
+        <button class="tablinks" onclick="openCity(event, 'Products')">Products</button>    
+    </div>
 
-<div id="Brands" class="tabcontent">
-    {% include "search_items_display.html" with results=brands title=title %}
-</div>            
 
-<div id="Products" class="tabcontent">
-    {% include "search_items_display.html" with results=products title=title %}
-</div>
+    <div id="Brands" class="tabcontent">
+        {% include "search_items_display.html" with results=brands title=title %}
+    </div>
+
+
+    <div id="Products" class="tabcontent">
+        {% include "search_items_display.html" with results=products title=title %}
+    </div>
+
+{% endif %}
