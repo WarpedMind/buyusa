@@ -3503,6 +3503,9 @@ div.edit_gig div.form-group div#cke_id_description{
 
 .gig_brand_cat h4{    
     margin-top: 5px;
+    font-size: 12px;
+    color: #4CAF50;
+    
 }
 
 .gig_desc{    

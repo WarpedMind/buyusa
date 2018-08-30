@@ -62,8 +62,10 @@ def gig_detail(request, id):
 
     products = Product.objects.filter(brand=gig, publish=True).order_by('create_time')
     paginator_prods = Paginator(products, settings.SEARCH_RESULTS_PER_PAGE)
-    return render(request, 'gig_detail.html', {"show_post_review": show_post_review, "reviews": reviews, "gig": gig, "products": paginator_prods.get_page("1"),
-                                               "client_token": client_token , "MEDIA_URL" : settings.MEDIA_URL, })
+    profile = Profile.objects.get(user=gig.user)
+    return render(request, 'gig_detail.html', {"show_post_review": show_post_review, "reviews": reviews, "gig": gig, "products": paginator_prods.get_page("1"), 
+                                                "profile": profile, "client_token": client_token , "MEDIA_URL" : settings.MEDIA_URL, })
+
 
 @login_required(login_url="/login")
 def create_gig(request):

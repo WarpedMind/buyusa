@@ -98,7 +98,7 @@
 
         {% else %}
         <div class="text-center">
-            <h2>{{ profile.user.username }}</h2>
+            <h2>{{ profile.CompanyContactName }}</h2>
             <p>{{ profile.slogan }}</p>
             <!--<img src="{{ profile.avatar }}" class="img-circle" height="90" width="90">-->
             <div class="panel panel-default profile_inside"></div>
@@ -107,7 +107,7 @@
     </div>
 
     <div class="row profile_gigs">
-            <h3 class="text-uppercase">{{ profile.user.username }}'s Brands And Products</h3>
+            <h3 class="text-uppercase">Brands And Products</h3>
 
             {% include 'search_tabs.html' with brands=brands products=products title=title   %}
 
