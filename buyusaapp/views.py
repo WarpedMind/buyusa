@@ -118,14 +118,16 @@ def my_gigs(request):
 #@login_required(login_url="/login")
 def profile(request, username):
     profile_form=None
+    update_msg = None
     if request.method == 'POST' :
         profile = Profile.objects.get(user=request.user)
         #oldprofileflag = profile.Publish
         profile_form = ProfileForm(request.POST,request.FILES,instance=profile)
         if profile_form.is_valid():
             profile = profile_form.save(commit=False)
-            profile.avatar = file_save_to_media(profile_form.cleaned_data.get('avatar'))        
+            #profile.avatar = file_save_to_media(profile_form.cleaned_data.get('avatar'))        
             profile.save()
+            update_msg = True
             #if oldprofileflag != profile.Publish:
                 #Gig.objects.filter(user=profile.user,Publish=oldprofileflag).update(Publish=profile.Publish)
     else:
@@ -140,7 +142,7 @@ def profile(request, username):
     products = Product.objects.filter(user=profile.user, publish=True).order_by('create_time')
     paginator_prods = Paginator(products, settings.SEARCH_RESULTS_PER_PAGE)
     return render(request, 'profile.html', {"profile":profile, "brands": gigs_paginator.get_page("1"), "products": paginator_prods.get_page("1"), 'profile_form': profile_form,
-                                            "MEDIA_URL" : settings.MEDIA_URL})
+                                            "MEDIA_URL" : settings.MEDIA_URL, "update_msg":update_msg})
 
 
 #@login_required(login_url="/login")
