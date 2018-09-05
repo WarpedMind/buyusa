@@ -54,14 +54,28 @@
 {% else %}
 
     <div class="tab">    
-        <button class="tablinks active" onclick="openCity(event, 'Brands')">Brands</button>    
-        <button class="tablinks" onclick="openCity(event, 'Products')">Products</button>    
+        {% if brands.paginator.count > 0 %}
+            <button class="tablinks active" onclick="openCity(event, 'Brands')">Brands</button>
+        {% else %}
+        <script type="text/javascript">
+            $( document ).ready(function() {
+                $("#Brands").css("display", "none");
+                $("#Products").css("display", "block");
+            });
+        </script>
+        {% endif %}
+
+        {% if products.paginator.count > 0 %}        
+        <button class="tablinks" onclick="openCity(event, 'Products')">Products</button>
+        {% endif %}
+        
     </div>
 
-
+    
     <div id="Brands" class="tabcontent">
         {% include "search_items_display.html" with results=brands title=title %}
     </div>
+    
 
 
     <div id="Products" class="tabcontent">

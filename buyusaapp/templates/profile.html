@@ -7,6 +7,9 @@
 {% block page %}
 <div class="container">
     <div class="row profile">
+        {% if update_msg %}
+        <p class="update_msg">Your Profile Was Updated Successfully!<p>
+        {% endif %}
         {% if request.user == profile.user %}
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}

@@ -3552,6 +3552,10 @@ div.edit_gig div.form-group div#cke_id_description{
     width: 100%;
 }
 
+.donate{
+    margin-bottom: 100px;
+}
+
 #input_3_cc_firstName{
     width: 100%;
 }
@@ -4044,4 +4048,18 @@ img.product_brand_search_link{
 
 .related_products h3{
     text-align: center;    
+}
+
+#input_2{
+    margin-bottom: 30px;
+}
+
+.margin_bottom_30{
+    margin-bottom: 140px;
+}
+
+.update_msg{
+    text-align: center;
+    color: red;
+    margin-bottom: 20px;
 }

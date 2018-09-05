@@ -30,7 +30,11 @@
             <div class="clearfix"></div>
             <h4 class="search_term">Searched for: <span>{{title|safe|truncatechars:50}}</span></h4>
             
-            {% include 'search_tabs.html' with brands=brands products=products title=title %}
+            {% if brands.paginator.count <= 0 and products.paginator.count <= 0 %}
+                <p class="margin_bottom_30">Sorry, at this time the product or brand you are searching for is either not made in the US or is not yet in our database.</p>
+            {% else %}
+                {% include 'search_tabs.html' with brands=brands products=products title=title %}
+            {% endif %}
             
         </div>       
 

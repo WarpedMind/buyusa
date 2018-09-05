@@ -139,6 +139,9 @@ class ProfileForm(ModelForm):
     #avatar = forms.ImageField(widget=ImagePreviewInput(),label=u'avatar')
     #CompanyLogo = forms.ImageField(widget=ImagePreviewInput(),label=u'CompanyLogo')
     Publish = forms.ChoiceField(choices=[(True,'Published'),(False,'Unpublished')])
+    about = forms.CharField(label=u'About', max_length=400, required=False)
+    slogan = forms.CharField(label=u'Slogan', max_length=400, required=False)    
+    CompanyLink = forms.CharField(label=u'Company Link', max_length=400, required=False)
     class Meta:
         model = Profile
         #fields = ('avatar', 'about', 'slogan', 'CompanyName', 'CompanyCategory', 'CompanyType',
