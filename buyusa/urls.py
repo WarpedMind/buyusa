@@ -18,6 +18,8 @@ from django.contrib import admin
 
 from django.conf import settings
 from django.conf.urls.static import static
+from registration.backends.default.views import RegistrationView
+from registration.forms import RegistrationFormUniqueEmail
 admin.autodiscover()
 
 urlpatterns = [
@@ -25,6 +27,7 @@ urlpatterns = [
     url('^social/', include('social.apps.django_app.urls', namespace = 'social')),
     url('^auth/', include(('django.contrib.auth.urls','django.contrib.auth'), namespace = 'auth')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^accounts/register/$', RegistrationView.as_view(form_class=RegistrationFormUniqueEmail), name='registration_register'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url('', include('buyusaapp.urls'))
 ] + static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
