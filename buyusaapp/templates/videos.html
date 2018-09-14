@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %} - TV/MEDIA{% endblock %}
+
+{% block page %}
+ <div class="container">
+  <div class="row standard">
+    <h2>TV/MEDIA</h2>
+    <p>We here at BuyUSA.Support have one goal: to help people buy products that are made in the United States. 
+      By doing so, you can do your part in helping the U.S. economy as well as ensure that more jobs are available to Americans. 
+      Please watch the videos below that inspired us and that remind us why this site is needed:</p>
+
+    <div class="embed-responsive embed-responsive-16by9 video_paragraph">
+        <video class="embed-responsive-item" controls>
+            <source src="http://video-cdn.abcnews.com/110228_wn_made.mp4" type="video/mp4">
+        </video>        
+    </div>
+
+    <div class="embed-responsive embed-responsive-16by9 video_paragraph">
+        <video class="embed-responsive-item" controls>
+            <source src="http://video-cdn.abcnews.com/110301_wn_america.mp4" type="video/mp4">
+        </video>        
+    </div>
+
+    <p class="video_paragraph">With our site and your support, we can help Americans and their businesses, like the one in the video below:</p>
+
+    <div class="embed-responsive embed-responsive-16by9 video_paragraph">
+        <iframe class="embed-responsive-item" src="//www.dailymotion.com/embed/video/x2nbp01" allowfullscreen></iframe>        
+    </div>
+
+    
+    
+  </div>
+</div>
+{% endblock %}
