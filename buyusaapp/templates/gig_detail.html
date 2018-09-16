@@ -61,9 +61,11 @@
                 <h3>{{ gig.title }}</h3>
                 <div class="gig_brand_cat">
                     {% if gig.brand %}
-                        <a href="{% url 'gig_detail' gig.brand.id %}"><h4 class="text-center">{{ gig.brand.title|truncatechars:78 }}</h4></a>                        
+                        <p>This product is branded by:</p>
+                        <a href="{% url 'gig_detail' gig.brand.id %}"><h4 class="text-center">{{ gig.brand.title|truncatechars:78 }}</h4></a>
                     {% else %}
                         <!-- <img src="{% if gig.user.profile %} {{ gig.user.profile.avatar }} {% else %} {% static 'img/avatar.png' %} {% endif %}" class="img-circle center-block" height="70" width="70"> -->
+                        <p>This brand is owned by:</p>
                         <a href="{% url 'profile' gig.user.username %}"><h4 class="text-center">{{ profile.CompanyContactName|truncatechars:78 }}</h4></a>
                     {% endif %}
                 </div>
