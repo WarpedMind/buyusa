@@ -243,7 +243,8 @@ img.img-head {
 }
 .card li a i{
 	margin-right:5px;
-	color: #FAB005;
+    color: #FAB005;
+    width: 15px;
 }
 /*--social--*/
 .social-top li{
@@ -4067,4 +4068,8 @@ img.product_brand_search_link{
 
 .video_paragraph{
     margin-top: 50px;
+}
+
+.errorlist{
+    text-align: left;
 }

@@ -35,7 +35,7 @@ class Profile(models.Model):
     BBB = models.BooleanField(default=True)
     CompanyContactName = models.CharField(max_length=50, default='')
     CompanyContactPhone = models.CharField(max_length=50, default='')
-    CompanyContactEmail = models.CharField(max_length=50, default='')
+    CompanyContactEmail = models.CharField(max_length=50, default='', unique=True)
     CompanyJoined = models.DateTimeField(default=timezone.now)
     # *** END - Fields added for BuyUSA - TCG - 1/19/18 ***
     ImportedCompanyID = models.CharField(max_length=50, default='') 
@@ -59,7 +59,7 @@ class Profile(models.Model):
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        Profile.objects.create(user=instance, CompanyContactEmail=instance.email)
     instance.profile.save()
 
 
