@@ -19,6 +19,12 @@
                         <div class="panel-body">
 
                             <div class="profile_item">
+                                {% if profile_form.errors %}
+                                <span style="color:red">{{ profile_form.errors }}</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="profile_item">
                                 <div class="profile_input">{{ profile_form.slogan|add_class:"form-control" }}</div>
                                 <div class="profile_label">{{ profile_form.slogan.label|title }}</div>
                             </div>
