@@ -12,8 +12,8 @@
             <ul class="card">
                 {% if user and not user.is_anonymous %}
                 <li><a href="{% url 'profile' user.username %}" ><i class="fa fa-user" aria-hidden="true"></i>My Profile</a></li>
-                <li><a href="{% url 'create_gig' %}" ><i class="fa fa-plus" aria-hidden="true"></i>Create a Brand</a></li>
-                <li><a href="{% url 'create_product' %}" ><i class="fa fa-plus" aria-hidden="true"></i>Create a Product</a></li>
+                <li><a href="{% url 'create_gig' %}" ><i class="fa fa-plus" aria-hidden="true"></i>Add Brand</a></li>
+                <li><a href="{% url 'create_product' %}" ><i class="fa fa-plus" aria-hidden="true"></i>Add Product</a></li>
                 <li><a href="{% url 'my_gigs' %}" ><i class="fa fa-folder" aria-hidden="true"></i>My Brands/Products</a></li>
                                 
                     {% if user.is_superuser %}
