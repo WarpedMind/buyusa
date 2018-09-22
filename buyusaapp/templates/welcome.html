@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} - FAQS{% endblock %}
+
+{% block page %}
+ <div class="container">
+  <div class="row standard">
+    <div class="col">
+      <h2>Hello {{request.user.username}}</h2>
+      <p>Welcome to your user area. What would you like to do?</p>
+      <div class="welcome_links">
+        <ol>
+          <li><a href="/">Search</a></li>
+          <li><a href="/profile/{{request.user.username}}">Edit Profile</a></li>
+          <li><a href="/add_brand_product">Create Brands/Products</a></li>
+          <li><a href="/my_gigs">View Brands/Products</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
