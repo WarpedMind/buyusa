@@ -3459,6 +3459,28 @@ div.edit_gig div.form-group div#cke_id_description{
     text-align: center;
 }
 
+.standard h3{
+    margin-bottom: 20px;    
+}
+
+.container .standard_fix p{
+    text-align: left;
+    line-height: 25px;
+}
+
+.standard p{
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+
+
+.standard .welcome_links{
+    margin-bottom: 50px;
+    margin: 0 auto;
+    width: 300px;
+}
+
 .import_data {    
     display: inline-block;
 }

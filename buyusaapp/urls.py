@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^faqs/$', TemplateView.as_view(template_name="faqs.html", content_type="text/html"), name="faqs"),
     url(r'^contact/$', TemplateView.as_view(template_name="contact.html", content_type="text/html"), name="contact"),
     url(r'^coming_soon/$', TemplateView.as_view(template_name="coming_soon.html", content_type="text/html"), name="coming_soon"),
+    url(r'^welcome/$', TemplateView.as_view(template_name="welcome.html", content_type="text/html"), name="welcome"),
+    url(r'^add_brand_product/$', TemplateView.as_view(template_name="add_brand_product.html", content_type="text/html"), name="add_brand_product"),
     url(r'^videos/$', TemplateView.as_view(template_name="videos.html", content_type="text/html"), name="videos"),
     url(r'^disclaimer/$', TemplateView.as_view(template_name="disclaimer.html", content_type="text/html"), name="disclaimer"),
     url(r'^gigs/(?P<id>[0-9]+)/$', views.gig_detail, name='gig_detail'),
