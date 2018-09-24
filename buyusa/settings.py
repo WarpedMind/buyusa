@@ -180,6 +180,8 @@ EMAIL_HOST_USER = 'aplpe'
 EMAIL_HOST_PASSWORD = 'applepie76'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'D:\\Projects\\GitHub\\buyusa_web\\test_emails' # change this to a proper location
 
 CRISPY_FAIL_SILENTLY = not DEBUG
 DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800
