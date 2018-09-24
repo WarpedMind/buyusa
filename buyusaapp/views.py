@@ -492,39 +492,24 @@ membership function
 I need a scratch.( draft)
 """
 
-def process_importdata(impdata, request):
-    importedid = '%s-%s' % (impdata.ImportID,impdata.companyid)
-    haveprofile = Profile.objects.filter(ImportedCompanyID=importedid)
-    if not haveprofile:
-        raw_password = u'%s%s' % (impdata.company.replace(' ','') ,impdata.companyid)
-        user = User()
-        user.username = generate_token()
-        user.set_password(raw_password)
-        user.email = impdata.email
-        user.save()
-        user.refresh_from_db() 
-        user.profile.CompanyContactEmail =user.email 
-        user.profile.CompanyID = user.profile.id
-        #user.profile.about = impdata.phone
-        user.profile.CompanyName = impdata.company
-        user.profile.CompanyLink = impdata.url
-        user.profile.CompanyContactName = '%s %s' % (impdata.firstname, impdata.lastname)
-        user.profile.CompanyContactPhone = impdata.phone
-        user.profile.ImportedCompanyID = importedid
-        user.profile.LoginLink = user.username
-        user.profile.CompanyName = impdata.company
-        user.username = 'user%s' % (user.profile.id)
-        user.save()
-        brands = impdata.brandnames.split('*')
-        for b in brands:
+def add_brand_import_data(impdata, user):
+    # Update or add brand data
+    brands = impdata.brandnames.split('*')
+    for b in brands:
+        brand_title = b.strip()
+        found_gigs = Gig.objects.filter(title=brand_title)
+        if len(found_gigs) <= 0:
             gig = Gig()
             gig.category = 'C1'
-            gig.title = b.strip()
+            gig.title = brand_title
             gig.user = user
             gig.CompanyID = user.profile.id
             gig.save()
             gig.BrandID = gig.id
             gig.save(update_fields=['BrandID',])
+        
+
+            
         #email = impdata.email
         #site = get_current_site(request)
         #msg_plain = render_to_string('registration/firstlogin_email.txt', {'username': user.username, "login_link": user.profile.LoginLink, "site": site})
@@ -532,6 +517,49 @@ def process_importdata(impdata, request):
         #send_mail('BuyUSA.Support Account Setup', msg_plain, 'support@buyusa.support', [email],html_message=msg_html)
         #sendmailbythread([email,], u'[buyusa] Please do your first login and change password',
         #                 u'Please do your first login and change password：%s/firstlogin/%s' % (settings.SITE_URL,user.profile.LoginLink,))
+
+def process_importdata(impdata, request):
+    importedid = '%s-%s' % (impdata.ImportID,impdata.companyid)
+    #haveprofile = Profile.objects.filter(ImportedCompanyID=importedid)
+    user_profile = Profile.objects.filter(CompanyContactEmail=impdata.email)
+    if len(user_profile) <= 0: # If no profile for this company found then create a new user
+        raw_password = u'%s%s' % (impdata.company.replace(' ','') ,impdata.companyid)
+        user = User()
+        user.username = generate_token()
+        user.set_password(raw_password)
+        user.email = impdata.email
+        user.save()
+        user.refresh_from_db()
+        user.profile.CompanyContactEmail = user.email 
+        user.profile.CompanyID = user.profile.id
+        user.username = 'user%s' % (user.profile.id)
+        user.profile.LoginLink = user.username    
+        #user.profile.about = impdata.phone
+        user.profile.CompanyName = impdata.company
+        user.profile.CompanyLink = impdata.url
+        user.profile.CompanyContactName = '%s %s' % (impdata.firstname, impdata.lastname)
+        user.profile.CompanyContactPhone = impdata.phone
+        user.profile.ImportedCompanyID = importedid
+        user.profile.profile_updated = False
+        user.save()        
+        add_brand_import_data(impdata, user)
+    else:
+        user_profile = user_profile[0]
+        if user_profile.CompanyName != impdata.company or \
+        user_profile.CompanyLink !=  impdata.url or \
+        user_profile.CompanyContactName != '%s %s' % (impdata.firstname, impdata.lastname) or \
+        user_profile.CompanyContactPhone != impdata.phone:
+            user_profile.profile_updated = True
+
+        user_profile.CompanyName = impdata.company
+        user_profile.CompanyLink = impdata.url
+        user_profile.CompanyContactName = '%s %s' % (impdata.firstname, impdata.lastname)
+        user_profile.CompanyContactPhone = impdata.phone
+        user_profile.ImportedCompanyID = importedid
+        user_profile.save()
+        add_brand_import_data(impdata, user_profile.user)
+
+
 
 @login_required(login_url="/login")
 @transaction.atomic
@@ -599,32 +627,29 @@ def importdata(request):
                             tempval = col_set['COMPANYID']['col']
                             compid = sh.row(i)[tempval].value
                             comp = sh.row(i)[col_set['COMPANY']['col']].value
-                            havedone = ImportData.objects.filter(companyid=compid, company=comp)
-                            if not havedone:
-                                impdata = ImportData()
-                                impdata.companyid=sh.row(i)[col_set['COMPANYID']['col']].value
-                                impdata.company=sh.row(i)[col_set['COMPANY']['col']].value
-                                impdata.employees=sh.row(i)[col_set['EMPLOYEES']['col']].value
-                                impdata.phone=sh.row(i)[col_set['PHONE']['col']].value
-                                impdata.url=sh.row(i)[col_set['URL']['col']].value
-                                impdata.email=sh.row(i)[col_set['EMAIL']['col']].value
-                                impdata.psic=sh.row(i)[col_set['PSIC']['col']].value
-                                impdata.brandnames=sh.row(i)[col_set['BRANDNAMES']['col']].value
-                                impdata.salutation=sh.row(i)[col_set['SALUTATION']['col']].value
-                                impdata.firstname=sh.row(i)[col_set['FIRSTNAME']['col']].value
-                                impdata.middlename=sh.row(i)[col_set['MIDDLENAME']['col']].value
-                                impdata.lastname=sh.row(i)[col_set['LASTNAME']['col']].value
-                                impdata.suffix=sh.row(i)[col_set['SUFFIX']['col']].value
-                                impdata.gender=sh.row(i)[col_set['GENDER']['col']].value
-                                impdata.titleext=sh.row(i)[col_set['TITLEEXT']['col']].value
-                                impdata.ImportSource=request.POST.get('source','')
-                                impdata.ImportID=importid
-                                process_importdata(impdata, request)
-                                impdata.save()
-                                sucess+=1
-                            else:
-                                err = 'have imported.'
-                                errlist.append((err,u'line %s,%s' % ((i+1),','.join([str(sh.row(i)[col_set[x]['col']].value).strip() for x in col_set.keys()]))))
+                            # impdata = ImportData.objects.filter(companyid=compid, company=comp)
+                            # impdata = ImportData() if len(impdata) <= 0 else impdata[0]
+                            impdata = ImportData()
+                            impdata.companyid=sh.row(i)[col_set['COMPANYID']['col']].value
+                            impdata.company=sh.row(i)[col_set['COMPANY']['col']].value
+                            impdata.employees=sh.row(i)[col_set['EMPLOYEES']['col']].value
+                            impdata.phone=sh.row(i)[col_set['PHONE']['col']].value
+                            impdata.url=sh.row(i)[col_set['URL']['col']].value
+                            impdata.email=sh.row(i)[col_set['EMAIL']['col']].value
+                            impdata.psic=sh.row(i)[col_set['PSIC']['col']].value
+                            impdata.brandnames=sh.row(i)[col_set['BRANDNAMES']['col']].value
+                            impdata.salutation=sh.row(i)[col_set['SALUTATION']['col']].value
+                            impdata.firstname=sh.row(i)[col_set['FIRSTNAME']['col']].value
+                            impdata.middlename=sh.row(i)[col_set['MIDDLENAME']['col']].value
+                            impdata.lastname=sh.row(i)[col_set['LASTNAME']['col']].value
+                            impdata.suffix=sh.row(i)[col_set['SUFFIX']['col']].value
+                            impdata.gender=sh.row(i)[col_set['GENDER']['col']].value
+                            impdata.titleext=sh.row(i)[col_set['TITLEEXT']['col']].value
+                            impdata.ImportSource=request.POST.get('source','')
+                            impdata.ImportID=importid
+                            process_importdata(impdata, request)
+                            impdata.save()
+                            sucess+=1
                         except Exception as e:
                             exc_type, exc_obj, exc_tb = sys.exc_info()
                             err = '%s Exception. %s' % (exc_tb.tb_lineno, e)

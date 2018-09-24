@@ -52,6 +52,7 @@ class Profile(models.Model):
     # updating their profile, adding new gigs, etc.
     # *** END - Fields added for BuyUSA - Dan Kwok - 5/5/18 ***
     Publish = models.BooleanField(default=True)
+    profile_updated = models.BooleanField(default=False)
     def __str__(self):
         return self.user.username
     
