@@ -668,7 +668,7 @@ def importdata(request):
 
 
 def firstlogin(request, token):
-    haveone = Profile.objects.filter(LoginLink=token,flag=False)
+    haveone = Profile.objects.filter(LoginLink=token,imported_and_logged_in=False)
     profile=None
     alertmsg=''
     if haveone:
@@ -705,7 +705,7 @@ def export_import_data(request):
     model = queryset.model
     response = HttpResponse(content_type='text/csv')
     # force download.
-    response['Content-Disposition'] = 'attachment;filename=buyusa_profile_export.csv'
+    response['Content-Disposition'] = 'attachment;filename=buyusa_imported_export.csv'
     # the csv writer
     writer = csv.writer(response)
     field_names = [field.name for field in opts.fields]
@@ -725,10 +725,11 @@ def export_profile_data(request):
     model = queryset.model
     response = HttpResponse(content_type='text/csv')
     # force download.
-    response['Content-Disposition'] = 'attachment;filename=buyusa_export.csv'
+    response['Content-Disposition'] = 'attachment;filename=buyusa_profile_export.csv'
     # the csv writer
     writer = csv.writer(response)
     field_names = [field.name for field in opts.fields]
+    field_names.append("Gigs")
     # Write a first row with header information
     writer.writerow(field_names)
     # Write data rows
@@ -738,6 +739,9 @@ def export_profile_data(request):
             attr = getattr(obj, field, None)
             if field == "LoginLink":
                 attr = get_current_site(request).domain + "/firstlogin/" + attr
+            if field == "Gigs": # Add all currently owned gigs by user to exported data
+                player_gigs = list(Gig.objects.filter(user=obj.user))
+                attr = " ** ".join([o.title for o in player_gigs])
             row.append(attr)
         writer.writerow(row)
 
