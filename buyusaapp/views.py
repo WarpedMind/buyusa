@@ -541,7 +541,7 @@ def process_importdata(impdata, request):
         user.profile.CompanyContactPhone = impdata.phone
         user.profile.ImportedCompanyID = importedid
         user.profile.profile_updated = False
-        user.save()        
+        user.save()
         add_brand_import_data(impdata, user)
     else:
         user_profile = user_profile[0]
