@@ -42,7 +42,7 @@ class Profile(models.Model):
     # 1-126 (This id will be the concatenation of the read-only table’s ImportID field, a “-“, and the companyID from the import. 
     # The reason is this: what if we have 3 sources that all use the same company ID number? This way we can differentiate them.)
     CompanyID = models.IntegerField(null=True)  # This is an auto generated incrementing number (per company, not per row)
-    flag = models.BooleanField(default=False) 
+    imported_and_logged_in = models.BooleanField(default=False)
     # A flag should be added to the user table for each of these users created from new imported records as a boolean of whether 
     # or not the user has logged into the site yet
     LoginLink = models.CharField(max_length=50, default='') 

@@ -689,7 +689,7 @@ def firstlogin(request, token):
             return render(request, 'firstlogin.html', {'alertmsg': alertmsg,'profile':profile,
                                                        'password':password,'confirm_password':confirm_password})
         profile.user.set_password(password)
-        profile.flag=True
+        profile.imported_and_logged_in=True
         profile.user.save()
         login(request, profile.user,backend='django.contrib.auth.backends.ModelBackend')
         return redirect('home')
