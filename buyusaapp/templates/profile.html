@@ -15,7 +15,7 @@
                 {% csrf_token %}
                 <div class="text-center">                                        
                     <div class="panel panel-default profile_inside">
-                        <h2>{{ profile.user.username }}</h2>
+                        <h2>{{ profile.CompanyName }}</h2>
                         <div class="panel-body">
 
                             <div class="profile_item">
@@ -107,7 +107,7 @@
 
         {% else %}
         <div class="text-center">
-            <h2>{{ profile.CompanyContactName }}</h2>
+            <h2>{{ profile.CompanyName }}</h2>
             <p>{{ profile.slogan }}</p>
             <!--<img src="{{ profile.avatar }}" class="img-circle" height="90" width="90">-->
             <div class="panel panel-default profile_inside"></div>

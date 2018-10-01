@@ -42,7 +42,7 @@ class Profile(models.Model):
     # 1-126 (This id will be the concatenation of the read-only table’s ImportID field, a “-“, and the companyID from the import. 
     # The reason is this: what if we have 3 sources that all use the same company ID number? This way we can differentiate them.)
     CompanyID = models.IntegerField(null=True)  # This is an auto generated incrementing number (per company, not per row)
-    flag = models.BooleanField(default=False) 
+    imported_and_logged_in = models.BooleanField(default=False)
     # A flag should be added to the user table for each of these users created from new imported records as a boolean of whether 
     # or not the user has logged into the site yet
     LoginLink = models.CharField(max_length=50, default='') 
@@ -51,7 +51,7 @@ class Profile(models.Model):
     # so they can log in one time and then change their password and begin using the site, 
     # updating their profile, adding new gigs, etc.
     # *** END - Fields added for BuyUSA - Dan Kwok - 5/5/18 ***
-    Publish = models.BooleanField(default=True)
+    Publish = models.BooleanField(default=False)
     profile_updated = models.BooleanField(default=False)
     def __str__(self):
         return self.user.username
@@ -104,7 +104,7 @@ class Gig(models.Model):
     # there will be three records sharing the same CompanyID (parent), but unique Brand IDs (children).
     CompanyID = models.IntegerField(null=True)
     # *** END - Fields added for BuyUSA - Dan Kwok - 5/5/18 ***
-    Publish = models.BooleanField(default=True)
+    Publish = models.BooleanField(default=False)
     # i thought of something… i can’t remember if this is in there or not, but if you can add it if it is not, 
     # I’d really appreciate it. can you add a “Publish” checkmark for the gig (brands/products), 
     # as well as for the user/company profile? If Publish is selected, then it is made available to public for search results,
