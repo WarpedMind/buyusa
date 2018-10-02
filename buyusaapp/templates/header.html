@@ -21,11 +21,11 @@
                         <li><a href="{% url 'exportdata' %}" ><i class="fa fa-download" aria-hidden="true"></i>Export Data</a></li>
                     {% endif %}
                 <li><a href="{% url 'auth:logout' %}?next={{request.path}}" ><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
-                <li class="donate_btn"><a href="/contribute/" ><i class="fa fa-credit-card" aria-hidden="true"></i>Contribute</a></li>
+                <li class="donate_btn"><a href="/contribute/" ><i class="fa fa-credit-card" aria-hidden="true"></i>Membership</a></li>
                 {% else %}
                 <li><a href="/login/" ><i class="fa fa-sign-in" aria-hidden="true"></i>Business Login</a></li>
                 <li><a href="/accounts/register/" ><i class="fa fa-user-plus" aria-hidden="true"></i>Register Business</a></li>
-                <li class="donate_btn"><a href="/contribute/" ><i class="fa fa-credit-card" aria-hidden="true"></i>Contribute</a></li>
+                <li class="donate_btn"><a href="/contribute/" ><i class="fa fa-credit-card" aria-hidden="true"></i>Membership</a></li>
                 {% endif %}
             </ul>
         </div>
