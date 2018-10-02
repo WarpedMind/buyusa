@@ -716,6 +716,26 @@ def export_import_data(request):
         writer.writerow([getattr(obj, field, None) for field in field_names])
     return response
 
+
+def get_proile_changes(profile, gig_text):
+    change_list = []
+    imported_datas = ImportData.objects.filter(email=profile.CompanyContactEmail)                   
+    for data in imported_datas:
+        if profile.CompanyName != data.company:
+            change_list.append("CompanyName: " + data.company)
+        if profile.CompanyContactPhone != data.phone:
+            change_list.append("CompanyContactPhone: " + data.phone)
+        if profile.CompanyLink != data.url:
+            change_list.append("CompanyLink: " + data.url)
+        if profile.CompanyContactName != data.firstname + " " + data.lastname:
+            change_list.append("CompanyContactName: " + data.firstname + " " + data.lastname)
+        if gig_text != data.brandnames:
+            change_list.append("Brands: " + data.brandnames)
+    #if len(change_list) > 0:
+    #    change_list.append(str(data.ImportTimestamp))
+    return " || ".join(change_list)
+
+
 def export_profile_data(request):
     # data = download_csv(request, ImportData.objects.all())
     if not request.user.is_staff:
@@ -730,18 +750,21 @@ def export_profile_data(request):
     writer = csv.writer(response)
     field_names = [field.name for field in opts.fields]
     field_names.append("Gigs")
+    field_names.append("Changes")
     # Write a first row with header information
     writer.writerow(field_names)
     # Write data rows
     for obj in queryset:
+        user_gigs = list(Gig.objects.filter(user=obj.user))
         row = []
         for field in field_names:
             attr = getattr(obj, field, None)
             if field == "LoginLink":
                 attr = get_current_site(request).domain + "/firstlogin/" + attr
             if field == "Gigs": # Add all currently owned gigs by user to exported data
-                player_gigs = list(Gig.objects.filter(user=obj.user))
-                attr = " ** ".join([o.title for o in player_gigs])
+                attr = " * ".join([o.title for o in user_gigs])
+            if field == "Changes":
+                attr = get_proile_changes(obj, " * ".join([o.title for o in user_gigs]))
             row.append(attr)
         writer.writerow(row)
 
