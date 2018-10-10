@@ -452,12 +452,7 @@ def donate(request):
             print('Thank you for your purchase')
             d = Donate()
             d.username = username
-            d.donatevalue = donatevalue
-            d.cardtype = cardtype
-            d.cc_number = cc_number
-            d.cc_exp_date = cc_exp_month+cc_exp_year[-2:]
-            d.cc_ccv = cc_ccv
-            d.holdername = holdername
+            d.donatevalue = donatevalue            
             d.save()
             return HttpResponse('<script>alert("Thank you for your donation.");location.href="/";</script>')
         else:
