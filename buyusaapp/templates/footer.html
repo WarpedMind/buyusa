@@ -27,10 +27,12 @@
 			<ul>
 				{% if user and not user.is_anonymous %}
 				<li><a href="{% url 'profile' user.username %}">My Profile</a></li>
-                <li><a href="{% url 'create_gig' %}">Create a Gig</a></li>
-				<li><a href="{% url 'my_gigs' %}">My Gigs</a></li>
+				<li><a href="{% url 'create_gig' %}">Add a Brand</a></li>
+				<li><a href="{% url 'create_product' %}">Add a Product</a></li>
+				<li><a href="{% url 'my_gigs' %}">My Brands/Products</a></li>
 					{% if user.is_superuser %}
-                        <li><a href="{% url 'importdata' %}">Import Data</a></li>
+						<li><a href="{% url 'importdata' %}">Import Data</a></li>
+						<li><a href="{% url 'exportdata' %}">Export Data</a></li>
 					{% endif %}
 				<li><a href="{% url 'auth:logout' %}?next={{request.path}}">Logout</a></li>
 				{% else %}

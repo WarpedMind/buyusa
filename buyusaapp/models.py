@@ -136,12 +136,7 @@ class Review(models.Model):
 
 class Donate(models.Model):
     username = models.CharField(verbose_name='User name',max_length=200)
-    donatevalue = models.FloatField(verbose_name='Donate value')
-    cardtype = models.CharField(verbose_name='Card type',max_length=200)
-    cc_number = models.CharField(verbose_name='Card number',max_length=200)
-    cc_exp_date = models.CharField(verbose_name='Expire date',max_length=200)
-    cc_ccv = models.CharField(verbose_name='Card ccv',max_length=200)
-    holdername = models.CharField(verbose_name='Card holdername',max_length=200)
+    donatevalue = models.FloatField(verbose_name='Donate value')    
     
     def __str__(self):
         return '%s,%s' % (self.holdername,self.donatevalue)
