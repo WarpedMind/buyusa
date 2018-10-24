@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}- Contribute{% endblock %}
+{% block title %}- Membership{% endblock %}
 
 {% block page %}
 <style>
@@ -18,7 +18,7 @@
 </style>
 <div class="container">
     <div class="row auth_form donate">
-      <h2>Make A Contribution</h2>
+      <h2>Become A Member</h2>
     <form method="POST" name="donateform" onsubmit="return check()">
         {% csrf_token %}
         <input type="hidden" name="cardtype">
@@ -104,9 +104,9 @@
         <div id="cid_2" class="form-input-wide">
           <div style="margin-top:6px" class="form-buttons-wrapper">
             <button id="input_2" type="submit" class="form-submit-button" data-component="button">
-              Contribute
+              Submit
             </button>
-            <p>Your contribution will enable us to research advertise and spread American manufacturers to the public through our site</p>
+            <p>Your membership will enable us to research advertise and spread American manufacturers to the public through our site</p>
             <p class="margin_bottom_30"><a href="{% url 'home' %}">Return to home</a></p>
             <div class="margin_bottom_30"></div>
           </div>        
