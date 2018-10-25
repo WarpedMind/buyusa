@@ -454,7 +454,7 @@ def donate(request):
             d.username = username
             d.donatevalue = donatevalue            
             d.save()
-            return HttpResponse('<script>alert("Thank you for your donation.");location.href="/";</script>')
+            return HttpResponse('<script>alert("Thank you for your support.");location.href="/";</script>')
         else:
             error = rst.get('Error',{}).get('messages','')
             if not error:
